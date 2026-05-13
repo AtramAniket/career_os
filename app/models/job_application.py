@@ -4,7 +4,7 @@ from datetime import date, datetime, timezone
 from enum import Enum
 from typing import Optional
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, DateTime, Date, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.extensions import db
@@ -89,7 +89,7 @@ class JobApplication(db.Model):
     )
 
     source: Mapped[Optional[str]] = mapped_column(
-        db.String(100),
+        String(100),
         nullable=True,
     )
 
@@ -107,34 +107,34 @@ class JobApplication(db.Model):
     )
 
     deadline: Mapped[Optional[date]] = mapped_column(
-        db.Date,
+        Date,
         nullable=True,
     )
 
     date_saved: Mapped[datetime] = mapped_column(
-        db.DateTime(timezone=True),
+        DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     date_applied: Mapped[Optional[date]] = mapped_column(
-        db.Date,
+        Date,
         nullable=True,
     )
 
     notes: Mapped[Optional[str]] = mapped_column(
-        db.Text,
+        Text,
         nullable=True,
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        db.DateTime(timezone=True),
+        DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        db.DateTime(timezone=True),
+        DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
         onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
