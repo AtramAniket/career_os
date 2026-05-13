@@ -9,9 +9,9 @@ class SignupForm(FlaskForm):
 
 	email = StringField("Email", validators=[DataRequired(), Email(), Length(max=150)])
 
-	passord = PasswordField("Password", validators=[DataRequired(), Length(min=6)])
+	password = PasswordField("Password", validators=[DataRequired(), Length(min=6)])
 
-	confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("passord")])
+	confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password")])
 
 	submit = SubmitField("Create Account")
 
@@ -30,6 +30,6 @@ class SignupForm(FlaskForm):
 class LoginForm(FlaskForm):
 	identifier = StringField("Username or Email", validators=[DataRequired()])
 
-	passord = PasswordField("Password", validators=[DataRequired()])
+	password = PasswordField("Password", validators=[DataRequired()])
 
 	submit = SubmitField("Login")
