@@ -15,33 +15,32 @@ class ApplicationEvent(db.Model):
 	id: Mapped[int] = mapped_column(primary_key=True)
 
 	job_application_status: Mapped[int] = mapped_column(
-		ForeignKey("job_applications.id",\
-		ondelete="CASCADE",\
-		nullable=False,\
-		index=True))
+		ForeignKey("job_applications.id", ondelete="CASCADE"),
+		nullable=False,
+		index=True)
 
 	event_type: Mapped[str] = mapped_column(
-		String(80),\
+		String(80),
 		nullable=False)
 
 	title: Mapped[str] = mapped_column(
-		String(150),\
+		String(150),
 		nullable=False)
 
 	description: Mapped[Optional[str]] = mapped_column(
-		Text,\
+		Text,
 		nullable=True)
 
 	event_date: Mapped[datetime] = mapped_column(
-		DateTime(timezone=True),\
-		default=lambda: datetime.now(timezone.utc),\
+		DateTime(timezone=True),
+		default=lambda: datetime.now(timezone.utc),
 		nullable=False)
 
 	created_at: Mapped[datetime] = mapped_column(
-		DateTime(timezone=True),\
-		default=lambda: datetime.now(timezone.utc),\
+		DateTime(timezone=True),
+		default=lambda: datetime.now(timezone.utc),
 		nullable=False)
 
 	job_application: Mapped["JobApplication"] = relationship(
-		"JobApplication",\
+		"JobApplication",
 		back_populates="events")
