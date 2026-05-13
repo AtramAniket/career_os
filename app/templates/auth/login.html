@@ -2,4 +2,28 @@
 
 {% block content %}
 <h1>Login</h1>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <p>
+        {{ form.identifier.label }}<br>
+        {{ form.identifier() }}
+        {% for error in form.identifier.errors %}
+            <br><span>{{ error }}</span>
+        {% endfor %}
+    </p>
+
+    <p>
+        {{ form.password.label }}<br>
+        {{ form.password() }}
+        {% for error in form.password.errors %}
+            <br><span>{{ error }}</span>
+        {% endfor %}
+    </p>
+
+    {{ form.submit() }}
+</form>
+
+<p>New here? <a href="{{ url_for('auth.signup') }}">Create account</a></p>
 {% endblock %}
