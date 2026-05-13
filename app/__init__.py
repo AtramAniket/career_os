@@ -14,9 +14,7 @@ def create_app(config_class=Config):
     from app.routes.main import main_bp
     from app.routes.auth import auth_bp
 
-    from app.models.user import User
-    from app.models.job_application import JobApplication
-    from app.models.application_event import ApplicationEvent
+    from app import models
 
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix="/auth")
