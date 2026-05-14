@@ -14,8 +14,8 @@ class JobApplicationForm(FlaskForm):
 		validators=[DataRequired(), Length(max=120)]
 		)
 
-	job_link = StringField(
-		"Job Link",
+	job_url = StringField(
+		"Job URL",
 		validators=[Optional(), Length(max=500)]
 		)
 
