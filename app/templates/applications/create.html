@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method="POST">
+	
+	{{ form.hidden_tag() }}
+
+	<p>
+	    {{ form.company_name.label }}<br>
+	    {{ form.company_name() }}
+	    {% for error in form.company_name.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.role_title.label }}<br>
+	    {{ form.role_title() }}
+	    {% for error in form.role_title.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.job_url.label }}<br>
+	    {{ form.job_url() }}
+	    {% for error in form.job_url.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.location.label }}<br>
+	    {{ form.location() }}
+	    {% for error in form.location.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.work_mode.label }}<br>
+	    {{ form.work_mode() }}
+	    {% for error in form.work_mode.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.employment_type.label }}<br>
+	    {{ form.employment_type() }}
+	    {% for error in form.employment_type.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.salary_min.label }}<br>
+	    {{ form.salary_min() }}
+	    {% for error in form.salary_min.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.salary_max.label }}<br>
+	    {{ form.salary_max() }}
+	    {% for error in form.salary_max.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.status.label }}<br>
+	    {{ form.status() }}
+	    {% for error in form.status.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.priority.label }}<br>
+	    {{ form.priority() }}
+	    {% for error in form.priority.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.date_applied.label }}<br>
+	    {{ form.date_applied() }}
+	    {% for error in form.date_applied.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.deadline.label }}<br>
+	    {{ form.deadline() }}
+	    {% for error in form.deadline.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.source.label }}<br>
+	    {{ form.source() }}
+	    {% for error in form.source.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	<p>
+	    {{ form.notes.label }}<br>
+	    {{ form.notes() }}
+	    {% for error in form.notes.errors %}
+	        <br><span>{{ error }}</span>
+	    {% endfor %}
+	</p>
+
+	{{ form.submit() }}
+
+</form>
+
+{% endblock %}
