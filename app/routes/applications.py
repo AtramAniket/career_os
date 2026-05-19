@@ -72,7 +72,7 @@ def detail(application_id):
 
 	if form.validate_on_submit():
 		event = ApplicationEvent(
-			job_application_status = application_id,
+			job_application_id = application_id,
 			title = form.title.data,
 			event_date = form.event_date.data,
 			description = form.description.data,
@@ -87,7 +87,7 @@ def detail(application_id):
 
 	events = (
 		ApplicationEvent.query\
-		.filter_by(job_application_status = application.id)\
+		.filter_by(job_application_id = application.id)\
 		.order_by(ApplicationEvent.event_date.desc())\
 		.all()
 		)
