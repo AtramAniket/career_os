@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Application Details{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+
+  <div class="page-header">
+    <p class="eyebrow">Application Details</p>
+    <h1>{{ application.role_title }}</h1>
+    <p>{{ application.company_name }}</p>
+
+    <a href="{{ url_for('applications.index') }}" class="btn btn-secondary">
+      Back to Applications
+    </a>
+  </div>
+
+  <div class="content-card">
+    <h2>Job Information</h2>
+
+    <p><strong>Company:</strong> {{ application.company_name }}</p>
+    <p><strong>Role:</strong> {{ application.role_title }}</p>
+    <p><strong>Status:</strong> {{ application.status.value if application.status.value else application.status }}</p>
+    <p><strong>Location:</strong> {{ application.location or "Not added" }}</p>
+    <p><strong>Source:</strong> {{ application.source or "Not added" }}</p>
+
+    {% if application.job_url %}
+      <p>
+        <strong>Job Link:</strong>
+        <a href="{{ application.job_url }}" target="_blank">Open job posting</a>
+      </p>
+    {% endif %}
+
+  </div>
+
+  <div class="content-card">
+    <h2>Add Timeline Event</h2>
+
+    <form method="POST" class="form-stack">
+      {{ form.hidden_tag() }}
+
+      <div class="form-group">
+        {{ form.title.label }}
+        {{ form.title(class="form-control", placeholder="Example: Applied, HR Call, Assessment Received") }}
+      </div>
+
+      <div class="form-group">
+        {{ form.description.label }}
+        {{ form.description(class="form-control") }}
+      </div>
+
+      <div class="form-group">
+        {{ form.event_type.label }}
+        {{ form.event_type(class="form-control") }}
+      </div>
+
+      <div class="form-group">
+        {{ form.event_date.label }}
+        {{ form.event_date(class="form-control") }}
+      </div>
+
+      <div class="form-actions">
+        {{ form.submit(class="btn btn-primary") }}
+      </div>
+    </form>
+  </div>
+
+  <div class="content-card">
+    <h2>Timeline</h2>
+
+    {% if events %}
+      <div class="timeline-list">
+        {% for event in events %}
+          <div class="timeline-item">
+            <p>
+              <strong>{{ event.event_type.value if event.event_type.value else event.event_type }}</strong>
+              — {{ event.event_date.strftime("%d %b %Y") }}
+            </p>
+
+            {% if event.description %}
+              <p>{{ event.description }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No events added yet.</p>
+    {% endif %}
+  </div>
+
+</section>
+{% endblock %}
