@@ -99,6 +99,11 @@ class JobApplicationForm(FlaskForm):
 
 class ApplicationEventForm(FlaskForm):
 
+	title = StringField(
+		"Event Title",
+		validators=[DataRequired(), Length(max=120)]
+		)
+
 	event_type = SelectField(
 		"Event Type",
 		choices=[
@@ -118,8 +123,8 @@ class ApplicationEventForm(FlaskForm):
 		validators=[DataRequired()]
 		)
 
-	notes = TextAreaField(
-		"Notes",
+	description = TextAreaField(
+		"Description",
 		validators=[Optional()],
 		)
 
