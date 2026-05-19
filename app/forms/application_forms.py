@@ -1,6 +1,9 @@
+from datetime import date
+
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, IntegerField, SelectField, DateField, SubmitField
 from wtforms.validators import DataRequired, Optional, Length
+from wtforms import StringField, TextAreaField, IntegerField, SelectField, DateField, SubmitField
+
 
 class JobApplicationForm(FlaskForm):
 
@@ -92,3 +95,32 @@ class JobApplicationForm(FlaskForm):
 		)
 
 	submit = SubmitField("Save Application")
+
+
+class ApplicationEventForm(FlaskForm):
+
+	event_type = SelectField(
+		"Event Type",
+		choices=[
+		("SAVED", "Saved"),
+		("APPLIED", "Applied"),
+		("ASSESSMENT", "Assessment"),
+		("INTERVIEW", "Interview"),
+		("OFFER", "Offer"),
+		("REJECTED", "Rejected"),
+		("GHOSTED", "Ghosted")],
+		validators=[DataRequired()]
+		)
+
+	event_date = DateField(
+		"Event Date",
+		default=date.today(),
+		validators=[DataRequired()]
+		)
+
+	notes = TextAreaField(
+		"Notes",
+		validators=[Optional()],
+		)
+
+	submit = SubmitField("Add Event")
