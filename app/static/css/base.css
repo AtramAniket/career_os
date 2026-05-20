@@ -1,0 +1,58 @@
+body {
+  background: #f8fafc;
+  color: #111827;
+}
+
+.navbar-brand {
+  letter-spacing: -0.03em;
+}
+
+.page-heading {
+  margin-bottom: 1.5rem;
+}
+
+.page-heading h1 {
+  font-weight: 750;
+  letter-spacing: -0.04em;
+}
+
+.text-muted-small {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.priority-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.empty-state {
+  border: 1px dashed #cbd5e1;
+  border-radius: 1rem;
+  padding: 3rem 1rem;
+  text-align: center;
+  background: #ffffff;
+}
+
+.timeline-item {
+  border-left: 3px solid #dbeafe;
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+}
