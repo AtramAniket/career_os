@@ -11,7 +11,7 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 @auth_bp.route("/signup", methods=["GET", "POST"])
 def signup():
     if current_user.is_authenticated:
-        return redirect(url_for("main.dashboard"))
+        return redirect(url_for("dashboard.index"))
 
     form = SignupForm()
 
@@ -27,7 +27,7 @@ def signup():
 
         login_user(user)
         flash("Account created successfully.", "success")
-        return redirect(url_for("main.dashboard"))
+        return redirect(url_for("dashboard.index"))
 
     return render_template("auth/signup.html", form=form)
 
@@ -35,7 +35,7 @@ def signup():
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("main.dashboard"))
+        return redirect(url_for("dashboard.index"))
 
     form = LoginForm()
 
@@ -49,7 +49,7 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user)
             flash("Welcome back.", "success")
-            return redirect(url_for("main.dashboard"))
+            return redirect(url_for("dashboard.index"))
 
         flash("Invalid username/email or password.", "danger")
 
