@@ -56,3 +56,25 @@ body {
   padding-left: 1rem;
   margin-bottom: 1rem;
 }
+
+.navbar {
+  min-height: 72px;
+}
+
+.navbar .nav-link {
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.navbar .nav-link:hover {
+  color: #111827;
+}
+
+.navbar-action-btn {
+  padding-inline: 0.95rem;
+  border-radius: 10px;
+}
+
+.navbar-nav {
+  align-items: center;
+}
