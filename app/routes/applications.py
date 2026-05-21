@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from flask import Blueprint, render_template, redirect, url_for, flash
 
 from app.extensions import db
-from app.models import JobApplication, ApplicationEvent
+from app.models import JobApplication, ApplicationEvent, JobStatus
 from app.forms.application_forms import JobApplicationForm, ApplicationEventForm, DeleteForm
 
 
@@ -77,14 +77,30 @@ def detail(application_id):
 
 	if form.validate_on_submit():
 		event = ApplicationEvent(
-			job_application_id = application_id,
-			title = form.title.data,
-			event_date = form.event_date.data,
-			description = form.description.data,
-			event_type = form.event_type.data,
+		    job_application_id=application_id,
+		    title=form.title.data,
+		    event_date=form.event_date.data,
+		    description=form.description.data,
+		    event_type=form.event_type.data,
 		)
 
+		selected_event_type = form.event_type.data
+
+		status_event_map = {
+		    "SAVED": JobStatus.SAVED,
+		    "APPLIED": JobStatus.APPLIED,
+		    "ASSESSMENT": JobStatus.ASSESSMENT,
+		    "INTERVIEW": JobStatus.INTERVIEW,
+		    "REJECTED": JobStatus.REJECTED,
+		    "GHOSTED": JobStatus.GHOSTED,
+		    "OFFER": JobStatus.OFFER,
+		}
+
+		if selected_event_type in status_event_map:
+		    application.status = status_event_map[selected_event_type]
+
 		db.session.add(event)
+		db.session.add(application)
 		db.session.commit()
 
 		flash("Application event added successfully", "success")
