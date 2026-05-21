@@ -22,7 +22,7 @@ def index():
 	.filter_by(user_id=current_user.id, is_deleted=False)\
 
 	if search_query:
-		query = JobApplication\
+		query = query\
 		.filter(
 			db.or_(
 				JobApplication.source.ilike(f"%{search_query}%"),
@@ -41,7 +41,10 @@ def index():
 
 	return render_template(
 		"applications/index.html", 
-		job_applications=job_applications
+		job_applications=job_applications,
+		search_query=search_query,
+		status_filter=status_filter,
+		JobStatus=JobStatus
 		)
 
 
