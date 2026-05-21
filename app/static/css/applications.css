@@ -471,3 +471,44 @@
     gap: 0.25rem;
   }
 }
+
+/*applications search filter*/
+
+.application-filters {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
+
+.filter-group label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.35rem;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .application-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-actions {
+        width: 100%;
+    }
+
+    .filter-actions .btn {
+        flex: 1;
+    }
+}
