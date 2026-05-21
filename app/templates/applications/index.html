@@ -26,6 +26,41 @@
     </a>
   </div>
 
+  <form method="GET" class="application-filters">
+      <div class="filter-group">
+          <label for="q">Search</label>
+          <input
+              type="text"
+              id="q"
+              name="q"
+              value="{{ search_query }}"
+              placeholder="Search company, role, location..."
+              class="form-control"
+          >
+      </div>
+
+      <div class="filter-group">
+          <label for="status">Status</label>
+          <select id="status" name="status" class="form-select">
+              <option value="">All statuses</option>
+              {% for status in JobStatus %}
+                  <option
+                      value="{{ status.name }}"
+                      {% if status_filter == status.name %}selected{% endif %}
+                  >
+                      {{ status.value.replace("_", " ").title() }}
+                  </option>
+              {% endfor %}
+          </select>
+      </div>
+
+      <div class="filter-actions">
+          <button type="submit" class="btn btn-primary">Apply</button>
+          <a href="{{ url_for('applications.index') }}" class="btn btn-outline-secondary">
+              Reset
+          </a>
+      </div>
+  </form>
   {% if job_applications %}
     <div class="applications-card">
       <div class="table-responsive">
