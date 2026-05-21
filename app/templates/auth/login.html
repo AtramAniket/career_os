@@ -1,29 +1,42 @@
 {% extends "layouts/auth_base.html" %}
 
-{% block content %}
-<h1>Login</h1>
+{% block title %}Login - Career OS{% endblock %}
 
-<form method="POST">
+{% block content %}
+<div class="auth-card">
+  <div class="auth-card-header">
+    <p class="eyebrow">Welcome back</p>
+    <h2>Login</h2>
+    <p>Pick up where you left off in your job search workspace.</p>
+  </div>
+
+  <form method="POST" class="auth-form">
     {{ form.hidden_tag() }}
 
-    <p>
-        {{ form.identifier.label }}<br>
-        {{ form.identifier() }}
-        {% for error in form.identifier.errors %}
-            <br><span>{{ error }}</span>
-        {% endfor %}
-    </p>
+    <div class="form-group">
+      {{ form.identifier.label(class="form-label") }}
+      {{ form.identifier(class="form-control", placeholder="Username or email") }}
 
-    <p>
-        {{ form.password.label }}<br>
-        {{ form.password() }}
-        {% for error in form.password.errors %}
-            <br><span>{{ error }}</span>
-        {% endfor %}
-    </p>
+      {% for error in form.identifier.errors %}
+        <span class="form-error">{{ error }}</span>
+      {% endfor %}
+    </div>
 
-    {{ form.submit() }}
-</form>
+    <div class="form-group">
+      {{ form.password.label(class="form-label") }}
+      {{ form.password(class="form-control", placeholder="Enter your password") }}
 
-<p>New here? <a href="{{ url_for('auth.signup') }}">Create account</a></p>
+      {% for error in form.password.errors %}
+        <span class="form-error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    {{ form.submit(class="btn btn-primary w-100 auth-submit") }}
+  </form>
+
+  <p class="auth-switch">
+    New here?
+    <a href="{{ url_for('auth.signup') }}">Create account</a>
+  </p>
+</div>
 {% endblock %}

@@ -1,45 +1,60 @@
 {% extends "layouts/auth_base.html" %}
 
-{% block content %}
-<h1>Signup</h1>
+{% block title %}Signup - Career OS{% endblock %}
 
-<form method="POST">
+{% block content %}
+<div class="auth-card">
+  <div class="auth-card-header">
+    <p class="eyebrow">Start organized</p>
+    <h2>Create account</h2>
+    <p>Build a clear system for applications, interviews, and career progress.</p>
+  </div>
+
+  <form method="POST" class="auth-form">
     {{ form.hidden_tag() }}
 
-    <p>
-        {{ form.username.label }}<br>
-        {{ form.username() }}
-        {% for error in form.username.errors %}
-            <br><span>{{ error }}</span>
-        {% endfor %}
-    </p>
+    <div class="form-group">
+      {{ form.username.label(class="form-label") }}
+      {{ form.username(class="form-control", placeholder="Choose a username") }}
 
-    <p>
-        {{ form.email.label }}<br>
-        {{ form.email() }}
-        {% for error in form.email.errors %}
-            <br><span>{{ error }}</span>
-        {% endfor %}
-    </p>
+      {% for error in form.username.errors %}
+        <span class="form-error">{{ error }}</span>
+      {% endfor %}
+    </div>
 
-    <p>
-        {{ form.password.label }}<br>
-        {{ form.password() }}
-        {% for error in form.password.errors %}
-            <br><span>{{ error }}</span>
-        {% endfor %}
-    </p>
+    <div class="form-group">
+      {{ form.email.label(class="form-label") }}
+      {{ form.email(class="form-control", placeholder="you@example.com") }}
 
-    <p>
-        {{ form.confirm_password.label }}<br>
-        {{ form.confirm_password() }}
-        {% for error in form.confirm_password.errors %}
-            <br><span>{{ error }}</span>
-        {% endfor %}
-    </p>
+      {% for error in form.email.errors %}
+        <span class="form-error">{{ error }}</span>
+      {% endfor %}
+    </div>
 
-    {{ form.submit() }}
-</form>
+    <div class="form-group">
+      {{ form.password.label(class="form-label") }}
+      {{ form.password(class="form-control", placeholder="Create a password") }}
 
-<p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+      {% for error in form.password.errors %}
+        <span class="form-error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.confirm_password.label(class="form-label") }}
+      {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+
+      {% for error in form.confirm_password.errors %}
+        <span class="form-error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    {{ form.submit(class="btn btn-primary w-100 auth-submit") }}
+  </form>
+
+  <p class="auth-switch">
+    Already have an account?
+    <a href="{{ url_for('auth.login') }}">Login</a>
+  </p>
+</div>
 {% endblock %}
