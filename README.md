@@ -206,6 +206,9 @@ This project is being built incrementally with a strong focus on:
 ## 📷 Screenshots
 
 > Screenshots will be added as development progresses.
+<img width="1920" height="919" alt="image" src="https://github.com/user-attachments/assets/fda05c20-bc1f-4a06-9a18-4487028050cc" />
+<img width="1920" height="934" alt="image" src="https://github.com/user-attachments/assets/501cdc60-877c-450d-a508-381430a51343" />
+<img width="1920" height="919" alt="image" src="https://github.com/user-attachments/assets/6dce7d1d-0c5f-4e07-95fa-f8287a5c60d9" />
 
 ---
 
