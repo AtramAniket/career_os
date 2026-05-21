@@ -1,18 +1,22 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from datetime import datetime, timezone
+
 from flask_login import login_required, current_user
+from flask import Blueprint, render_template, redirect, url_for, flash
 
 from app.extensions import db
-from app.forms.application_forms import JobApplicationForm, ApplicationEventForm
 from app.models import JobApplication, ApplicationEvent
+from app.forms.application_forms import JobApplicationForm, ApplicationEventForm, DeleteForm
+
 
 applications_bp = Blueprint("applications", __name__, url_prefix="/applications")
+
 
 @applications_bp.route("/")
 @login_required
 def index():
 
 	job_applications = JobApplication.query\
-	.filter_by(user_id=current_user.id)\
+	.filter_by(user_id=current_user.id, is_deleted=False)\
 	.order_by(JobApplication.created_at.desc())\
 	.all()
 
@@ -69,6 +73,7 @@ def detail(application_id):
 		.first_or_404())
 
 	form = ApplicationEventForm()
+	delete_form = DeleteForm()
 
 	if form.validate_on_submit():
 		event = ApplicationEvent(
@@ -96,5 +101,23 @@ def detail(application_id):
 		"applications/detail.html",
 		form=form,
 		events=events,
-		application=application
+		application=application,
+		delete_form=delete_form
 		)
+
+
+@applications_bp.route("/<int:application_id>/delete", methods=["POST"])
+@login_required
+def delete_application(application_id):
+
+	application = (JobApplication.query\
+		.filter_by(id=application_id, user_id=current_user.id)\
+		.first_or_404())
+
+	application.is_deleted = True
+	application.deleted_at = datetime.now(timezone.utc)
+
+	db.session.commit()
+	flash("Job application deleted successfully", "success")
+
+	return redirect(url_for("applications.index"))

@@ -1,90 +1,194 @@
 {% extends "layouts/base.html" %}
 
+{%block extra_css%}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/applications.css') }}"
+>
+{% endblock %}
+
 {% block title %}Application Details{% endblock %}
 
 {% block content %}
-<section class="page-shell">
+<section class="application-detail-page">
 
-  <div class="page-header">
-    <p class="eyebrow">Application Details</p>
-    <h1>{{ application.role_title }}</h1>
-    <p>{{ application.company_name }}</p>
+  <div class="detail-hero">
+    <div>
+      <p class="eyebrow mb-1">Application Details</p>
+      <h1>{{ application.role_title }}</h1>
+      <p class="detail-company">{{ application.company_name }}</p>
 
-    <a href="{{ url_for('applications.index') }}" class="btn btn-secondary">
-      Back to Applications
-    </a>
+      <div class="detail-meta">
+        <span class="status-badge status-{{ application.status.value|lower }}">
+          {{ application.status.value|replace("_", " ")|title }}
+        </span>
+
+        {% if application.priority %}
+          <span class="priority-pill">
+            {{ application.priority.value|replace("_", " ")|title }}
+          </span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="detail-actions">
+      <a href="{{ url_for('applications.index') }}" class="btn btn-outline-secondary">
+        Back
+      </a>
+
+      <form
+        method="POST"
+        action="{{ url_for('applications.delete_application', application_id=application.id) }}"
+        onsubmit="return confirm('Delete this application? It will be hidden from your active list.');"
+      >
+        {{ delete_form.hidden_tag() }}
+        <button type="submit" class="btn btn-outline-danger">
+          Delete
+        </button>
+      </form>
+    </div>
   </div>
 
-  <div class="content-card">
-    <h2>Job Information</h2>
+  <div class="detail-grid">
 
-    <p><strong>Company:</strong> {{ application.company_name }}</p>
-    <p><strong>Role:</strong> {{ application.role_title }}</p>
-    <p><strong>Status:</strong> {{ application.status.value if application.status.value else application.status }}</p>
-    <p><strong>Location:</strong> {{ application.location or "Not added" }}</p>
-    <p><strong>Source:</strong> {{ application.source or "Not added" }}</p>
+    <div class="content-card job-info-card">
+      <h2>Job Information</h2>
 
-    {% if application.job_url %}
-      <p>
-        <strong>Job Link:</strong>
-        <a href="{{ application.job_url }}" target="_blank">Open job posting</a>
-      </p>
-    {% endif %}
+      <div class="info-grid">
+        <div>
+          <span>Company</span>
+          <strong>{{ application.company_name }}</strong>
+        </div>
+
+        <div>
+          <span>Role</span>
+          <strong>{{ application.role_title }}</strong>
+        </div>
+
+        <div>
+          <span>Location</span>
+          <strong>{{ application.location or "Not added" }}</strong>
+        </div>
+
+        <div>
+          <span>Work Mode</span>
+          <strong>{{ application.work_mode.value|replace("_", " ")|title if application.work_mode else "Not added" }}</strong>
+        </div>
+
+        <div>
+          <span>Employment Type</span>
+          <strong>{{ application.employment_type.value|replace("_", " ")|title if application.employment_type else "Not added" }}</strong>
+        </div>
+
+        <div>
+          <span>Source</span>
+          <strong>{{ application.source or "Not added" }}</strong>
+        </div>
+
+        <div>
+          <span>Date Applied</span>
+          <strong>{{ application.date_applied.strftime("%d %b %Y") if application.date_applied else "Not added" }}</strong>
+        </div>
+
+        <div>
+          <span>Deadline</span>
+          <strong>{{ application.deadline.strftime("%d %b %Y") if application.deadline else "Not added" }}</strong>
+        </div>
+
+        <div>
+          <span>Salary Range</span>
+          <strong>
+            {% if application.salary_min or application.salary_max %}
+              ₹{{ application.salary_min or "?" }} - ₹{{ application.salary_max or "?" }}
+            {% else %}
+              Not added
+            {% endif %}
+          </strong>
+        </div>
+      </div>
+
+      {% if application.job_url %}
+        <div class="job-link-box">
+          <span>Job Posting</span>
+          <a href="{{ application.job_url }}" target="_blank" rel="noopener">
+            Open job posting
+          </a>
+        </div>
+      {% endif %}
+
+      {% if application.notes %}
+        <div class="notes-box">
+          <span>Notes</span>
+          <p>{{ application.notes }}</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="content-card timeline-form-card">
+      <h2>Add Timeline Event</h2>
+      <p class="card-subtitle">Log meaningful updates like applying, calls, assessments, or interviews.</p>
+
+      <form method="POST" class="application-form">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+          {{ form.title.label(class="form-label") }}
+          {{ form.title(class="form-control", placeholder="Example: HR call scheduled") }}
+        </div>
+
+        <div class="mb-3">
+          {{ form.event_type.label(class="form-label") }}
+          {{ form.event_type(class="form-select") }}
+        </div>
+
+        <div class="mb-3">
+          {{ form.event_date.label(class="form-label") }}
+          {{ form.event_date(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+          {{ form.description.label(class="form-label") }}
+          {{ form.description(class="form-control", rows="4", placeholder="Add useful context") }}
+        </div>
+
+        <div class="form-actions">
+          {{ form.submit(class="btn btn-primary w-100") }}
+        </div>
+      </form>
+    </div>
 
   </div>
 
-  <div class="content-card">
-    <h2>Add Timeline Event</h2>
-
-    <form method="POST" class="form-stack">
-      {{ form.hidden_tag() }}
-
-      <div class="form-group">
-        {{ form.title.label }}
-        {{ form.title(class="form-control", placeholder="Example: Applied, HR Call, Assessment Received") }}
-      </div>
-
-      <div class="form-group">
-        {{ form.description.label }}
-        {{ form.description(class="form-control") }}
-      </div>
-
-      <div class="form-group">
-        {{ form.event_type.label }}
-        {{ form.event_type(class="form-control") }}
-      </div>
-
-      <div class="form-group">
-        {{ form.event_date.label }}
-        {{ form.event_date(class="form-control") }}
-      </div>
-
-      <div class="form-actions">
-        {{ form.submit(class="btn btn-primary") }}
-      </div>
-    </form>
-  </div>
-
-  <div class="content-card">
+  <div class="content-card timeline-card">
     <h2>Timeline</h2>
 
     {% if events %}
       <div class="timeline-list">
         {% for event in events %}
           <div class="timeline-item">
-            <p>
-              <strong>{{ event.event_type.value if event.event_type.value else event.event_type }}</strong>
-              — {{ event.event_date.strftime("%d %b %Y") }}
-            </p>
+            <div class="timeline-dot"></div>
 
-            {% if event.description %}
-              <p>{{ event.description }}</p>
-            {% endif %}
+            <div class="timeline-content">
+              <div class="timeline-topline">
+                <strong>{{ event.title }}</strong>
+                <span>{{ event.event_date.strftime("%d %b %Y") }}</span>
+              </div>
+
+              <p class="timeline-type">
+                {{ event.event_type.value|replace("_", " ")|title if event.event_type else "Event" }}
+              </p>
+
+              {% if event.description %}
+                <p class="timeline-description">{{ event.description }}</p>
+              {% endif %}
+            </div>
           </div>
         {% endfor %}
       </div>
     {% else %}
-      <p>No events added yet.</p>
+      <div class="empty-mini">
+        <p>No events added yet.</p>
+      </div>
     {% endif %}
   </div>
 

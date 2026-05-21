@@ -4,7 +4,7 @@ from datetime import date, datetime, timezone
 from enum import Enum
 from typing import Optional
 
-from sqlalchemy import ForeignKey, DateTime, Date, String, Text
+from sqlalchemy import ForeignKey, DateTime, Date, String, Text, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.extensions import db
@@ -150,4 +150,16 @@ class JobApplication(db.Model):
         back_populates="job_application",
         cascade="all, delete-orphan",
         lazy="select",
+    )
+
+    is_deleted: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        default=False,
+        server_default="0"
+    )
+
+    deleted_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True
     )

@@ -1,80 +1,99 @@
 {% extends "layouts/base.html" %}
 
+{%block extra_css%}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/applications.css') }}"
+>
+{% endblock %}
+
 {% block title %}Applications | Career OS{% endblock %}
 
 {% block content %}
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center page-heading gap-3">
-  <div>
-    <p class="text-uppercase text-muted-small mb-1">Career OS</p>
-    <h1 class="mb-1">Applications</h1>
-    <p class="text-muted-small mb-0">
-      Track every job application, status change, and follow-up in one place.
-    </p>
-  </div>
+<section class="applications-page">
 
-  <a href="{{ url_for('applications.create') }}" class="btn btn-primary">
-    Add Application
-  </a>
+  <div class="page-header d-flex justify-content-between align-items-start gap-3 mb-4">
+    <div>
+      <p class="eyebrow mb-1">Job Tracker</p>
+      <h1 class="page-title mb-1">Applications</h1>
+      <p class="page-subtitle mb-0">
+        Track roles, companies, status changes, and follow-ups in one place.
+      </p>
+    </div>
 
-</div>
-
-{% if job_applications %}
-  <div class="row g-3">
-    {% for application in job_applications %}
-      <div class="col-12 col-md-6 col-xl-4">
-        <div class="card h-100 border-0 shadow-sm">
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
-              <div>
-                <h5 class="card-title mb-1">{{ application.role_title }}</h5>
-                <p class="text-muted-small mb-0">{{ application.company_name }}</p>
-              </div>
-
-              <span class="status-pill">
-                {{ application.status.value }}
-              </span>
-            </div>
-
-            <div class="mb-3">
-              <p class="mb-1">
-                <strong>Location:</strong>
-                {{ application.location or "Not added" }}
-              </p>
-              <p class="mb-1">
-                <strong>Source:</strong>
-                {{ application.source or "Not added" }}
-              </p>
-              <p class="mb-0">
-                <strong>Priority:</strong>
-                <span class="priority-pill">{{ application.priority.value }}</span>
-              </p>
-            </div>
-
-            <div class="d-flex gap-2">
-              <a href="{{ url_for('applications.detail', application_id=application.id) }}" class="btn btn-outline-primary btn-sm">
-                View Details
-              </a>
-
-              {% if application.job_url %}
-                <a href="{{ application.job_url }}" target="_blank" class="btn btn-outline-secondary btn-sm">
-                  Job Link
-                </a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-{% else %}
-  <div class="empty-state">
-    <h4>No applications tracked yet.</h4>
-    <p class="text-muted-small">
-      Add your first job application and start building your search timeline.
-    </p>
     <a href="{{ url_for('applications.create') }}" class="btn btn-primary">
-      Add First Application
+      + Add Application
     </a>
   </div>
-{% endif %}
+
+  {% if job_applications %}
+    <div class="applications-card">
+      <div class="table-responsive">
+        <table class="table align-middle applications-table mb-0">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Company</th>
+              <th>Status</th>
+              <th>Location</th>
+              <th>Added</th>
+              <th class="text-end">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for application in job_applications %}
+              <tr>
+                <td>
+                  <div class="fw-semibold">
+                    {{ application.role_title }}
+                  </div>
+                </td>
+
+                <td>
+                  {{ application.company_name }}
+                </td>
+
+                <td>
+                  <span class="status-badge status-{{ application.status.value|lower }}">
+                    {{ application.status.value|replace("_", " ")|title }}
+                  </span>
+                </td>
+
+                <td>
+                  {{ application.location or "—" }}
+                </td>
+
+                <td class="text-muted">
+                  {{ application.created_at.strftime("%d %b %Y") if application.created_at else "—" }}
+                </td>
+
+                <td class="text-end">
+                  <a
+                    href="{{ url_for('applications.detail', application_id=application.id) }}"
+                    class="btn btn-sm btn-outline-secondary"
+                  >
+                    View
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">📁</div>
+      <h2>No applications yet</h2>
+      <p>
+        Start by adding your first job application. Once added, it will appear here with its current status.
+      </p>
+      <a href="{{ url_for('applications.create') }}" class="btn btn-primary">
+        Add First Application
+      </a>
+    </div>
+  {% endif %}
+
+</section>
 {% endblock %}

@@ -129,3 +129,6 @@ class ApplicationEventForm(FlaskForm):
 		)
 
 	submit = SubmitField("Add Event")
+
+class DeleteForm(FlaskForm):
+	pass
