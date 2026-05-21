@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 from flask_login import login_required, current_user
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 
 from app.extensions import db
 from app.models import JobApplication, ApplicationEvent, JobStatus
@@ -15,8 +15,27 @@ applications_bp = Blueprint("applications", __name__, url_prefix="/applications"
 @login_required
 def index():
 
-	job_applications = JobApplication.query\
+	search_query = request.args.get("q", "").strip()
+	status_filter = request.args.get("status", "").strip()
+
+	query = JobApplication.query\
 	.filter_by(user_id=current_user.id, is_deleted=False)\
+
+	if search_query:
+		query = JobApplication\
+		.filter(
+			db.or_(
+				JobApplication.source.ilike(f"%{search_query}%"),
+				JobApplication.location.ilike(f"%{search_query}%"),
+				JobApplication.role_title.ilike(f"%{search_query}%"),
+				JobApplication.company_name.ilike(f"%{search_query}%"),
+				)
+			)
+
+	if status_filter:
+		query = query.filter(JobApplication.status == JobStatus[status_filter])
+
+	job_applications = query\
 	.order_by(JobApplication.created_at.desc())\
 	.all()
 
