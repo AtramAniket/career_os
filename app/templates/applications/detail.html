@@ -170,7 +170,36 @@
         </div>
       </form>
     </div>
+  </div>
 
+  <div class="content-card documents-card">
+    <h2>Documents</h2>
+    <p class="card-subtitle">Upload resumes, cover letters, or supporting files for this application.</p>
+
+    <form
+      method="POST"
+      action="{{ url_for('applications.upload_document', application_id=application.id) }}"
+      enctype="multipart/form-data"
+      class="application-form document-upload-form"
+    >
+      {{ upload_form.hidden_tag() }}
+
+      <div class="document-upload-grid">
+        <div>
+          {{ upload_form.document_type.label(class="form-label") }}
+          {{ upload_form.document_type(class="form-select") }}
+        </div>
+
+        <div>
+          {{ upload_form.document.label(class="form-label") }}
+          {{ upload_form.document(class="form-control") }}
+        </div>
+
+        <div class="document-upload-action">
+          {{ upload_form.submit(class="btn btn-primary") }}
+        </div>
+      </div>
+    </form>
   </div>
 
   <div class="content-card timeline-card">

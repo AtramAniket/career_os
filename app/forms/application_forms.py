@@ -1,6 +1,7 @@
 from datetime import date
 
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileRequired, FileField
 from wtforms.validators import DataRequired, Optional, Length
 from wtforms import StringField, TextAreaField, IntegerField, SelectField, DateField, SubmitField
 
@@ -139,6 +140,26 @@ class ApplicationEventForm(FlaskForm):
 		)
 
 	submit = SubmitField("Add Event")
+
+
+class DocumentUploadForm(FlaskForm):
+
+	document_type = SelectField(
+		"Document Type",
+		choices=[
+			("other", "Other"),
+			("cover", "Cover"),
+			("resume", "Resume"),
+			("portfolio", "Portfolio"),
+		]
+	)
+
+	document = FileField(
+		"Upload Document",
+		validators=[FileRequired()]
+	)
+
+	submit = SubmitField("Upload Document")
 
 class DeleteForm(FlaskForm):
 	pass
