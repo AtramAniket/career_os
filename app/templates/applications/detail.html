@@ -200,6 +200,39 @@
         </div>
       </div>
     </form>
+
+    {% if application.documents %}
+      <div class="uploaded-documents-list">
+        {% for document in application.documents %}
+          <div class="uploaded-document-item">
+
+            <div class="uploaded-document-info">
+              <strong>
+                {{ document.document_type.replace("_", " ")|title }}
+              </strong>
+
+              <p>
+                {{ document.original_filename }}
+              </p>
+            </div>
+
+            <div class="uploaded-document-actions">
+              <a
+                href="{{ url_for('applications.download_document', document_id=document.id) }}"
+                class="btn btn-sm btn-outline-primary"
+              >
+                Open
+              </a>
+            </div>
+
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-mini mt-3">
+        <p>No documents uploaded yet.</p>
+      </div>
+    {% endif %}
   </div>
 
   <div class="content-card timeline-card">
