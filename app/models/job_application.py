@@ -163,3 +163,13 @@ class JobApplication(db.Model):
         DateTime(timezone=True),
         nullable=True
     )
+
+    job_descritpion: Mapped[Optional[str]] = mapped_column(
+        Text,
+        nullable=True
+    )
+
+    resume_notes: Mapped[Optional[str]] = mapped_column(
+        Text,
+        nullable=True
+    ) 
