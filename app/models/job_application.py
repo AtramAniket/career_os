@@ -152,7 +152,7 @@ class JobApplication(db.Model):
         lazy="select",
     )
 
-    documents: Mapped["ApplicationDocument"] = relationship(
+    documents: Mapped[list["ApplicationDocument"]] = relationship(
         "ApplicationDocument",
         back_populates="application",
         cascade="all, delete-orphan"
