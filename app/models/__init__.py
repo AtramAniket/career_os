@@ -7,6 +7,7 @@ from app.models.job_application import (
     WorkMode,
 )
 from app.models.application_event import ApplicationEvent
+from app.models.application_document import ApplicationDocument
 
 __all__ = [
     "User",
@@ -16,4 +17,5 @@ __all__ = [
     "WorkMode",
     "EmploymentType",
     "PriorityLevel",
+    "ApplicationDocument",
 ]
