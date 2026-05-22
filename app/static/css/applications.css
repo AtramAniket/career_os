@@ -512,3 +512,38 @@
         flex: 1;
     }
 }
+
+.documents-card {
+  margin-bottom: 1.5rem;
+}
+
+.document-upload-form {
+  width: 100%;
+}
+
+.document-upload-grid {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 190px;
+  gap: 1rem;
+  align-items: end;
+  width: 100%;
+}
+
+.document-upload-grid > div {
+  width: 100%;
+}
+
+.document-upload-grid input[type="file"] {
+  width: 100%;
+}
+
+.document-upload-action .btn {
+  width: 100%;
+  min-height: 46px;
+}
+
+@media (max-width: 768px) {
+  .document-upload-grid {
+    grid-template-columns: 1fr;
+  }
+}
