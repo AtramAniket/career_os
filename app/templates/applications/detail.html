@@ -116,6 +116,20 @@
         </div>
       {% endif %}
 
+      {% if application.job_description %}
+        <div class="notes-box">
+          <span>Job Description</span>
+          <p>{{ application.job_description }}</p>
+        </div>
+      {% endif %}
+
+      {% if application.resume_notes %}
+        <div class="notes-box">
+          <span>Resume Notes</span>
+          <p>{{ application.resume_notes }}</p>
+        </div>
+      {% endif %}
+
       {% if application.notes %}
         <div class="notes-box">
           <span>Notes</span>
