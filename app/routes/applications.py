@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from werkzeug.utils import secure_filename
 
 from flask_login import login_required, current_user
-from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app, send_file
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app, send_file, abort
 
 from app.extensions import db
 from app.helpers import allowed_document_file
@@ -223,6 +223,10 @@ def download_document(document_id):
         )
         .first_or_404()
     )
+
+    if not os.path.exists(document.filepath):
+        flash("This document record exists, but the file is missing from storage.", "warning")
+        return redirect(url_for("applications.detail", application_id=document.job_application_id))
 
     return send_file(
         document.filepath,
