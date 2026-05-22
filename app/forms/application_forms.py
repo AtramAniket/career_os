@@ -94,6 +94,16 @@ class JobApplicationForm(FlaskForm):
 		validators=[Optional()]
 		)
 
+	job_description = TextAreaField(
+		"Job Description",
+		validators=[Optional()]
+	)
+
+	resume_notes = TextAreaField(
+		"Resume Notes",
+		validators=[Optional()]
+	)
+
 	submit = SubmitField("Save Application")
 
 
