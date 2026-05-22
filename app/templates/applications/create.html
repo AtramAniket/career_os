@@ -135,6 +135,22 @@
                         <div class="form-error">{{ error }}</div>
                     {% endfor %}
                 </div>
+
+                <div class="col-12">
+                    {{ form.job_description.label(class="form-label") }}
+                    {{ form.job_description(class="form-control", rows="5", placeholder="Add Job description like mimimum experience, key skills, etc.") }}
+                    {% for error in form.job_description.errors %}
+                        <div class="form-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-12">
+                    {{ form.resume_notes.label(class="form-label") }}
+                    {{ form.resume_notes(class="form-control", rows="5", placeholder="Add resume strategy notes, important technologies, missing keywords, project highlights, or interview preparation ideas...") }}
+                    {% for error in form.resume_notes.errors %}
+                        <div class="form-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
             </div>
 
             <div class="form-actions">
