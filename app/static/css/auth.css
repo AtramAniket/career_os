@@ -26,6 +26,12 @@
   color: #ffffff;
 }
 
+.auth-alert {
+  max-width: 100%;
+  margin-bottom: 1rem;
+  border-radius: 14px;
+}
+
 .auth-brand {
   display: inline-flex;
   align-items: center;
