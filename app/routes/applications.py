@@ -1,11 +1,15 @@
+import os
+from uuid import uuid4
 from datetime import datetime, timezone
+from werkzeug.utils import secure_filename
 
 from flask_login import login_required, current_user
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 
 from app.extensions import db
-from app.models import JobApplication, ApplicationEvent, JobStatus
-from app.forms.application_forms import JobApplicationForm, ApplicationEventForm, DeleteForm
+from app.helpers import allowed_document_file
+from app.models import JobApplication, ApplicationEvent, JobStatus, ApplicationDocument
+from app.forms.application_forms import JobApplicationForm, ApplicationEventForm, DeleteForm, DocumentUploadForm
 
 
 applications_bp = Blueprint("applications", __name__, url_prefix="/applications")
@@ -98,6 +102,7 @@ def detail(application_id):
 
 	form = ApplicationEventForm()
 	delete_form = DeleteForm()
+	upload_form = DocumentUploadForm()
 
 	if form.validate_on_submit():
 		event = ApplicationEvent(
@@ -142,8 +147,59 @@ def detail(application_id):
 		form=form,
 		events=events,
 		application=application,
-		delete_form=delete_form
+		delete_form=delete_form,
+		upload_form=upload_form,
 		)
+
+
+@applications_bp.route("/applications/<int:application_id>/documents/upload", methods=["POST"])
+@login_required
+def upload_document(application_id):
+    application = (
+        JobApplication.query
+        .filter_by(id=application_id, user_id=current_user.id, is_deleted=False)
+        .first_or_404()
+    )
+
+    form = DocumentUploadForm()
+
+    if not form.validate_on_submit():
+        flash("Please select a valid document.", "danger")
+        return redirect(url_for("applications.detail", application_id=application.id))
+
+    file = form.document.data
+
+    if not file or file.filename == "":
+        flash("Please choose a file to upload.", "danger")
+        return redirect(url_for("applications.detail", application_id=application.id))
+
+    if not allowed_document_file(file.filename):
+        flash("Only PDF, DOC, DOCX, and TXT files are allowed.", "danger")
+        return redirect(url_for("applications.detail", application_id=application.id))
+
+    original_filename = secure_filename(file.filename)
+    extension = original_filename.rsplit(".", 1)[1].lower()
+    stored_filename = f"{uuid4().hex}.{extension}"
+
+    upload_folder = current_app.config["UPLOAD_FOLDER"]
+    os.makedirs(upload_folder, exist_ok=True)
+
+    file_path = os.path.join(upload_folder, stored_filename)
+    file.save(file_path)
+
+    document = ApplicationDocument(
+        job_application_id=application.id,
+        document_type=form.document_type.data,
+        original_filename=original_filename,
+        stored_filename=stored_filename,
+        filepath=file_path,
+    )
+
+    db.session.add(document)
+    db.session.commit()
+
+    flash("Document uploaded successfully.", "success")
+    return redirect(url_for("applications.detail", application_id=application.id))
 
 
 @applications_bp.route("/<int:application_id>/delete", methods=["POST"])
