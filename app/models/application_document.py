@@ -13,7 +13,7 @@ class ApplicationDocument(db.Model):
 	id: Mapped[int] = mapped_column(primary_key=True)
 
 	job_application_id: Mapped[int] = mapped_column(
-		ForeignKey(job_applications.id),
+		ForeignKey("job_applications.id"),
 		ondelete="CASCADE",
 		nullable=False,
 		index=True
