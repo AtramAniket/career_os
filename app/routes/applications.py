@@ -235,6 +235,32 @@ def download_document(document_id):
     )
 
 
+@applications_bp.route("/documents/<int:document_id>/delete", methods=["POST"])
+@login_required
+def delete_document(document_id):
+    document = (
+        ApplicationDocument.query
+        .join(JobApplication)
+        .filter(
+            ApplicationDocument.id == document_id,
+            JobApplication.user_id == current_user.id,
+            JobApplication.is_deleted == False,
+        )
+        .first_or_404()
+    )
+
+    application_id = document.job_application_id
+
+    if document.filepath and os.path.exists(document.filepath):
+        os.remove(document.filepath)
+
+    db.session.delete(document)
+    db.session.commit()
+
+    flash("Document deleted successfully.", "success")
+    return redirect(url_for("applications.detail", application_id=application_id))
+
+
 @applications_bp.route("/<int:application_id>/delete", methods=["POST"])
 @login_required
 def delete_application(application_id):
