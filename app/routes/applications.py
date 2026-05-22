@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from werkzeug.utils import secure_filename
 
 from flask_login import login_required, current_user
-from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app, send_file
 
 from app.extensions import db
 from app.helpers import allowed_document_file
@@ -142,6 +142,13 @@ def detail(application_id):
 		.all()
 		)
 
+	documents = (
+	    ApplicationDocument.query\
+	    .filter_by(job_application_id=application.id)\
+	    .order_by(ApplicationDocument.uploaded_at.desc())\
+	    .all()
+	)
+
 	return render_template(
 		"applications/detail.html",
 		form=form,
@@ -149,6 +156,7 @@ def detail(application_id):
 		application=application,
 		delete_form=delete_form,
 		upload_form=upload_form,
+		documents=documents
 		)
 
 
@@ -200,6 +208,27 @@ def upload_document(application_id):
 
     flash("Document uploaded successfully.", "success")
     return redirect(url_for("applications.detail", application_id=application.id))
+
+
+@applications_bp.route("/documents/<int:document_id>/download", methods=["GET"])
+@login_required
+def download_document(document_id):
+    document = (
+        ApplicationDocument.query
+        .join(JobApplication)
+        .filter(
+            ApplicationDocument.id == document_id,
+            JobApplication.user_id == current_user.id,
+            JobApplication.is_deleted == False,
+        )
+        .first_or_404()
+    )
+
+    return send_file(
+        document.filepath,
+        as_attachment=False,
+        download_name=document.original_filename,
+    )
 
 
 @applications_bp.route("/<int:application_id>/delete", methods=["POST"])
