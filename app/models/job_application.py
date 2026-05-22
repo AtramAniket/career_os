@@ -152,6 +152,12 @@ class JobApplication(db.Model):
         lazy="select",
     )
 
+    documents: Mapped["ApplicationDocument"] = relationship(
+        "ApplicationDocument",
+        back_populates="application",
+        cascade="all, delete-orphan"
+    )
+
     is_deleted: Mapped[bool] = mapped_column(
         Boolean,
         nullable=False,
