@@ -71,7 +71,9 @@ def create():
 			date_applied = form.date_applied.data,
 			deadline = form.deadline.data,
 			source = form.source.data,
-			notes = form.notes.data
+			notes = form.notes.data,
+			job_descritpion = form.job_description.data,
+			resume_notes = form.resume_notes.data
 			)
 
 		db.session.add(job_application)
