@@ -579,6 +579,37 @@
   font-size: 0.88rem;
 }
 
+.uploaded-document-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.uploaded-document-actions form {
+  margin: 0;
+}
+
+.uploaded-document-actions .btn,
+.uploaded-document-actions form {
+  flex: 1;
+}
+
+.uploaded-document-actions form .btn {
+  width: 100%;
+}
+
+@media (max-width: 576px) {
+  .uploaded-document-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .uploaded-document-actions .btn,
+  .uploaded-document-actions form {
+    width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .uploaded-document-item {
     flex-direction: column;

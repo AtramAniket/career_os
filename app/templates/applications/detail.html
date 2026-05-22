@@ -220,9 +220,21 @@
               <a
                 href="{{ url_for('applications.download_document', document_id=document.id) }}"
                 class="btn btn-sm btn-outline-primary"
+                target="_blank"
               >
                 Open
               </a>
+
+              <form
+                method="POST"
+                action="{{ url_for('applications.delete_document', document_id=document.id) }}"
+                onsubmit="return confirm('Delete this document?');"
+              >
+                {{ delete_form.hidden_tag() }}
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                  Delete
+                </button>
+              </form>
             </div>
 
           </div>
