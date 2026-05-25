@@ -211,7 +211,7 @@
 
     {% if application.documents %}
       <div class="uploaded-documents-list">
-        {% for document in application.documents %}
+        {% for document in application.documents|sort(attribute="uploaded_at", reverse=True) %}
           <div class="uploaded-document-item">
 
             <div class="uploaded-document-info">
