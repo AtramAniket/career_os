@@ -697,3 +697,51 @@
   background: #eff6ff;
   color: #1d4ed8;
 }
+
+.primary-resume-card,
+.primary-resume-empty {
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 18px;
+  border: 1px solid #dbeafe;
+  background: linear-gradient(135deg, #eff6ff, #ffffff);
+}
+
+.primary-resume-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.primary-resume-label {
+  display: inline-flex;
+  margin-bottom: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #2563eb;
+}
+
+.primary-resume-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.primary-resume-card p,
+.primary-resume-empty p {
+  margin: 0.35rem 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.primary-resume-notes {
+  max-width: 680px;
+}
+
+.primary-resume-empty strong {
+  color: #0f172a;
+}

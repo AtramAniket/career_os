@@ -49,6 +49,45 @@
     </div>
   </div>
 
+  {% set primary_resume = application.documents
+      |selectattr("document_type", "equalto", "resume")
+      |selectattr("is_primary", "equalto", true)
+      |first
+  %}
+
+  {% if primary_resume %}
+    <div class="primary-resume-card">
+      <div>
+        <span class="primary-resume-label">Primary Resume</span>
+        <h3>{{ primary_resume.original_filename }}</h3>
+
+        <p>
+          Uploaded {{ primary_resume.uploaded_at.strftime("%d %b %Y") }}
+          {% if primary_resume.file_size %}
+            • {{ (primary_resume.file_size / 1024)|round(1) }} KB
+          {% endif %}
+        </p>
+
+        {% if primary_resume.notes %}
+          <p class="primary-resume-notes">{{ primary_resume.notes }}</p>
+        {% endif %}
+      </div>
+
+      <a
+        href="{{ url_for('applications.download_document', document_id=primary_resume.id) }}"
+        class="btn btn-sm btn-primary"
+        target="_blank"
+      >
+        Open Resume
+      </a>
+    </div>
+  {% else %}
+    <div class="primary-resume-empty">
+      <strong>No primary resume selected yet</strong>
+      <p>Upload a resume or mark one as primary to keep track of what you used for this application.</p>
+    </div>
+  {% endif %}
+
   <div class="detail-grid">
 
     <div class="content-card job-info-card">
@@ -172,6 +211,8 @@
     </div>
   </div>
 
+
+
   <div class="content-card documents-card">
     <h2>Documents</h2>
     <p class="card-subtitle">Upload resumes, cover letters, or supporting files for this application.</p>
@@ -211,7 +252,7 @@
 
     {% if application.documents %}
       <div class="uploaded-documents-list">
-        {% for document in application.documents|sort(attribute="uploaded_at", reverse=True) %}
+        {% for document in application.documents|sort(attribute="uploaded_at", reverse=True)|sort(attribute="is_primary", reverse=True) %}
           <div class="uploaded-document-item">
             <span class="document-type-badge document-type-{{ document.document_type }}">
               {{ document.document_type.replace("_", " ")|title }}
