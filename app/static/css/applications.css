@@ -560,10 +560,16 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 1.1rem;
-  border-radius: 16px;
+  padding: 1.1rem 1.2rem;
+  border-radius: 18px;
   background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.uploaded-document-item:hover {
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
 }
 
 .uploaded-document-info strong {
@@ -582,7 +588,8 @@
 .uploaded-document-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  margin-left: auto;
 }
 
 .uploaded-document-actions form {
@@ -619,4 +626,62 @@
   .uploaded-document-actions .btn {
     width: 100%;
   }
+}
+
+.document-type-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.document-type-resume {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.document-type-cover_letter {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.document-type-portfolio {
+  background: #fdf2f8;
+  color: #be185d;
+}
+
+.document-type-certificate {
+  background: #fefce8;
+  color: #a16207;
+}
+
+.document-filename {
+  margin: 0.55rem 0 0.2rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.document-details {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.document-notes {
+  margin: 0.65rem 0 0;
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.empty-mini span {
+  display: block;
+  margin-top: 0.25rem;
+  color: #6b7280;
+  font-size: 0.9rem;
 }
