@@ -2,7 +2,7 @@ from typing import Optional
 from datetime import datetime, timezone
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey, DateTime, Date, String, Text, Boolean
+from sqlalchemy import ForeignKey, DateTime, Date, String, Text, Boolean, Integer
 
 from app.extensions import db
 
@@ -36,6 +36,21 @@ class ApplicationDocument(db.Model):
 	filepath: Mapped[str] = mapped_column(
 		String(500),
 		nullable=False
+	)
+
+	file_size: Mapped[Optional[int]] = mapped_column(
+		Integer,
+		nullable=True
+	)
+
+	mime_type: Mapped[Optional[str]] = mapped_column(
+		String(120),
+		nullable=True
+	)
+
+	notes: Mapped[Optional[str]] = mapped_column(
+		Text,
+		nullable=True
 	)
 
 	uploaded_at: Mapped[datetime] = mapped_column(
