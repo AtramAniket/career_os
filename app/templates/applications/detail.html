@@ -333,6 +333,60 @@
     {% endif %}
   </div>
 
+  <div class="content-card resume-analysis-card mb-4">
+    <div class="analysis-card-header">
+      <div>
+        <h2>Resume Analysis</h2>
+        <p class="card-subtitle">
+          Analyze how well your primary resume matches this job description.
+        </p>
+      </div>
+
+      <span class="analysis-status-pill analysis-status-pending">
+        Not analyzed yet
+      </span>
+    </div>
+
+    <div class="analysis-summary-grid">
+      <div class="analysis-summary-item">
+        <span>ATS Readiness</span>
+        <strong>Pending</strong>
+      </div>
+
+      <div class="analysis-summary-item">
+        <span>Keyword Match</span>
+        <strong>Pending</strong>
+      </div>
+
+      <div class="analysis-summary-item">
+        <span>Missing Skills</span>
+        <strong>Pending</strong>
+      </div>
+    </div>
+
+    <div class="analysis-checklist">
+      <p>What this will check:</p>
+
+      <ul>
+        <li>Resume alignment with the job description</li>
+        <li>Missing role-specific keywords</li>
+        <li>ATS-friendly structure and readability</li>
+        <li>Practical improvement suggestions</li>
+      </ul>
+    </div>
+
+    <form
+      method="POST"
+      action="{{ url_for('resume_analysis.analyze', application_id=application.id) }}"
+    >
+      {{ delete_form.hidden_tag() }}
+
+      <button type="submit" class="btn btn-primary">
+        Analyze Resume
+      </button>
+    </form>
+  </div>
+
   <div class="content-card timeline-card">
     <h2>Timeline</h2>
 

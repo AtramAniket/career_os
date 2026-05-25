@@ -745,3 +745,89 @@
 .primary-resume-empty strong {
   color: #0f172a;
 }
+
+.resume-analysis-card {
+  margin-top: 1.5rem;
+}
+
+.analysis-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.analysis-status-pill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.analysis-status-pending {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.analysis-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.analysis-summary-item {
+  padding: 1rem;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+.analysis-summary-item span {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+}
+
+.analysis-summary-item strong {
+  color: #0f172a;
+}
+
+.analysis-checklist {
+  margin: 1.2rem 0;
+  padding: 1rem;
+  border-radius: 16px;
+  background: #f9fafb;
+}
+
+.analysis-checklist p {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.analysis-checklist ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .analysis-card-header {
+    flex-direction: column;
+  }
+
+  .analysis-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
