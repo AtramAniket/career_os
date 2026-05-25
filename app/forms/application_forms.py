@@ -148,10 +148,12 @@ class DocumentUploadForm(FlaskForm):
 		"Document Type",
 		choices=[
 			("other", "Other"),
-			("cover", "Cover"),
 			("resume", "Resume"),
 			("portfolio", "Portfolio"),
-		]
+			("certificate", "Certificate"),
+			("cover_letter", "Cover Letter")
+		],
+		validators=[DataRequired()]
 	)
 
 	document = FileField(
