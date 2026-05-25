@@ -194,6 +194,7 @@ def upload_document(application_id):
 
     file_path = os.path.join(upload_folder, stored_filename)
     file.save(file_path)
+
     file_size =os.path.getsize(file_path) 
     mime_type = file.mimetype
     notes = form.notes.data
