@@ -8,7 +8,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request,
 
 from app.extensions import db
 from app.helpers import allowed_document_file
-from app.models import JobApplication, ApplicationEvent, JobStatus, ApplicationDocument
+from app.models import JobApplication, ApplicationEvent, JobStatus, ApplicationDocument, ResumeAnalysis
 from app.forms.application_forms import JobApplicationForm, ApplicationEventForm, DeleteForm, DocumentUploadForm
 
 
@@ -149,6 +149,12 @@ def detail(application_id):
 	    .all()
 	)
 
+	latest_analysis = ResumeAnalysis.query.filter_by(
+	    job_application_id=application.id
+	).order_by(
+	    ResumeAnalysis.created_at.desc()
+	).first()
+
 	return render_template(
 		"applications/detail.html",
 		form=form,
@@ -156,7 +162,8 @@ def detail(application_id):
 		application=application,
 		delete_form=delete_form,
 		upload_form=upload_form,
-		documents=documents
+		documents=documents,
+		latest_analysis=latest_analysis,
 		)
 
 

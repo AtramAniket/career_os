@@ -30,6 +30,10 @@ def analyze(application_id):
 	upload_folder = current_app.config["UPLOAD_FOLDER"]
 	os.makedirs(upload_folder, exist_ok=True)
 
+	if not primary_resume:
+	    flash("There is no resume to analyze. Please add primary resume for analysis", "danger")
+	    return redirect(url_for("applications.detail", application_id=application.id))
+
 	file_path = os.path.join(upload_folder, primary_resume.stored_filename)
 
 	resume_text = extract_text_from_pdf(file_path)
