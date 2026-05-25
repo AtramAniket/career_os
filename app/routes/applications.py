@@ -160,7 +160,7 @@ def detail(application_id):
 		)
 
 
-@applications_bp.route("/applications/<int:application_id>/documents/upload", methods=["POST"])
+@applications_bp.route("/<int:application_id>/documents/upload", methods=["POST"])
 @login_required
 def upload_document(application_id):
     application = (
@@ -265,6 +265,33 @@ def delete_document(document_id):
 
     flash("Document deleted successfully.", "success")
     return redirect(url_for("applications.detail", application_id=application_id))
+
+
+@applications_bp.route("/documents/<int:document_id>/set-primary", methods=["POST"])
+@login_required
+def set_primary_document(document_id):
+    document = ApplicationDocument.query.get_or_404(document_id)
+
+    application = document.application
+
+    if application.user_id != current_user.id:
+        abort(403)
+
+    if document.document_type != "resume":
+        flash("Only resume documents can be marked as primary.", "warning")
+        return redirect(url_for("applications.detail", application_id=application.id))
+
+    ApplicationDocument.query.filter_by(
+        job_application_id=application.id,
+        document_type="resume"
+    ).update({"is_primary": False})
+
+    document.is_primary = True
+
+    db.session.commit()
+
+    flash("Primary resume updated.", "success")
+    return redirect(url_for("applications.detail", application_id=application.id))
 
 
 @applications_bp.route("/<int:application_id>/delete", methods=["POST"])
