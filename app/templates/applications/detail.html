@@ -213,7 +213,9 @@
       <div class="uploaded-documents-list">
         {% for document in application.documents|sort(attribute="uploaded_at", reverse=True) %}
           <div class="uploaded-document-item">
-
+            <span class="document-type-badge document-type-{{ document.document_type }}">
+              {{ document.document_type.replace("_", " ")|title }}
+            </span>
             <div class="uploaded-document-info">
 
               <div class="document-topline">
@@ -274,6 +276,7 @@
     {% else %}
       <div class="empty-mini mt-3">
         <p>No documents uploaded yet.</p>
+        <span>Keep resumes, cover letters, assignments, and supporting files organized here.</span>
       </div>
     {% endif %}
   </div>
