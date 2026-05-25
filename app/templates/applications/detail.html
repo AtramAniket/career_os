@@ -219,10 +219,12 @@
             <div class="uploaded-document-info">
 
               <div class="document-topline">
-
                 <span class="document-meta">
                   {{ document.uploaded_at.strftime("%d %b %Y") }}
                 </span>
+                {% if document.is_primary %}
+                  <span class="primary-document-badge">Primary</span>
+                {% endif %}
               </div>
 
               <p class="document-filename">
@@ -245,6 +247,18 @@
               {% endif %}
 
             </div>
+
+            {% if document.document_type == "resume" and not document.is_primary %}
+              <form
+                method="POST"
+                action="{{ url_for('applications.set_primary_document', document_id=document.id) }}"
+              >
+                {{ delete_form.hidden_tag() }}
+                <button type="submit" class="btn btn-sm btn-outline-secondary">
+                  Set Primary
+                </button>
+              </form>
+            {% endif %}
 
             <div class="uploaded-document-actions">
               <a

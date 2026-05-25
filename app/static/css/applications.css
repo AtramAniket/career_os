@@ -685,3 +685,15 @@
   color: #6b7280;
   font-size: 0.9rem;
 }
+
+.primary-document-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
