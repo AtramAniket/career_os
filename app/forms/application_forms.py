@@ -159,6 +159,11 @@ class DocumentUploadForm(FlaskForm):
 		validators=[FileRequired()]
 	)
 
+	notes = TextAreaField(
+		"Notes",
+		validators=[Optional(), Length(max=500)]
+	)
+
 	submit = SubmitField("Upload Document")
 
 class DeleteForm(FlaskForm):
