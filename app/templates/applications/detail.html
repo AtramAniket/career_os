@@ -199,6 +199,14 @@
           {{ upload_form.submit(class="btn btn-primary") }}
         </div>
       </div>
+      <div class="mt-3">
+        {{ upload_form.notes.label(class="form-label") }}
+        {{ upload_form.notes(
+            class="form-control",
+            rows="3",
+            placeholder="Optional notes about this document"
+        ) }}
+      </div>
     </form>
 
     {% if application.documents %}
@@ -207,13 +215,36 @@
           <div class="uploaded-document-item">
 
             <div class="uploaded-document-info">
-              <strong>
-                {{ document.document_type.replace("_", " ")|title }}
-              </strong>
 
-              <p>
+              <div class="document-topline">
+                <strong>
+                  {{ document.document_type.replace("_", " ")|title }}
+                </strong>
+
+                <span class="document-meta">
+                  {{ document.uploaded_at.strftime("%d %b %Y") }}
+                </span>
+              </div>
+
+              <p class="document-filename">
                 {{ document.original_filename }}
               </p>
+
+              {% if document.file_size %}
+                <p class="document-details">
+                  {{ (document.file_size / 1024)|round(1) }} KB
+                  {% if document.mime_type %}
+                    • {{ document.mime_type }}
+                  {% endif %}
+                </p>
+              {% endif %}
+
+              {% if document.notes %}
+                <p class="document-notes">
+                  {{ document.notes }}
+                </p>
+              {% endif %}
+
             </div>
 
             <div class="uploaded-document-actions">
