@@ -48,6 +48,12 @@ class ApplicationDocument(db.Model):
 		nullable=True
 	)
 
+	is_primary: Mapped[bool] = mapped_column(
+		Boolean,
+		default=False,
+		nullable=False
+	)
+
 	notes: Mapped[Optional[str]] = mapped_column(
 		Text,
 		nullable=True
