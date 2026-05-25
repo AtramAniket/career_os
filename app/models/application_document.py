@@ -51,7 +51,7 @@ class ApplicationDocument(db.Model):
 	is_primary: Mapped[bool] = mapped_column(
 		Boolean,
 		default=False,
-		nullable=False
+		nullable=False,
 	)
 
 	notes: Mapped[Optional[str]] = mapped_column(
