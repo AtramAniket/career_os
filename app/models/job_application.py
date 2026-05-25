@@ -158,6 +158,12 @@ class JobApplication(db.Model):
         cascade="all, delete-orphan"
     )
 
+    resume_analyses: Mapped["ResumeAnalysis"] =relationship(
+        "ResumeAnalysis",
+        back_populates="application",
+        cascade="all, delete-orphan"
+    )
+
     is_deleted: Mapped[bool] = mapped_column(
         Boolean,
         nullable=False,

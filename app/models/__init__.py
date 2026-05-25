@@ -1,4 +1,7 @@
 from app.models.user import User
+from app.models.resume_analysis import ResumeAnalysis
+from app.models.application_event import ApplicationEvent
+from app.models.application_document import ApplicationDocument
 from app.models.job_application import (
     EmploymentType,
     JobApplication,
@@ -6,16 +9,15 @@ from app.models.job_application import (
     PriorityLevel,
     WorkMode,
 )
-from app.models.application_event import ApplicationEvent
-from app.models.application_document import ApplicationDocument
 
 __all__ = [
     "User",
-    "JobApplication",
-    "ApplicationEvent",
-    "JobStatus",
     "WorkMode",
-    "EmploymentType",
+    "JobStatus",
     "PriorityLevel",
+    "JobApplication",
+    "EmploymentType",
+    "ResumeAnalysis",
+    "ApplicationEvent",
     "ApplicationDocument",
 ]
