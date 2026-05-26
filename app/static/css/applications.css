@@ -809,3 +809,58 @@
     width: 100%;
   }
 }
+/* ---------- Bootstrap Table Dark Mode Overrides ---------- */
+/*
+   Bootstrap's .table class applies its own CSS variables for row
+   backgrounds and text color. These overrides keep the applications
+   list table consistent with the dark Career OS theme.
+*/
+.applications-table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-secondary);
+  --bs-table-border-color: var(--border-soft);
+  --bs-table-hover-bg: rgba(99, 102, 241, 0.08);
+  --bs-table-hover-color: var(--text-primary);
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+.applications-table thead,
+.applications-table thead tr,
+.applications-table thead th {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+.applications-table tbody,
+.applications-table tbody tr,
+.applications-table tbody td {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.applications-table tbody tr:hover,
+.applications-table tbody tr:hover td {
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--text-primary);
+}
+
+.applications-table .fw-semibold {
+  color: var(--text-primary);
+}
+
+.applications-table .text-muted {
+  color: var(--text-muted) !important;
+}
+
+.applications-table .btn-outline-secondary {
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+  background: transparent;
+}
+
+.applications-table .btn-outline-secondary:hover {
+  color: var(--text-primary);
+  border-color: rgba(129, 140, 248, 0.55);
+  background: rgba(99, 102, 241, 0.12);
+}
