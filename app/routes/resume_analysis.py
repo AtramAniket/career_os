@@ -61,27 +61,12 @@ def analyze(application_id):
 	analysis = ResumeAnalysis(
 	    job_application_id=application.id,
 	    document_id=primary_resume.id,
-	    ats_score=78,
-	    keyword_match_score=64,
-	    analysis_summary=(
-	        "Resume shows strong backend project experience "
-	        "but could improve keyword alignment for this role."
-	    ),
-	    strengths=[
-	        "Strong Flask project work",
-	        "Good project architecture",
-	        "Demonstrates full-stack capability",
-	    ],
-	    missing_keyword=[
-	        "Docker",
-	        "CI/CD",
-	        "AWS",
-	    ],
-	    suggestions=[
-	        "Add measurable project impact",
-	        "Include deployment stack",
-	        "Tailor summary section to role",
-	    ]
+	    ats_score=ai_result.get("ats_score"),
+	    keyword_match_score=ai_result.get("keyword_match_score"),
+	    analysis_summary=ai_result.get("summary"),
+	    strengths=ai_result.get("strengths", []),
+	    missing_keyword=ai_result.get("missing_keywords", []),
+	    suggestions=ai_result.get("suggestions", []),
 	)
 
 	db.session.add(analysis)
