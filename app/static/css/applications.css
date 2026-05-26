@@ -530,6 +530,11 @@
   border: 1px solid var(--success-border);
 }
 
+.analysis-submit-btn:disabled {
+  cursor: wait;
+  opacity: 0.78;
+}
+
 .analysis-status-pending {
   background: rgba(148, 163, 184, 0.12);
   color: #cbd5e1;

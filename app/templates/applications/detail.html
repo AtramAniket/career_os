@@ -495,10 +495,15 @@
     <form
       method="POST"
       action="{{ url_for('resume_analysis.analyze', application_id=application.id) }}"
+      class="analysis-form"
     >
       {{ delete_form.hidden_tag() }}
 
-      <button type="submit" class="btn btn-primary mt-4">
+      <button
+        type="submit"
+        class="btn btn-primary mt-4 analysis-submit-btn"
+        data-loading-text="Analyzing Resume..."
+      >
         {% if latest_analysis %}
           Re-analyze Resume
         {% else %}
@@ -542,4 +547,23 @@
   </div>
 
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const analysisForm = document.querySelector(".analysis-form");
+
+    if (!analysisForm) return;
+
+    analysisForm.addEventListener("submit", function () {
+      const submitButton = analysisForm.querySelector(".analysis-submit-btn");
+
+      if (!submitButton) return;
+
+      submitButton.disabled = true;
+      submitButton.dataset.originalText = submitButton.textContent.trim();
+      submitButton.textContent = submitButton.dataset.loadingText || "Analyzing...";
+    });
+  });
+</script>
+
 {% endblock %}
