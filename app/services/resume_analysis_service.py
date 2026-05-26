@@ -18,6 +18,8 @@ Analyze the resume below for a Python/Flask/full-stack developer role.
 Return ONLY valid JSON in this exact structure:
 
 {{
+  "ats_score": 0,
+  "keyword_match_score": 0,
   "summary": "",
   "strengths": [],
   "weaknesses": [],
@@ -60,6 +62,8 @@ Resume text:
         return json.loads(raw_content)
     except json.JSONDecodeError:
         return {
+            "ats_score": 0,
+            "keyword_match_score": 0,
             "summary": "AI analysis could not be parsed correctly.",
             "strengths": [],
             "weaknesses": [],
