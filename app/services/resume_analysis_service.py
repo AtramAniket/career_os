@@ -5,7 +5,7 @@ from openai import OpenAI
 client = OpenAI()
 
 
-def analyze_resume_with_ai(resume_text: str) -> dict:
+def analyze_resume_with_ai(resume_text: str, job_description: str) -> dict:
     """
     Send extracted resume text to OpenAI and return structured resume analysis.
     """
@@ -13,7 +13,7 @@ def analyze_resume_with_ai(resume_text: str) -> dict:
     prompt = f"""
 You are an expert technical recruiter and ATS resume reviewer.
 
-Analyze the resume below for a Python/Flask/full-stack developer role.
+Analyze how well the resume matches the job description below.
 
 Return ONLY valid JSON in this exact structure:
 
@@ -39,6 +39,11 @@ Rules:
 Resume text:
 \"\"\"
 {resume_text}
+\"\"\"
+
+Job description:
+\"\"\"
+{job_description}
 \"\"\"
 """
 
