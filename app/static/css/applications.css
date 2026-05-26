@@ -891,3 +891,80 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Polished Resume Analysis */
+
+.resume-analysis-card {
+  overflow: visible;
+  border-color: #e5e7eb;
+  background: #ffffff;
+}
+
+.resume-analysis-card::before {
+  display: none;
+}
+
+.analysis-card-header {
+  position: relative;
+  z-index: 1;
+}
+
+.analysis-status-complete {
+  background: #ecfdf5;
+  color: #047857;
+  border: none;
+}
+
+.analysis-status-pending {
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.analysis-summary-item,
+.analysis-result-section {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+.analysis-summary-item strong {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 850;
+}
+
+.score-track {
+  width: 100%;
+  height: 9px;
+  margin-top: 0.85rem;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: #6366f1;
+}
+
+.analysis-result-section h3 {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.analysis-list li {
+  margin-bottom: 0.45rem;
+}
+
+.success-list li::marker {
+  color: #16a34a;
+}
+
+.suggestion-list li::marker {
+  color: #6366f1;
+}
+
+.missing-keyword-list span {
+  border: 1px solid #fed7aa;
+}

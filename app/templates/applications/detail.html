@@ -354,7 +354,7 @@
     </div>
 
     <div class="analysis-summary-grid">
-      <div class="analysis-summary-item">
+      <div class="analysis-summary-item score-card">
         <span>ATS Readiness</span>
         <strong>
           {% if latest_analysis and latest_analysis.ats_score is not none %}
@@ -363,9 +363,15 @@
             Pending
           {% endif %}
         </strong>
+
+        {% if latest_analysis and latest_analysis.ats_score is not none %}
+          <div class="score-track">
+            <div class="score-fill" style="width: {{ latest_analysis.ats_score }}%;"></div>
+          </div>
+        {% endif %}
       </div>
 
-      <div class="analysis-summary-item">
+      <div class="analysis-summary-item score-card">
         <span>Keyword Match</span>
         <strong>
           {% if latest_analysis and latest_analysis.keyword_match_score is not none %}
@@ -374,6 +380,12 @@
             Pending
           {% endif %}
         </strong>
+
+        {% if latest_analysis and latest_analysis.keyword_match_score is not none %}
+          <div class="score-track">
+            <div class="score-fill" style="width: {{ latest_analysis.keyword_match_score }}%;"></div>
+          </div>
+        {% endif %}
       </div>
 
       <div class="analysis-summary-item">
