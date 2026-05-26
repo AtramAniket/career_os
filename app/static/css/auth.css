@@ -1,6 +1,6 @@
 /* =========================================================
    Career OS - Auth Dark Theme
-   Login/signup shell, branding panel, auth cards, and forms
+   Login/signup shell, branding panel, auth card, and forms
    ========================================================= */
 
 /* ---------- Base Auth Shell ---------- */
@@ -107,15 +107,21 @@
 
 /* ---------- Form Column ---------- */
 .auth-form-wrap {
+  min-height: 100vh;
   padding: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.auth-card {
+.auth-form-stack {
   width: 100%;
   max-width: 430px;
+}
+
+/* ---------- Main Auth Card ---------- */
+.auth-card {
+  width: 100%;
   background: var(--bg-secondary, #161a22);
   border: 1px solid var(--border-color, #2a3142);
   border-radius: 28px;
@@ -203,15 +209,9 @@
 }
 
 /* ---------- Alerts ---------- */
-.alert,
 .auth-alert {
   width: 100%;
-  max-width: 430px;
   border-radius: 16px;
-}
-
-.auth-alert {
-  max-width: 100%;
   margin-bottom: 1rem;
 }
 
