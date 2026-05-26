@@ -1,12 +1,102 @@
+/* =========================================================
+   Career OS - Base Dark Theme
+   Global tokens, app shell, navbar, shared utilities
+   ========================================================= */
+
+/* ---------- Design Tokens ---------- */
+:root {
+  --bg-primary: #0f1117;
+  --bg-secondary: #161a22;
+  --bg-tertiary: #1d2330;
+  --bg-elevated: #202738;
+
+  --border-color: #2a3142;
+  --border-soft: #202636;
+
+  --text-primary: #f3f4f6;
+  --text-secondary: #a7b0c0;
+  --text-muted: #7b8496;
+
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #818cf8;
+  --accent-soft: rgba(99, 102, 241, 0.14);
+
+  --success-bg: rgba(34, 197, 94, 0.12);
+  --success-text: #4ade80;
+  --success-border: rgba(74, 222, 128, 0.28);
+
+  --warning-bg: rgba(251, 146, 60, 0.12);
+  --warning-text: #fb923c;
+  --warning-border: rgba(251, 146, 60, 0.28);
+
+  --danger-bg: rgba(248, 113, 113, 0.12);
+  --danger-text: #f87171;
+  --danger-border: rgba(248, 113, 113, 0.28);
+
+  --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.28);
+  --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------- Global Page Defaults ---------- */
+html {
+  background: var(--bg-primary);
+}
+
 body {
-  background: #f8fafc;
-  color: #111827;
+  background:
+    radial-gradient(circle at top left, rgba(99, 102, 241, 0.08), transparent 28rem),
+    var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+main {
+  color: var(--text-primary);
+}
+
+a {
+  color: var(--accent-primary-hover);
+}
+
+a:hover,
+a:focus {
+  color: #a5b4fc;
+}
+
+/* ---------- Navbar / App Shell ---------- */
+.navbar {
+  min-height: 72px;
+  background: rgba(22, 26, 34, 0.92) !important;
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(12px);
 }
 
 .navbar-brand {
   letter-spacing: -0.03em;
+  color: var(--text-primary) !important;
+  font-weight: 800;
 }
 
+.navbar-nav {
+  align-items: center;
+}
+
+.navbar .nav-link {
+  font-weight: 500;
+  color: var(--text-secondary) !important;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--text-primary) !important;
+}
+
+.navbar-action-btn {
+  padding-inline: 0.95rem;
+  border-radius: 10px;
+}
+
+/* ---------- Shared Page Headings ---------- */
 .page-heading {
   margin-bottom: 1.5rem;
 }
@@ -14,22 +104,25 @@ body {
 .page-heading h1 {
   font-weight: 750;
   letter-spacing: -0.04em;
+  color: var(--text-primary);
 }
 
 .text-muted-small {
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 0.95rem;
 }
 
+/* ---------- Shared Pills ---------- */
 .status-pill {
   display: inline-flex;
   align-items: center;
   border-radius: 999px;
   padding: 0.25rem 0.65rem;
   font-size: 0.8rem;
-  font-weight: 600;
-  background: #eef2ff;
-  color: #3730a3;
+  font-weight: 700;
+  background: var(--accent-soft);
+  color: #c7d2fe;
+  border: 1px solid rgba(129, 140, 248, 0.28);
 }
 
 .priority-pill {
@@ -38,43 +131,91 @@ body {
   border-radius: 999px;
   padding: 0.25rem 0.65rem;
   font-size: 0.8rem;
-  font-weight: 600;
-  background: #ecfdf5;
-  color: #047857;
+  font-weight: 700;
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
 }
 
+/* ---------- Shared Empty States ---------- */
 .empty-state {
-  border: 1px dashed #cbd5e1;
+  border: 1px dashed var(--border-color);
   border-radius: 1rem;
   padding: 3rem 1rem;
   text-align: center;
-  background: #ffffff;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
 }
 
+/* ---------- Shared Timeline Defaults ---------- */
 .timeline-item {
-  border-left: 3px solid #dbeafe;
+  border-left: 3px solid rgba(99, 102, 241, 0.45);
   padding-left: 1rem;
   margin-bottom: 1rem;
 }
 
-.navbar {
-  min-height: 72px;
+/* ---------- Bootstrap Form Overrides ---------- */
+.form-control,
+.form-select {
+  background-color: var(--bg-tertiary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
 }
 
-.navbar .nav-link {
-  font-weight: 500;
-  color: #4b5563;
+.form-control::placeholder {
+  color: var(--text-muted);
 }
 
-.navbar .nav-link:hover {
-  color: #111827;
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--bg-tertiary);
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.18);
 }
 
-.navbar-action-btn {
-  padding-inline: 0.95rem;
-  border-radius: 10px;
+.form-label {
+  color: var(--text-secondary);
 }
 
-.navbar-nav {
-  align-items: center;
+/* ---------- Bootstrap Button Tweaks ---------- */
+.btn-primary {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: var(--accent-primary-hover);
+  border-color: var(--accent-primary-hover);
+}
+
+.btn-outline-secondary {
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border-color: var(--border-color);
+}
+
+.btn-outline-danger {
+  color: var(--danger-text);
+  border-color: var(--danger-border);
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:focus {
+  color: #ffffff;
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+/* ---------- Flash Messages ---------- */
+.alert {
+  border-radius: 16px;
+  border-color: var(--border-color);
 }
