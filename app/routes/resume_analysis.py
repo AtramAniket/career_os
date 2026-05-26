@@ -56,7 +56,10 @@ def analyze(application_id):
 	    document_id=primary_resume.id,
 	).delete(synchronize_session=False)
 
-	ai_result = analyze_resume_with_ai(resume_text)
+	ai_result = analyze_resume_with_ai(
+		resume_text=resume_text,
+		job_description=application.job_descritpion
+	)
 
 	analysis = ResumeAnalysis(
 	    job_application_id=application.id,
