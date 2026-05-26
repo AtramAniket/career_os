@@ -435,6 +435,36 @@
           {% endif %}
         </div>
       </div>
+      
+      <div class="analysis-result-grid">
+        <div class="analysis-result-section">
+          <h3>Weaknesses</h3>
+
+          {% if latest_analysis.weaknesses %}
+            <ul class="analysis-list weakness-list">
+              {% for item in latest_analysis.weaknesses %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No major weaknesses detected yet.</p>
+          {% endif %}
+        </div>
+
+        <div class="analysis-result-section">
+          <h3>ATS Observations</h3>
+
+          {% if latest_analysis.ats_observations %}
+            <ul class="analysis-list ats-list">
+              {% for item in latest_analysis.ats_observations %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No ATS observations generated yet.</p>
+          {% endif %}
+        </div>
+      </div>
 
       <div class="analysis-result-section">
         <h3>Missing Keywords</h3>

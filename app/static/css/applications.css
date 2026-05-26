@@ -968,3 +968,11 @@
 .missing-keyword-list span {
   border: 1px solid #fed7aa;
 }
+
+.weakness-list li::marker {
+  color: #f97316;
+}
+
+.ats-list li::marker {
+  color: #0ea5e9;
+}
