@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from flask import Blueprint, url_for, render_template, redirect, abort, flash, current_app
 
 from app.extensions import db
+from app.services import analyze_resume_with_ai
 from app.helpers import allowed_document_file, extract_text_from_pdf
 from app.models import ApplicationDocument, JobApplication, ResumeAnalysis
 
@@ -54,6 +55,8 @@ def analyze(application_id):
 	    job_application_id=application.id,
 	    document_id=primary_resume.id,
 	).delete(synchronize_session=False)
+
+	ai_result = analyze_resume_with_ai(resume_text)
 
 	analysis = ResumeAnalysis(
 	    job_application_id=application.id,
