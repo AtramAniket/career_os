@@ -29,7 +29,12 @@ class ResumeAnalysis(db.Model):
 	ats_score: Mapped[Optional[int]] = mapped_column(
 		Integer,
 		nullable=True
-	) 
+	)
+
+	ats_observations: Mapped[Optional[list]] = mapped_column(
+		JSON,
+		nullable=True
+	)
 
 	keyword_match_score: Mapped[Optional[int]] = mapped_column(
 		Integer,
@@ -46,7 +51,12 @@ class ResumeAnalysis(db.Model):
 		nullable=True
 	)
 
-	missing_keyword: Mapped[Optional[list]] = mapped_column(
+	weakness: Mapped[Optional[list]] = mapped_column(
+		JSON,
+		nullable=True
+	)
+
+	missing_keywords: Mapped[Optional[list]] = mapped_column(
 		JSON,
 		nullable=True
 	)

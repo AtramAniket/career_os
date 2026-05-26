@@ -76,7 +76,7 @@ def create():
 			deadline = form.deadline.data,
 			source = form.source.data,
 			notes = form.notes.data,
-			job_descritpion = form.job_description.data,
+			job_description = form.job_description.data,
 			resume_notes = form.resume_notes.data
 			)
 

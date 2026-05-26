@@ -43,7 +43,7 @@ def analyze(application_id):
 	    flash("Unable to extract text from resume.", "danger")
 	    return redirect(url_for("applications.detail", application_id=application.id))
 
-	if not application.job_descritpion:
+	if not application.job_description:
 		flash("Add a job description before running analysis", "warning")
 		return redirect(url_for("applications.detail", application_id=application.id))
 
@@ -58,7 +58,7 @@ def analyze(application_id):
 
 	ai_result = analyze_resume_with_ai(
 		resume_text=resume_text,
-		job_description=application.job_descritpion
+		job_description=application.job_description
 	)
 
 	analysis = ResumeAnalysis(
@@ -68,8 +68,10 @@ def analyze(application_id):
 	    keyword_match_score=ai_result.get("keyword_match_score"),
 	    analysis_summary=ai_result.get("summary"),
 	    strengths=ai_result.get("strengths", []),
-	    missing_keyword=ai_result.get("missing_keywords", []),
+	    missing_keywords=ai_result.get("missing_keywords", []),
 	    suggestions=ai_result.get("suggestions", []),
+	    weakness=ai_result.get("weaknesses", []),
+	    ats_observations=ai_result.get("ats_observations", []),
 	)
 
 	db.session.add(analysis)

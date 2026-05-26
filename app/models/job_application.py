@@ -176,7 +176,7 @@ class JobApplication(db.Model):
         nullable=True
     )
 
-    job_descritpion: Mapped[Optional[str]] = mapped_column(
+    job_description: Mapped[Optional[str]] = mapped_column(
         Text,
         nullable=True
     )
