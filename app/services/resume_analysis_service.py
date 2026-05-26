@@ -34,6 +34,7 @@ Rules:
 - Mention missing skills only if relevant.
 - Use simple language.
 - Each list item should be short but useful.
+- ats_score and keyword_match_score should be integers between 0 and 100.
 
 Resume text:
 \"\"\"
