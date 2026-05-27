@@ -157,6 +157,14 @@ def detail(application_id):
 	    ResumeAnalysis.created_at.desc()
 	).first()
 
+	latest_tailoring_analysis = ResumeAnalysis.query.filter_by(
+	    job_application_id=application.id,
+	    is_latest=True,
+	    analysis_type="tailoring",
+	).order_by(
+	    ResumeAnalysis.created_at.desc()
+	).first()
+
 	return render_template(
 		"applications/detail.html",
 		form=form,
@@ -166,6 +174,7 @@ def detail(application_id):
 		upload_form=upload_form,
 		documents=documents,
 		latest_analysis=latest_analysis,
+		latest_tailoring_analysis=latest_tailoring_analysis,
 		)
 
 
