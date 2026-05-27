@@ -4,26 +4,26 @@ from flask import current_app
 
 from app.extensions import db
 from app.helpers import extract_text_from_pdf
-from app.models import ApplicationDocument, ResumeAnalysis
 from app.services import analyze_resume_with_ai
+from app.models import ApplicationDocument, ResumeAnalysis
 
 
 def run_resume_analysis(application):
     primary_resume = (
         ApplicationDocument.query
         .filter_by(
-            job_application_id=application.id,
-            document_type="resume",
             is_primary=True,
+            document_type="resume",
+            job_application_id=application.id,
         )
         .first()
     )
 
-    if not primary_resume:
-        return False, "Please set a primary resume before running analysis."
-
     if not application.job_description:
         return False, "Add a job description before running analysis."
+
+    if not primary_resume:
+        return False, "Please set a primary resume before running analysis."
 
     upload_folder = current_app.config["UPLOAD_FOLDER"]
     file_path = os.path.join(upload_folder, primary_resume.stored_filename)
@@ -42,25 +42,27 @@ def run_resume_analysis(application):
     )
 
     ResumeAnalysis.query.filter_by(
-        job_application_id=application.id,
+        analysis_type="resume_review",
         document_id=primary_resume.id,
-        analysis_type="resume_review"
+        job_application_id=application.id,
     ).update(
-    {"is_latest": False},
-    synchronize_session=False
+        {"is_latest": False},
+        synchronize_session=False
     )
 
     analysis = ResumeAnalysis(
-        job_application_id=application.id,
+        is_latest=True,      
+        analysis_type="resume_review",
         document_id=primary_resume.id,
-        ats_score=ai_result.get("ats_score"),
-        keyword_match_score=ai_result.get("keyword_match_score"),
-        analysis_summary=ai_result.get("summary"),
+        job_application_id=application.id,
+        ats_score=ai_result.get("ats_score"),  
         strengths=ai_result.get("strengths", []),
-        missing_keywords=ai_result.get("missing_keywords", []),
-        suggestions=ai_result.get("suggestions", []),
         weakness=ai_result.get("weaknesses", []),
+        analysis_summary=ai_result.get("summary"),
+        suggestions=ai_result.get("suggestions", []),
+        missing_keywords=ai_result.get("missing_keywords", []),
         ats_observations=ai_result.get("ats_observations", []),
+        keyword_match_score=ai_result.get("keyword_match_score"),
     )
 
     db.session.add(analysis)
