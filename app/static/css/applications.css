@@ -327,6 +327,31 @@
   line-height: 1.6;
 }
 
+.notes-box.job-description-box {
+  max-height: 320px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding-right: 0.5rem;
+  overflow-wrap: break-word;
+}
+
+.notes-box.job-description-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.notes-box.job-description-box::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.28);
+  border-radius: 999px;
+}
+
+.notes-box.job-description-box::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notes-box.job-description-box p {
+  white-space: normal;
+}
+
 /* ---------- Application Filters ---------- */
 .application-filters {
   background: var(--bg-secondary);
@@ -656,6 +681,52 @@
   border: 1px solid var(--warning-border);
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.tailoring-card {
+  margin-top: 1.5rem;
+  padding: 1.2rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.08), var(--bg-tertiary));
+  border: 1px solid rgba(56, 189, 248, 0.24);
+}
+
+.tailoring-card h3 {
+  font-size: 1.05rem;
+  font-weight: 850;
+  color: var(--text-primary);
+}
+
+.tailoring-section {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.42);
+  border: 1px solid var(--border-color);
+}
+
+.tailoring-section h5 {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.55rem;
+}
+
+.tailoring-section p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.analysis-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.analysis-action-row form {
+  margin: 0;
 }
 
 /* ---------- Timeline ---------- */

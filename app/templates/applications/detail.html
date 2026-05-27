@@ -155,10 +155,10 @@
         </div>
       {% endif %}
 
-      {% if application.job_descritpion %}
-        <div class="notes-box">
+      {% if application.job_description %}
+        <div class="notes-box job-description-box">
           <span>Job Description</span>
-          <p>{{ application.job_descritpion }}</p>
+          <p>{{ application.job_description }}</p>
         </div>
       {% endif %}
 
@@ -494,7 +494,7 @@
 
     {% if latest_tailoring_analysis %}
 
-    <div class="analysis-card mt-4">
+    <div class="tailoring-card mt-4">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="section-title mb-0">
@@ -561,35 +561,36 @@
     </div>
 
     {% endif %}
-
-    <form
-      method="POST"
-      action="{{ url_for('resume_analysis.analyze', application_id=application.id) }}"
-      class="analysis-form"
-    >
-      {{ delete_form.hidden_tag() }}
-
-      <button
-        type="submit"
-        class="btn btn-primary mt-4 analysis-submit-btn"
-        data-loading-text="Analyzing Resume..."
-      >
-        {% if latest_analysis %}
-          Re-analyze Resume
-        {% else %}
-          Analyze Resume
-        {% endif %}
-      </button>
-    </form>
-
-    <form
+    <div class="analysis-action-row">
+      <form
         method="POST"
-        action="{{ url_for('resume_analysis.tailor_resume', application_id=application.id) }}"
-    >
-        <button type="submit" class="btn btn-outline-info">
-            Generate Tailoring Suggestions
+        action="{{ url_for('resume_analysis.analyze', application_id=application.id) }}"
+        class="analysis-form"
+      >
+        {{ delete_form.hidden_tag() }}
+
+        <button
+          type="submit"
+          class="btn btn-primary mt-4 analysis-submit-btn"
+          data-loading-text="Analyzing Resume..."
+        >
+          {% if latest_analysis %}
+            Re-analyze Resume
+          {% else %}
+            Analyze Resume
+          {% endif %}
         </button>
-    </form>
+      </form>
+
+      <form
+          method="POST"
+          action="{{ url_for('resume_analysis.tailor_resume', application_id=application.id) }}"
+      >
+          <button type="submit" class="btn mt-4 btn-outline-info">
+              Generate Tailoring Suggestions
+          </button>
+      </form>
+    </div>
   </div>
 
   <div class="content-card timeline-card">
