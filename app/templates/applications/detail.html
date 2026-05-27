@@ -511,6 +511,15 @@
         {% endif %}
       </button>
     </form>
+
+    <form
+        method="POST"
+        action="{{ url_for('resume_analysis.tailor_resume', application_id=application.id) }}"
+    >
+        <button type="submit" class="btn btn-outline-info">
+            Generate Tailoring Suggestions
+        </button>
+    </form>
   </div>
 
   <div class="content-card timeline-card">
