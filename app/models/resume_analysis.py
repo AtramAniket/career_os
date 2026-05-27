@@ -1,7 +1,7 @@
 from typing import Optional
 from datetime import datetime, timezone
 
-from sqlalchemy import ForeignKey, DateTime, Integer, Text, JSON
+from sqlalchemy import ForeignKey, DateTime, Integer, Text, JSON, Boolean, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.extensions import db
@@ -64,6 +64,20 @@ class ResumeAnalysis(db.Model):
 	suggestions: Mapped[Optional[list]] = mapped_column(
 		JSON,
 		nullable=True
+	)
+
+	is_latest: Mapped[bool] = mapped_column(
+		Boolean,
+		default=True,
+		nullable=False,
+		server_default=db.true()
+	)
+
+	analysis_type: Mapped[str] = mapped_column(
+		String(50),
+		nullable=False,
+		default="resume_review",
+		server_default="resume_review"
 	)
 
 	created_at: Mapped[datetime] = mapped_column(
