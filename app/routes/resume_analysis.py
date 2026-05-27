@@ -38,7 +38,7 @@ def tailor_resume(application_id):
 	if application.user_id != current_user.id:
 		abort(404)
 
-	success, message = run_resume_analysis(application)
+	success, message = run_resume_tailoring(application)
 
 
 	flash(message, "success" if success else "warning")
