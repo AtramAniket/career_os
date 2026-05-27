@@ -44,7 +44,11 @@ def run_resume_analysis(application):
     ResumeAnalysis.query.filter_by(
         job_application_id=application.id,
         document_id=primary_resume.id,
-    ).delete(synchronize_session=False)
+        analysis_type="resume_review"
+    ).update(
+    {"is_latest": False},
+    synchronize_session=False
+    )
 
     analysis = ResumeAnalysis(
         job_application_id=application.id,
