@@ -1,0 +1,65 @@
+import os
+
+from flask import current_app
+
+from app.extensions import db
+from app.helpers import extract_text_from_pdf
+from app.models import ApplicationDocument, ResumeAnalysis
+from app.services import analyze_resume_with_ai
+
+
+def run_resume_analysis(application):
+    primary_resume = (
+        ApplicationDocument.query
+        .filter_by(
+            job_application_id=application.id,
+            document_type="resume",
+            is_primary=True,
+        )
+        .first()
+    )
+
+    if not primary_resume:
+        return False, "Please set a primary resume before running analysis."
+
+    if not application.job_description:
+        return False, "Add a job description before running analysis."
+
+    upload_folder = current_app.config["UPLOAD_FOLDER"]
+    file_path = os.path.join(upload_folder, primary_resume.stored_filename)
+
+    if not os.path.exists(file_path):
+        return False, "Resume file is missing from storage."
+
+    resume_text = extract_text_from_pdf(file_path)
+
+    if not resume_text:
+        return False, "Unable to extract text from resume."
+
+    ai_result = analyze_resume_with_ai(
+        resume_text=resume_text,
+        job_description=application.job_description,
+    )
+
+    ResumeAnalysis.query.filter_by(
+        job_application_id=application.id,
+        document_id=primary_resume.id,
+    ).delete(synchronize_session=False)
+
+    analysis = ResumeAnalysis(
+        job_application_id=application.id,
+        document_id=primary_resume.id,
+        ats_score=ai_result.get("ats_score"),
+        keyword_match_score=ai_result.get("keyword_match_score"),
+        analysis_summary=ai_result.get("summary"),
+        strengths=ai_result.get("strengths", []),
+        missing_keywords=ai_result.get("missing_keywords", []),
+        suggestions=ai_result.get("suggestions", []),
+        weakness=ai_result.get("weaknesses", []),
+        ats_observations=ai_result.get("ats_observations", []),
+    )
+
+    db.session.add(analysis)
+    db.session.commit()
+
+    return True, "Resume analysis completed."
