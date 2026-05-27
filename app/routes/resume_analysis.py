@@ -51,15 +51,15 @@ def analyze(application_id):
 		flash("Please set a primary resume before running analysis", "warning")
 		return redirect(url_for("applications.detail", application_id=application.id))
 
-	ResumeAnalysis.query.filter_by(
-	    job_application_id=application.id,
-	    document_id=primary_resume.id,
-	).delete(synchronize_session=False)
-
 	ai_result = analyze_resume_with_ai(
 		resume_text=resume_text,
 		job_description=application.job_description
 	)
+
+	ResumeAnalysis.query.filter_by(
+	    job_application_id=application.id,
+	    document_id=primary_resume.id,
+	).delete(synchronize_session=False)
 
 	analysis = ResumeAnalysis(
 	    job_application_id=application.id,
