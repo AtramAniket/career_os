@@ -5,7 +5,7 @@ from flask import current_app
 from app.extensions import db
 from app.helpers import extract_text_from_pdf
 from app.models import ApplicationDocument, ResumeAnalysis
-from app.services import generate_tailoring_suggestions
+from app.services.resume_tailoring_service import generate_tailoring_suggestions
 
 
 def run_resume_tailoring(application):
