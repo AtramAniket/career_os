@@ -150,6 +150,8 @@ def detail(application_id):
 	)
 
 	latest_analysis = ResumeAnalysis.query.filter_by(
+		is_latest=True,
+		analysis_type="resume_review",
 	    job_application_id=application.id
 	).order_by(
 	    ResumeAnalysis.created_at.desc()
