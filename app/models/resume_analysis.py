@@ -80,6 +80,21 @@ class ResumeAnalysis(db.Model):
 		server_default="resume_review"
 	)
 
+	improved_summary: Mapped[Optional[str]] = mapped_column(
+		Text,
+		nullable=True
+	)
+
+	bullet_improvements: Mapped[Optional[list]] = mapped_column(
+		JSON,
+		nullable=True
+	)
+
+	recruiter_impression: Mapped[Optional[str]] = mapped_column(
+		Text,
+		nullable=True
+	)
+
 	created_at: Mapped[datetime] = mapped_column(
 		DateTime(timezone=True),
 		default=lambda: datetime.now(timezone.utc),
