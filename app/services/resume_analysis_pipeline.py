@@ -4,8 +4,9 @@ from flask import current_app
 
 from app.extensions import db
 from app.helpers import extract_text_from_pdf
-from app.services import analyze_resume_with_ai
 from app.models import ApplicationDocument, ResumeAnalysis
+from app.services.resume_analysis_service import analyze_resume_with_ai
+
 
 
 def run_resume_analysis(application):
