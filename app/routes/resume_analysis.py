@@ -31,9 +31,6 @@ def analyze(application_id):
 	upload_folder = current_app.config["UPLOAD_FOLDER"]
 	os.makedirs(upload_folder, exist_ok=True)
 
-	if not primary_resume:
-	    flash("There is no resume to analyze. Please add primary resume for analysis", "danger")
-	    return redirect(url_for("applications.detail", application_id=application.id))
 
 	file_path = os.path.join(upload_folder, primary_resume.stored_filename)
 
@@ -48,7 +45,7 @@ def analyze(application_id):
 		return redirect(url_for("applications.detail", application_id=application.id))
 
 	if not primary_resume:
-		flash("Please set a primary resume before running analysis", "warning")
+		flash("Please add and set a primary resume before running analysis", "warning")
 		return redirect(url_for("applications.detail", application_id=application.id))
 
 	ai_result = analyze_resume_with_ai(
