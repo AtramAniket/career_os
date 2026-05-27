@@ -492,6 +492,76 @@
       </div>
     {% endif %}
 
+    {% if latest_tailoring_analysis %}
+
+    <div class="analysis-card mt-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="section-title mb-0">
+                Tailoring Suggestions
+            </h3>
+        </div>
+
+        {% if latest_tailoring_analysis.improved_summary %}
+        <div class="mb-4">
+            <h5>Improved Professional Summary</h5>
+            <p>
+                {{ latest_tailoring_analysis.improved_summary }}
+            </p>
+        </div>
+        {% endif %}
+
+        {% if latest_tailoring_analysis.missing_keywords %}
+        <div class="mb-4">
+            <h5>Missing Keywords</h5>
+
+            <div class="d-flex flex-wrap gap-2">
+                {% for keyword in latest_tailoring_analysis.missing_keywords %}
+                    <span class="badge bg-warning text-dark">
+                        {{ keyword }}
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if latest_tailoring_analysis.bullet_improvements %}
+        <div class="mb-4">
+            <h5>Bullet Improvements</h5>
+
+            <ul class="analysis-list">
+                {% for item in latest_tailoring_analysis.bullet_improvements %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if latest_tailoring_analysis.suggestions %}
+        <div class="mb-4">
+            <h5>ATS Improvements</h5>
+
+            <ul class="analysis-list">
+                {% for item in latest_tailoring_analysis.suggestions %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if latest_tailoring_analysis.analysis_summary %}
+        <div>
+            <h5>Recruiter Impression</h5>
+            <p>
+                {{ latest_tailoring_analysis.analysis_summary }}
+            </p>
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
     <form
       method="POST"
       action="{{ url_for('resume_analysis.analyze', application_id=application.id) }}"
