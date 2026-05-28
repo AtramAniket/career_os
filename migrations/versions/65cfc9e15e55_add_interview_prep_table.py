@@ -25,7 +25,7 @@ def upgrade():
     sa.Column('prep_type', sa.String(length=50), nullable=False),
     sa.Column('strategy_summary', sa.Text(), nullable=True),
     sa.Column('questions_json', sa.JSON(), nullable=True),
-    sa.Column('is_latest', sa.Boolean(), nullable=False),
+    sa.Column('is_latest', sa.Boolean(), nullable=False, server_default=sa.text('true')),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.ForeignKeyConstraint(['job_application_id'], ['job_applications.id'], ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['resume_id'], ['application_documents.id'], ondelete='SET NULL'),
