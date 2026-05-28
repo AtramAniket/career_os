@@ -15,7 +15,7 @@ class Config:
 
 	SECRET_KEY = os.getenv('SECRET_KEY')
 
-	SQLALCHEMY_DATABASE_URI = os.getenv(db_url)
+	SQLALCHEMY_DATABASE_URI = db_url
 
 	SQLALCHEMY_TRACK_NOTIFICATIONS = False
 
