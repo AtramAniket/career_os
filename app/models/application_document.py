@@ -75,3 +75,9 @@ class ApplicationDocument(db.Model):
 	    back_populates="document",
 	    cascade="all, delete-orphan"
 	)
+
+	interview_preps: Mapped["ResumeAnalysis"] =relationship(
+	    "InterviewPrep",
+	    back_populates="source_resume",
+	    cascade="all, delete-orphan"
+	)
