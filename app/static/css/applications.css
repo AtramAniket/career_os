@@ -940,3 +940,112 @@
   border-color: rgba(129, 140, 248, 0.55);
   background: rgba(99, 102, 241, 0.12);
 }
+
+/* ---------- Polish Pass ---------- */
+
+.timeline-list {
+  max-height: 560px;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+  scrollbar-width: thin;
+}
+
+.timeline-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.timeline-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.24);
+  border-radius: 999px;
+}
+
+.timeline-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content-card,
+.detail-hero,
+.primary-resume-card,
+.primary-resume-empty {
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.content-card:hover,
+.primary-resume-card:hover {
+  border-color: rgba(129, 140, 248, 0.32);
+}
+
+.analysis-action-row .btn {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.analysis-action-row .btn-primary {
+  box-shadow: 0 10px 28px rgba(99, 102, 241, 0.24);
+}
+
+.analysis-action-row .btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+.notes-box,
+.analysis-result-section,
+.analysis-summary-item,
+.uploaded-document-item,
+.timeline-item {
+  backdrop-filter: blur(10px);
+}
+
+.content-card h2,
+.analysis-result-section h3,
+.tailoring-card h3 {
+  letter-spacing: -0.02em;
+}
+
+.job-link-box a {
+  color: #a5b4fc;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.job-link-box a:hover {
+  color: #c7d2fe;
+}
+
+.document-topline {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.document-meta {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.analysis-action-row {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.detail-hero {
+  background:
+    radial-gradient(circle at top right,
+      rgba(99, 102, 241, 0.14),
+      transparent 35%),
+    var(--bg-secondary);
+}
+
+.resume-analysis-card {
+  background:
+    radial-gradient(circle at top right,
+      rgba(14, 165, 233, 0.08),
+      transparent 28%),
+    var(--bg-secondary);
+}
