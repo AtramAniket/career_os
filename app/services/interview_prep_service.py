@@ -2,7 +2,7 @@ import json
 
 from openai import OpenAI
 
-from app.helpers.interview_prep_helper import build_interview_prep_prompt
+from app.helpers import build_interview_prep_prompt
 
 
 client = OpenAI()
