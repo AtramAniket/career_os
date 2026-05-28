@@ -9,10 +9,10 @@ interview_prep_bp = Blueprint(
 	url_prefix="/applications/<int:application_id>/interview_prep")
 
 
-# GET "/applications/1/interview_prep"
+# GET "/applications/1/interview_prep/"
 @interview_prep_bp.route("/", methods=["GET"])
 @login_required
-def index(application_id):
+def detail(application_id):
 
 	application = JobApplication.query\
 	.filter_by(
@@ -26,14 +26,14 @@ def index(application_id):
 		job_application_id=application.id,
 		is_latest=True)\
 	.order_by(InterviewPrep.created_at.desc())\
-	.first_or_404()
+	.first()
 
 	prep_history = InterviewPrep.query\
 	.filter_by(job_application_id=application.id)\
 	.order_by(InterviewPrep.created_at.desc())\
 	.all()
 
-	render_template(
+	return render_template(
 		"interview_prep/detail.html",
 		application=application,
 		latest_prep=latest_prep,
