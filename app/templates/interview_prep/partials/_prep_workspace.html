@@ -40,13 +40,15 @@
       {% set questions = latest_prep.questions_json.get(key, []) %}
 
       {% if questions %}
-        <section class="question-section">
-          <div class="section-heading compact-heading">
+        <details class="question-section" {% if loop.first %}open{% endif %}>
+          <summary class="question-section-summary">
             <div>
               <h3>{{ title }}</h3>
               <p>{{ questions|length }} generated questions</p>
             </div>
-          </div>
+
+            <span class="collapse-indicator">⌄</span>
+          </summary>
 
           <div class="question-list">
             {% for item in questions %}
@@ -65,7 +67,7 @@
               </article>
             {% endfor %}
           </div>
-        </section>
+        </details>
       {% endif %}
     {% endfor %}
 

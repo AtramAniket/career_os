@@ -2,6 +2,13 @@
 
 {% block title %}Interview Prep | Career OS{% endblock %}
 
+{%block extra_css%}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/interview_prep.css') }}"
+>
+{% endblock %}
+
 {% block content %}
 <section class="page-shell interview-prep-page">
 
