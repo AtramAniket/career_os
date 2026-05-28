@@ -1,4 +1,5 @@
 from app.models.user import User
+from app.models.interview_prep import InterviewPrep
 from app.models.resume_analysis import ResumeAnalysis
 from app.models.application_event import ApplicationEvent
 from app.models.application_document import ApplicationDocument
@@ -15,6 +16,7 @@ __all__ = [
     "WorkMode",
     "JobStatus",
     "PriorityLevel",
+    "InterviewPrep",
     "JobApplication",
     "EmploymentType",
     "ResumeAnalysis",
