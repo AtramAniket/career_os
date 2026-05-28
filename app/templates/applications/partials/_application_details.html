@@ -1,0 +1,122 @@
+<div class="detail-grid">
+
+  <div class="content-card job-info-card">
+    <h2>Job Information</h2>
+
+    <div class="info-grid">
+      <div>
+        <span>Company</span>
+        <strong>{{ application.company_name }}</strong>
+      </div>
+
+      <div>
+        <span>Role</span>
+        <strong>{{ application.role_title }}</strong>
+      </div>
+
+      <div>
+        <span>Location</span>
+        <strong>{{ application.location or "Not added" }}</strong>
+      </div>
+
+      <div>
+        <span>Work Mode</span>
+        <strong>{{ application.work_mode.value|replace("_", " ")|title if application.work_mode else "Not added" }}</strong>
+      </div>
+
+      <div>
+        <span>Employment Type</span>
+        <strong>{{ application.employment_type.value|replace("_", " ")|title if application.employment_type else "Not added" }}</strong>
+      </div>
+
+      <div>
+        <span>Source</span>
+        <strong>{{ application.source or "Not added" }}</strong>
+      </div>
+
+      <div>
+        <span>Date Applied</span>
+        <strong>{{ application.date_applied.strftime("%d %b %Y") if application.date_applied else "Not added" }}</strong>
+      </div>
+
+      <div>
+        <span>Deadline</span>
+        <strong>{{ application.deadline.strftime("%d %b %Y") if application.deadline else "Not added" }}</strong>
+      </div>
+
+      <div>
+        <span>Salary Range</span>
+        <strong>
+          {% if application.salary_min or application.salary_max %}
+            ₹{{ application.salary_min or "?" }} - ₹{{ application.salary_max or "?" }}
+          {% else %}
+            Not added
+          {% endif %}
+        </strong>
+      </div>
+    </div>
+
+    {% if application.job_url %}
+      <div class="job-link-box">
+        <span>Job Posting</span>
+        <a href="{{ application.job_url }}" target="_blank" rel="noopener">
+          Open job posting
+        </a>
+      </div>
+    {% endif %}
+
+    {% if application.job_description %}
+      <div class="notes-box job-description-box">
+        <span>Job Description</span>
+        <p>{{ application.job_description }}</p>
+      </div>
+    {% endif %}
+
+    {% if application.resume_notes %}
+      <div class="notes-box">
+        <span>Resume Notes</span>
+        <p>{{ application.resume_notes }}</p>
+      </div>
+    {% endif %}
+
+    {% if application.notes %}
+      <div class="notes-box">
+        <span>Notes</span>
+        <p>{{ application.notes }}</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="content-card timeline-form-card">
+    <h2>Add Timeline Event</h2>
+    <p class="card-subtitle">Log meaningful updates like applying, calls, assessments, or interviews.</p>
+
+    <form method="POST" class="application-form">
+      {{ form.hidden_tag() }}
+
+      <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control", placeholder="Example: HR call scheduled") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.event_type.label(class="form-label") }}
+        {{ form.event_type(class="form-select") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.event_date.label(class="form-label") }}
+        {{ form.event_date(class="form-control") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.description.label(class="form-label") }}
+        {{ form.description(class="form-control", rows="4", placeholder="Add useful context") }}
+      </div>
+
+      <div class="form-actions">
+        {{ form.submit(class="btn btn-primary w-100") }}
+      </div>
+    </form>
+  </div>
+</div>

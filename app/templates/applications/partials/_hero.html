@@ -1,0 +1,44 @@
+<div class="detail-hero">
+  <div>
+    <p class="eyebrow mb-1">Application Details</p>
+
+    <h1>{{ application.role_title }}</h1>
+
+    <p class="detail-company">
+      {{ application.company_name }}
+    </p>
+
+    <div class="detail-meta">
+      <span class="status-badge status-{{ application.status.value|lower }}">
+        {{ application.status.value|replace("_", " ")|title }}
+      </span>
+
+      {% if application.priority %}
+        <span class="priority-pill">
+          {{ application.priority.value|replace("_", " ")|title }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="detail-actions">
+    <a
+      href="{{ url_for('applications.index') }}"
+      class="btn btn-outline-secondary"
+    >
+      Back
+    </a>
+
+    <form
+      method="POST"
+      action="{{ url_for('applications.delete_application', application_id=application.id) }}"
+      onsubmit="return confirm('Delete this application? It will be hidden from your active list.');"
+    >
+      {{ delete_form.hidden_tag() }}
+
+      <button type="submit" class="btn btn-outline-danger">
+        Delete
+      </button>
+    </form>
+  </div>
+</div>

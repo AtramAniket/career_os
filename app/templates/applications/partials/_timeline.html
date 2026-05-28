@@ -1,0 +1,32 @@
+<div class="content-card timeline-card">
+  <h2>Timeline</h2>
+
+  {% if events %}
+    <div class="timeline-list">
+      {% for event in events %}
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+
+          <div class="timeline-content">
+            <div class="timeline-topline">
+              <strong>{{ event.title }}</strong>
+              <span>{{ event.event_date.strftime("%d %b %Y") }}</span>
+            </div>
+
+            <p class="timeline-type">
+              {{ event.event_type.value|replace("_", " ")|title if event.event_type else "Event" }}
+            </p>
+
+            {% if event.description %}
+              <p class="timeline-description">{{ event.description }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-mini">
+      <p>No events added yet.</p>
+    </div>
+  {% endif %}
+</div>

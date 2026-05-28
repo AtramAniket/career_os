@@ -1,0 +1,119 @@
+<div class="content-card documents-card">
+  <h2>Documents</h2>
+  <p class="card-subtitle">Upload resumes, cover letters, or supporting files for this application.</p>
+
+  <form
+    method="POST"
+    action="{{ url_for('applications.upload_document', application_id=application.id) }}"
+    enctype="multipart/form-data"
+    class="application-form document-upload-form"
+  >
+    {{ upload_form.hidden_tag() }}
+
+    <div class="document-upload-grid">
+      <div>
+        {{ upload_form.document_type.label(class="form-label") }}
+        {{ upload_form.document_type(class="form-select") }}
+      </div>
+
+      <div>
+        {{ upload_form.document.label(class="form-label") }}
+        {{ upload_form.document(class="form-control") }}
+      </div>
+
+      <div class="document-upload-action">
+        {{ upload_form.submit(class="btn btn-primary") }}
+      </div>
+    </div>
+    <div class="mt-3">
+      {{ upload_form.notes.label(class="form-label") }}
+      {{ upload_form.notes(
+          class="form-control",
+          rows="3",
+          placeholder="Optional notes about this document"
+      ) }}
+    </div>
+  </form>
+
+  {% if application.documents %}
+    <div class="uploaded-documents-list">
+      {% for document in application.documents|sort(attribute="uploaded_at", reverse=True)|sort(attribute="is_primary", reverse=True) %}
+        <div class="uploaded-document-item">
+          <span class="document-type-badge document-type-{{ document.document_type }}">
+            {{ document.document_type.replace("_", " ")|title }}
+          </span>
+          <div class="uploaded-document-info">
+
+            <div class="document-topline">
+              <span class="document-meta">
+                {{ document.uploaded_at.strftime("%d %b %Y") }}
+              </span>
+              {% if document.is_primary %}
+                <span class="primary-document-badge">Primary</span>
+              {% endif %}
+            </div>
+
+            <p class="document-filename">
+              {{ document.original_filename }}
+            </p>
+
+            {% if document.file_size %}
+              <p class="document-details">
+                {{ (document.file_size / 1024)|round(1) }} KB
+                {% if document.mime_type %}
+                  • {{ document.mime_type }}
+                {% endif %}
+              </p>
+            {% endif %}
+
+            {% if document.notes %}
+              <p class="document-notes">
+                {{ document.notes }}
+              </p>
+            {% endif %}
+
+          </div>
+
+          {% if document.document_type == "resume" and not document.is_primary %}
+            <form
+              method="POST"
+              action="{{ url_for('applications.set_primary_document', document_id=document.id) }}"
+            >
+              {{ delete_form.hidden_tag() }}
+              <button type="submit" class="btn btn-sm btn-outline-secondary">
+                Set Primary
+              </button>
+            </form>
+          {% endif %}
+
+          <div class="uploaded-document-actions">
+            <a
+              href="{{ url_for('applications.download_document', document_id=document.id) }}"
+              class="btn btn-sm btn-outline-primary"
+              target="_blank"
+            >
+              Open
+            </a>
+
+            <form
+              method="POST"
+              action="{{ url_for('applications.delete_document', document_id=document.id) }}"
+              onsubmit="return confirm('Delete this document?');"
+            >
+              {{ delete_form.hidden_tag() }}
+              <button type="submit" class="btn btn-sm btn-outline-danger">
+                Delete
+              </button>
+            </form>
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-mini mt-3">
+      <p>No documents uploaded yet.</p>
+      <span>Keep resumes, cover letters, assignments, and supporting files organized here.</span>
+    </div>
+  {% endif %}
+</div>
