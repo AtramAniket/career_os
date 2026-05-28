@@ -1,0 +1,94 @@
+<section class="panel-card prep-workspace-card">
+  <div class="section-heading">
+    <div>
+      <h2>Prep workspace</h2>
+      <p>Review generated interview questions and talking points.</p>
+    </div>
+
+    <form
+      method="POST"
+      action="{{ url_for('interview_prep.generate', application_id=application.id) }}"
+    >
+      {{ csrf_token.hidden_tag() }}
+
+      <button type="submit" class="btn btn-primary">
+        Regenerate Prep
+      </button>
+    </form>
+  </div>
+
+  {% if latest_prep %}
+
+    <div class="prep-summary-card">
+      <span class="eyebrow">Strategy</span>
+      <h3>Interview Strategy Summary</h3>
+
+      <p>
+        {{ latest_prep.questions_json.get("strategy_summary", "No strategy summary generated yet.") }}
+      </p>
+    </div>
+
+    {% set question_sections = [
+      ("HR Questions", "hr_questions"),
+      ("Technical Questions", "technical_questions"),
+      ("Project Questions", "project_questions"),
+      ("Resume-Based Questions", "resume_based_questions"),
+      ("Red Flags To Prepare For", "red_flags_to_prepare_for")
+    ] %}
+
+    {% for title, key in question_sections %}
+      {% set questions = latest_prep.questions_json.get(key, []) %}
+
+      {% if questions %}
+        <section class="question-section">
+          <div class="section-heading compact-heading">
+            <div>
+              <h3>{{ title }}</h3>
+              <p>{{ questions|length }} generated questions</p>
+            </div>
+          </div>
+
+          <div class="question-list">
+            {% for item in questions %}
+              <article class="question-card">
+                <h4>{{ item.get("question", "Question unavailable") }}</h4>
+
+                <div class="question-meta">
+                  <strong>Why it might be asked</strong>
+                  <p>{{ item.get("why_it_might_be_asked", "No explanation provided.") }}</p>
+                </div>
+
+                <div class="question-guidance">
+                  <strong>Answer guidance</strong>
+                  <p>{{ item.get("answer_guidance", "No answer guidance provided.") }}</p>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+    {% endfor %}
+
+  {% else %}
+
+    <div class="empty-state">
+      <h3>No interview prep yet</h3>
+
+      <p>
+        Generate role-specific interview preparation based on your resume and job description.
+      </p>
+
+      <form
+        method="POST"
+        action="{{ url_for('interview_prep.generate', application_id=application.id) }}"
+      >
+        {{ csrf_token.hidden_tag() }}
+
+        <button type="submit" class="btn btn-primary">
+          Generate Interview Prep
+        </button>
+      </form>
+    </div>
+
+  {% endif %}
+</section>

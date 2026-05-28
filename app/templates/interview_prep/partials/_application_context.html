@@ -1,0 +1,32 @@
+<aside class="panel-card application-context-card">
+  <div class="section-heading">
+    <div>
+      <h2>Application context</h2>
+      <p>Prep is generated from this tracked application.</p>
+    </div>
+  </div>
+
+  <div class="meta-list">
+    <div>
+      <span>Company</span>
+      <strong>{{ application.company_name or "Not added" }}</strong>
+    </div>
+
+    <div>
+      <span>Role</span>
+      <strong>{{ application.role_title or "Not added" }}</strong>
+    </div>
+
+    <div>
+      <span>Status</span>
+      <strong>
+        {{ application.status.value|replace("_", " ")|title if application.status else "Not set" }}
+      </strong>
+    </div>
+
+    <div>
+      <span>Source</span>
+      <strong>{{ application.source or "Not added" }}</strong>
+    </div>
+  </div>
+</aside>

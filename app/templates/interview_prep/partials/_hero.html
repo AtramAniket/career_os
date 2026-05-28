@@ -1,0 +1,18 @@
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Interview Prep</p>
+
+    <h1>{{ application.role_title }}</h1>
+
+    <p class="page-subtitle">
+      Practice targeted questions based on this application, resume, and job description.
+    </p>
+  </div>
+
+  <a
+    href="{{ url_for('applications.detail', application_id=application.id) }}"
+    class="btn btn-outline-light"
+  >
+    Back to application
+  </a>
+</div>
