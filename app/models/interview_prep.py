@@ -40,7 +40,7 @@ class InterviewPrep(db.Model):
 		nullable=True
 	)
 
-	questions_json: Mapped[Optional[list]] = mapped_column(
+	questions_json: Mapped[Optional[dict]] = mapped_column(
 		JSON,
 		nullable=True
 	)
