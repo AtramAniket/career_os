@@ -51,3 +51,17 @@ class MockInterviewSession(db.Model):
 		nullable=True
 	)
 
+	user: Mapped["User"] = relationship(
+		"User",
+		back_populates="mock_interview_sessions"
+	)
+
+	job_application: Mapped["JobApplication"] = relationship(
+		"JobApplication",
+		back_populates="mock_interview_sessions"
+	)
+
+	mock_interview_session: Mapped["MockInterviewQuestion"] = relationship(
+		"MockInterviewQuestion",
+		back_populates="mock_interview_sessions"
+	)

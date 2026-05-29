@@ -1,8 +1,8 @@
-"""create tables
+"""table reset
 
-Revision ID: 3a95d0c3fdbc
+Revision ID: 861d8808b50e
 Revises: 
-Create Date: 2026-05-25 16:11:31.521657
+Create Date: 2026-05-29 14:24:50.792874
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3a95d0c3fdbc'
+revision = '861d8808b50e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -50,9 +50,9 @@ def upgrade():
     sa.Column('notes', sa.Text(), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=False),
-    sa.Column('is_deleted', sa.Boolean(), server_default=sa.text('false'), nullable=False),
+    sa.Column('is_deleted', sa.Boolean(), server_default='0', nullable=False),
     sa.Column('deleted_at', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('job_descritpion', sa.Text(), nullable=True),
+    sa.Column('job_description', sa.Text(), nullable=True),
     sa.Column('resume_notes', sa.Text(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
@@ -93,17 +93,70 @@ def upgrade():
     with op.batch_alter_table('application_events', schema=None) as batch_op:
         batch_op.create_index(batch_op.f('ix_application_events_job_application_id'), ['job_application_id'], unique=False)
 
+    op.create_table('mock_interview_sessions',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('job_application_id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(length=150), nullable=True),
+    sa.Column('status', sa.String(length=20), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
+    sa.Column('completed_at', sa.DateTime(timezone=True), nullable=True),
+    sa.ForeignKeyConstraint(['job_application_id'], ['job_applications.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('mock_interview_sessions', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_mock_interview_sessions_job_application_id'), ['job_application_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_mock_interview_sessions_user_id'), ['user_id'], unique=False)
+
+    op.create_table('interview_preps',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('job_application_id', sa.Integer(), nullable=False),
+    sa.Column('resume_id', sa.Integer(), nullable=True),
+    sa.Column('prep_type', sa.String(length=50), nullable=False),
+    sa.Column('strategy_summary', sa.Text(), nullable=True),
+    sa.Column('questions_json', sa.JSON(), nullable=True),
+    sa.Column('is_latest', sa.Boolean(), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
+    sa.ForeignKeyConstraint(['job_application_id'], ['job_applications.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['resume_id'], ['application_documents.id'], ondelete='SET NULL'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('interview_preps', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_interview_preps_job_application_id'), ['job_application_id'], unique=False)
+
+    op.create_table('mock_interview_questions',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('session_id', sa.Integer(), nullable=False),
+    sa.Column('question', sa.Text(), nullable=True),
+    sa.Column('category', sa.String(length=50), nullable=False),
+    sa.Column('display_order', sa.Integer(), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
+    sa.ForeignKeyConstraint(['session_id'], ['mock_interview_sessions.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('mock_interview_questions', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_mock_interview_questions_session_id'), ['session_id'], unique=False)
+
     op.create_table('resume_analyses',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('job_application_id', sa.Integer(), nullable=False),
     sa.Column('document_id', sa.Integer(), nullable=False),
     sa.Column('ats_score', sa.Integer(), nullable=True),
+    sa.Column('ats_observations', sa.JSON(), nullable=True),
     sa.Column('keyword_match_score', sa.Integer(), nullable=True),
     sa.Column('analysis_summary', sa.Text(), nullable=True),
     sa.Column('strengths', sa.JSON(), nullable=True),
-    sa.Column('missing_keyword', sa.JSON(), nullable=True),
+    sa.Column('weakness', sa.JSON(), nullable=True),
+    sa.Column('missing_keywords', sa.JSON(), nullable=True),
     sa.Column('suggestions', sa.JSON(), nullable=True),
+    sa.Column('is_latest', sa.Boolean(), server_default=sa.text('1'), nullable=False),
+    sa.Column('analysis_type', sa.String(length=50), server_default='resume_review', nullable=False),
+    sa.Column('improved_summary', sa.Text(), nullable=True),
+    sa.Column('bullet_improvements', sa.JSON(), nullable=True),
+    sa.Column('recruiter_impression', sa.Text(), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['document_id'], ['application_documents.id'], ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['job_application_id'], ['job_applications.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
@@ -112,16 +165,47 @@ def upgrade():
         batch_op.create_index(batch_op.f('ix_resume_analyses_document_id'), ['document_id'], unique=False)
         batch_op.create_index(batch_op.f('ix_resume_analyses_job_application_id'), ['job_application_id'], unique=False)
 
+    op.create_table('mock_interview_responses',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('question_id', sa.Integer(), nullable=False),
+    sa.Column('answer', sa.Text(), nullable=True),
+    sa.Column('score', sa.Integer(), nullable=True),
+    sa.Column('feedback', sa.Text(), nullable=True),
+    sa.Column('improved_answer', sa.Text(), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
+    sa.ForeignKeyConstraint(['question_id'], ['mock_interview_questions.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('mock_interview_responses', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_mock_interview_responses_question_id'), ['question_id'], unique=False)
+
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
+    with op.batch_alter_table('mock_interview_responses', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_mock_interview_responses_question_id'))
+
+    op.drop_table('mock_interview_responses')
     with op.batch_alter_table('resume_analyses', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_resume_analyses_job_application_id'))
         batch_op.drop_index(batch_op.f('ix_resume_analyses_document_id'))
 
     op.drop_table('resume_analyses')
+    with op.batch_alter_table('mock_interview_questions', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_mock_interview_questions_session_id'))
+
+    op.drop_table('mock_interview_questions')
+    with op.batch_alter_table('interview_preps', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_interview_preps_job_application_id'))
+
+    op.drop_table('interview_preps')
+    with op.batch_alter_table('mock_interview_sessions', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_mock_interview_sessions_user_id'))
+        batch_op.drop_index(batch_op.f('ix_mock_interview_sessions_job_application_id'))
+
+    op.drop_table('mock_interview_sessions')
     with op.batch_alter_table('application_events', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_application_events_job_application_id'))
 
