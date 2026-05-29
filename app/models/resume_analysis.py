@@ -101,11 +101,11 @@ class ResumeAnalysis(db.Model):
 		nullable=False
 	)
 
-	created_at: Mapped[datetime] = mapped_column(
+	updated_at: Mapped[datetime] = mapped_column(
 		DateTime(timezone=True),
 		default=lambda: datetime.now(timezone.utc),
 		onupdate=lambda: datetime.now(timezone.utc),
-		nullable=False
+		nullable=True
 	)
 
 	application = relationship(
