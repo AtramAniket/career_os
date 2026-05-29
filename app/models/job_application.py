@@ -171,7 +171,7 @@ class JobApplication(db.Model):
     )
 
 
-    mock_interview_sessions: Mapped["MockInterviewSession"] = relationship(
+    mock_interview_sessions: Mapped[list["MockInterviewSession"]] = relationship(
         "MockInterviewSession",
         back_populates="job_application",
         cascade="all, delete-orphan"

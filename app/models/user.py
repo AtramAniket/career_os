@@ -46,7 +46,7 @@ class User(UserMixin, db.Model):
         lazy="select",
     )
 
-    mock_interview_sessions: Mapped["MockInterviewSession"] = relationship(
+    mock_interview_sessions: Mapped[list["MockInterviewSession"]] = relationship(
         "MockInterviewSession",
         back_populates="user",
         cascade="all, delete-orphan"
