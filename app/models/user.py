@@ -46,6 +46,12 @@ class User(UserMixin, db.Model):
         lazy="select",
     )
 
+    mock_interview_sessions: Mapped["MockInterviewSession"] = relationship(
+        "MockInterviewSession",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
     def set_password(self, password: str) -> None:
         self.password_hash = generate_password_hash(password)
 

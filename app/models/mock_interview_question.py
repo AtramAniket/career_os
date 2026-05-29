@@ -43,3 +43,9 @@ class MockInterviewQuestion(db.Model):
 		default=lambda: datetime.now(timezone.utc),
 		nullable=False
 	)
+
+	mock_interview_sessions: Mapped["MockInterviewSession"] = relationship(
+        "MockInterviewSession",
+        back_populates="mock_interview_questions",
+        cascade="all, delete-orphan"
+    )

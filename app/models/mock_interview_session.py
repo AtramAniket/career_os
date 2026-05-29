@@ -61,7 +61,7 @@ class MockInterviewSession(db.Model):
 		back_populates="mock_interview_sessions"
 	)
 
-	mock_interview_session: Mapped["MockInterviewQuestion"] = relationship(
+	mock_interview_questions: Mapped["MockInterviewQuestion"] = relationship(
 		"MockInterviewQuestion",
 		back_populates="mock_interview_sessions"
 	)

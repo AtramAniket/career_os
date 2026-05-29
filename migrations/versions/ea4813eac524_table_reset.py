@@ -1,8 +1,8 @@
 """table reset
 
-Revision ID: 861d8808b50e
+Revision ID: ea4813eac524
 Revises: 
-Create Date: 2026-05-29 14:24:50.792874
+Create Date: 2026-05-29 14:34:30.673373
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '861d8808b50e'
+revision = 'ea4813eac524'
 down_revision = None
 branch_labels = None
 depends_on = None

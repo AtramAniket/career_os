@@ -170,6 +170,13 @@ class JobApplication(db.Model):
         cascade="all, delete-orphan"
     )
 
+
+    mock_interview_sessions: Mapped["MockInterviewSession"] = relationship(
+        "MockInterviewSession",
+        back_populates="job_application",
+        cascade="all, delete-orphan"
+    )
+
     is_deleted: Mapped[bool] = mapped_column(
         Boolean,
         nullable=False,
