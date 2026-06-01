@@ -20,6 +20,7 @@ def create_app(config_class=Config):
     from app.routes import dashboard_bp
     from app.routes import applications_bp
     from app.routes import interview_prep_bp
+    from app.routes import mock_interviews_bp
     from app.routes import resume_analysis_bp
 
     app.register_blueprint(api_bp)
@@ -28,6 +29,7 @@ def create_app(config_class=Config):
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(applications_bp)
     app.register_blueprint(interview_prep_bp)
+    app.register_blueprint(mock_interviews_bp)
     app.register_blueprint(resume_analysis_bp)
 
     return app

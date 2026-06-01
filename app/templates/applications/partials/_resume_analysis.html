@@ -219,6 +219,17 @@
         </button>
       </form>
 
+      <form 
+          method="POST" 
+          action="{{ url_for('mock_interviews.start_mock_interview', application_id=application.id) }}"
+      >
+          {{ delete_form.hidden_tag() }}
+
+          <button type="submit" class="btn btn-primary">
+              Start Mock Interview
+          </button>
+      </form>
+
       <a
         href="{{ url_for('interview_prep.detail', application_id=application.id) }}"
         class="btn btn-primary"
