@@ -1,0 +1,34 @@
+<h1>{{ session.title }}</h1>
+
+<p>
+    Question {{ answered_count + 1 }} of {{ total_questions }}
+</p>
+
+{% if current_question %}
+
+    <h2>{{ current_question.question }}</h2>
+
+    <form method="POST"
+          action="{{ url_for('mock_interviews.submit_answer', application_id=application.id, session_id=session.id, question_id=current_question.id) }}">
+        {{ form.hidden_tag() }}
+
+        <textarea 
+            name="answer" 
+            rows="8" 
+            placeholder="Type your answer here..."
+            required
+        ></textarea>
+
+        <br>
+
+        <button type="submit">
+            Submit Answer
+        </button>
+    </form>
+
+{% else %}
+
+    <h2>Mock interview completed 🎉</h2>
+    <p>You have answered all questions.</p>
+
+{% endif %}
