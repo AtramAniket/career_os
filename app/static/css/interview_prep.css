@@ -181,6 +181,21 @@
   text-align: center;
 }
 
+.prep-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.prep-actions form {
+  margin: 0;
+}
+
+.prep-actions .btn {
+  min-height: 42px;
+}
+
 @media (max-width: 900px) {
   .interview-prep-page .page-header {
     display: grid;

@@ -1,3 +1,5 @@
+from datetime import datetime, timezone, time
+
 from flask_login import login_required, current_user
 from flask import abort, flash, redirect, url_for, Blueprint, render_template
 
@@ -59,6 +61,21 @@ def generate(application_id):
 		user_id=current_user.id,
 		is_deleted=False)\
 	.first_or_404()
+
+	today_start = datetime.combine(
+	    datetime.now(timezone.utc).date(),
+	    time.min,
+	    tzinfo=timezone.utc,
+	)
+
+	today_prep_count = InterviewPrep.query.filter(
+	    InterviewPrep.job_application_id == application.id,
+	    InterviewPrep.created_at >= today_start,
+	).count()
+
+	if today_prep_count >= 2:
+	    flash("Daily interview prep generation limit reached. Try again tomorrow.", "warning")
+	    return redirect(url_for("interview_prep.detail", application_id=application.id))
 
 	latest_analysis = ResumeAnalysis.query\
 	.filter_by(

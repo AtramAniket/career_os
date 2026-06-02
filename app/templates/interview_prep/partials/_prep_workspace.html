@@ -5,19 +5,34 @@
       <p>Review generated interview questions and talking points.</p>
     </div>
 
-    <form
-      method="POST"
-      action="{{ url_for('interview_prep.generate', application_id=application.id) }}"
-    >
-      {{ csrf_token.hidden_tag() }}
+    {% if latest_prep and latest_prep.questions_json %}
+      <div class="prep-actions">
+        <form
+          method="POST"
+          action="{{ url_for('mock_interviews.start_mock_interview', application_id=application.id) }}"
+        >
+          {{ csrf_token.hidden_tag() }}
 
-      <button type="submit" class="btn btn-primary">
-        Regenerate Prep
-      </button>
-    </form>
+          <button type="submit" class="btn btn-primary">
+            Start Mock Interview
+          </button>
+        </form>
+
+        <form
+          method="POST"
+          action="{{ url_for('interview_prep.generate', application_id=application.id) }}"
+        >
+          {{ csrf_token.hidden_tag() }}
+
+          <button type="submit" class="btn btn-secondary">
+            Regenerate Prep
+          </button>
+        </form>
+      </div>
+    {% endif %}
   </div>
 
-  {% if latest_prep %}
+  {% if latest_prep and latest_prep.questions_json %}
 
     <div class="prep-summary-card">
       <span class="eyebrow">Strategy</span>
@@ -77,7 +92,7 @@
       <h3>No interview prep yet</h3>
 
       <p>
-        Generate role-specific interview preparation based on your resume and job description.
+        Generate role-specific interview questions before starting a mock interview.
       </p>
 
       <form

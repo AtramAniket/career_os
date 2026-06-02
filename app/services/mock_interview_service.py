@@ -4,7 +4,7 @@ from flask import current_app
 
 
 def generate_mock_interview_questions(application):
-    client = OpenAI(api_key=current_app.config["OPENAI_API_KEY"])
+    client = OpenAI()
 
     prompt = f"""
 You are an experienced technical recruiter and interviewer.

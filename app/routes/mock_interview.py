@@ -1,15 +1,18 @@
-from datetime import datetime, timezone
+import random
+from datetime import datetime, timezone, time
 
 from flask import Blueprint, redirect, url_for, flash, render_template, request
 from flask_login import login_required, current_user
-from app.forms.application_forms import DeleteForm
 
+from app.forms.application_forms import DeleteForm
 from app.extensions import db
-from app.models import(
+from app.models import (
     JobApplication,
+    InterviewPrep,
     MockInterviewSession,
     MockInterviewQuestion,
-    MockInterviewResponse)
+    MockInterviewResponse,
+)
 
 
 mock_interviews_bp = Blueprint(
@@ -17,6 +20,40 @@ mock_interviews_bp = Blueprint(
     __name__,
     url_prefix="/applications/<int:application_id>/mock-interview",
 )
+
+
+def _flatten_prep_questions(prep_data):
+    question_bank = []
+
+    categories = [
+        ("hr", "hr_questions"),
+        ("technical", "technical_questions"),
+        ("project", "project_questions"),
+        ("resume", "resume_based_questions"),
+        ("gap_probe", "red_flags_to_prepare_for"),
+    ]
+
+    for category, key in categories:
+        questions = prep_data.get(key, [])
+
+        if not isinstance(questions, list):
+            continue
+
+        for item in questions:
+            if not isinstance(item, dict):
+                continue
+
+            question_text = item.get("question")
+
+            if not question_text:
+                continue
+
+            question_bank.append({
+                "category": category,
+                "question": question_text,
+            })
+
+    return question_bank
 
 
 @mock_interviews_bp.route("/start", methods=["POST"])
@@ -27,6 +64,31 @@ def start_mock_interview(application_id):
         user_id=current_user.id,
         is_deleted=False,
     ).first_or_404()
+
+    latest_prep = InterviewPrep.query.filter_by(
+        job_application_id=application.id,
+        is_latest=True,
+    ).order_by(InterviewPrep.created_at.desc()).first()
+
+    if not latest_prep or not latest_prep.questions_json:
+        flash("Generate interview prep questions before starting a mock interview.", "warning")
+        return redirect(
+            url_for(
+                "interview_prep.detail",
+                application_id=application.id,
+            )
+        )
+
+    question_bank = _flatten_prep_questions(latest_prep.questions_json)
+
+    if not question_bank:
+        flash("No interview prep questions found. Please regenerate interview prep.", "warning")
+        return redirect(
+            url_for(
+                "interview_prep.detail",
+                application_id=application.id,
+            )
+        )
 
     existing_session = MockInterviewSession.query.filter_by(
         user_id=current_user.id,
@@ -43,6 +105,27 @@ def start_mock_interview(application_id):
             )
         )
 
+    today_start = datetime.combine(
+        datetime.now(timezone.utc).date(),
+        time.min,
+        tzinfo=timezone.utc,
+    )
+
+    today_session_count = MockInterviewSession.query.filter(
+        MockInterviewSession.user_id == current_user.id,
+        MockInterviewSession.job_application_id == application.id,
+        MockInterviewSession.created_at >= today_start,
+    ).count()
+
+    if today_session_count >= 2:
+        flash("You have reached today's mock interview limit for this application.", "warning")
+        return redirect(
+            url_for(
+                "interview_prep.detail",
+                application_id=application.id,
+            )
+        )
+
     session = MockInterviewSession(
         user_id=current_user.id,
         job_application_id=application.id,
@@ -53,19 +136,14 @@ def start_mock_interview(application_id):
     db.session.add(session)
     db.session.flush()
 
-    placeholder_questions = [
-        ("behavioral", "Tell me about yourself."),
-        ("role_fit", f"Why are you interested in the {application.role_title} role?"),
-        ("resume", "Walk me through one project from your resume that is relevant to this role."),
-        ("technical", "Tell me about a technical challenge you solved recently."),
-        ("closing", "Why should we hire you for this position?"),
-    ]
+    random.shuffle(question_bank)
+    selected_questions = question_bank
 
-    for index, (category, question_text) in enumerate(placeholder_questions, start=1):
+    for index, question_data in enumerate(selected_questions, start=1):
         question = MockInterviewQuestion(
             session_id=session.id,
-            category=category,
-            question=question_text,
+            category=question_data.get("category", "general"),
+            question=question_data.get("question", ""),
             display_order=index,
         )
         db.session.add(question)
@@ -86,7 +164,6 @@ def start_mock_interview(application_id):
 @mock_interviews_bp.route("/<int:session_id>", methods=["GET"])
 @login_required
 def view_mock_interview(application_id, session_id):
-
     form = DeleteForm()
 
     application = JobApplication.query.filter_by(
@@ -111,11 +188,11 @@ def view_mock_interview(application_id, session_id):
         for response in question.mock_interview_responses
     }
 
-    current_question=None
+    current_question = None
 
     for question in questions:
         if question.id not in answered_questions_ids:
-            current_question=question
+            current_question = question
             break
 
     return render_template(
@@ -126,14 +203,13 @@ def view_mock_interview(application_id, session_id):
         current_question=current_question,
         answered_count=len(answered_questions_ids),
         total_questions=len(questions),
-        form=form
+        form=form,
     )
 
 
 @mock_interviews_bp.route("/<int:session_id>/questions/<int:question_id>/answer", methods=["POST"])
 @login_required
 def submit_answer(application_id, session_id, question_id):
-
     application = JobApplication.query.filter_by(
         id=application_id,
         user_id=current_user.id,
@@ -163,19 +239,34 @@ def submit_answer(application_id, session_id, question_id):
             )
         )
 
+    existing_response = MockInterviewResponse.query.filter_by(
+        question_id=question.id,
+    ).first()
+
+    if existing_response:
+        flash("This question has already been answered.", "warning")
+        return redirect(
+            url_for(
+                "mock_interviews.view_mock_interview",
+                application_id=application.id,
+                session_id=session.id,
+            )
+        )
+
     response = MockInterviewResponse(
         question_id=question.id,
         answer=answer,
     )
 
     db.session.add(response)
+    db.session.flush()
 
     total_questions = MockInterviewQuestion.query.filter_by(
-        session_id=session.id
+        session_id=session.id,
     ).count()
 
     answered_count = MockInterviewResponse.query.join(MockInterviewQuestion).filter(
-        MockInterviewQuestion.session_id == session.id
+        MockInterviewQuestion.session_id == session.id,
     ).count()
 
     if answered_count >= total_questions:
