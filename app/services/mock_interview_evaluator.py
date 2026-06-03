@@ -1,38 +1,54 @@
 from __future__ import annotations
 
 import json
+from typing import Any
+
 from openai import OpenAI
 
 client = OpenAI()
 
 
-def evaluate_mock_answer(*, question: str, answer: str, role_title: str, company_name: str | None = None) -> dict:
+def evaluate_mock_answer(
+    *,
+    question: str,
+    answer: str,
+    role_title: str,
+    company_name: str | None = None,
+) -> dict[str, Any]:
     prompt = f"""
-You are an interview coach evaluating a mock interview answer.
+You are an interview coach evaluating a candidate's mock interview answer.
 
 Role: {role_title}
 Company: {company_name or "Not specified"}
 
-Question:
+Interview Question:
 {question}
 
 Candidate Answer:
 {answer}
 
-Return JSON only with:
+Evaluate the answer fairly and practically.
+
+Return valid JSON only using this exact structure:
 {{
-  "ai_score": number from 1 to 10,
-  "ai_feedback": "specific helpful feedback",
-  "ai_improved_answer": "a stronger sample answer"
+  "ai_score": 1,
+  "ai_feedback": "Specific feedback on what was good, what was missing, and how to improve.",
+  "ai_improved_answer": "A stronger sample answer the candidate could give."
 }}
+
+Scoring guide:
+1-3 = weak or unclear answer
+4-6 = okay but incomplete answer
+7-8 = strong answer with some room to improve
+9-10 = excellent interview-ready answer
 """
 
-    response = client.chat.completions.create(
+    completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {
                 "role": "system",
-                "content": "You evaluate mock interview answers and return valid JSON only.",
+                "content": "You are a concise, practical interview coach. Return JSON only.",
             },
             {
                 "role": "user",
@@ -43,5 +59,15 @@ Return JSON only with:
         temperature=0.4,
     )
 
-    content = response.choices[0].message.content
-    return json.loads(content)
+    content = completion.choices[0].message.content
+
+    if not content:
+        raise ValueError("Empty AI evaluation response.")
+
+    data = json.loads(content)
+
+    return {
+        "ai_score": data.get("ai_score"),
+        "ai_feedback": data.get("ai_feedback"),
+        "ai_improved_answer": data.get("ai_improved_answer"),
+    }
