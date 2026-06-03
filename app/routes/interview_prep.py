@@ -111,10 +111,20 @@ def generate(application_id):
 		is_latest=True)\
 	.update({"is_latest": False})
 
-	prep_data = generate_interview_prep(
-		application=application,
-		resume_text=resume_text,
-		resume_analysis=latest_analysis.analysis_summary)
+	try:
+	    prep_data = generate_interview_prep(
+	        application=application,
+	        resume_text=resume_text,
+	        resume_analysis=latest_analysis.analysis_summary,
+	    )
+	except Exception:
+	    flash("Interview prep could not be generated right now. Please try again.", "warning")
+	    return redirect(url_for("interview_prep.detail", application_id=application.id))
+
+	# prep_data = generate_interview_prep(
+	# 	application=application,
+	# 	resume_text=resume_text,
+	# 	resume_analysis=latest_analysis.analysis_summary)
 
 	interview_prep = InterviewPrep(
 		job_application_id=application.id,

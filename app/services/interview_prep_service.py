@@ -5,7 +5,7 @@ from openai import OpenAI
 from app.helpers import build_interview_prep_prompt
 
 
-client = OpenAI()
+client = OpenAI(timeout=25)
 
 
 def generate_interview_prep(application, resume_text, resume_analysis=None):
@@ -16,7 +16,7 @@ def generate_interview_prep(application, resume_text, resume_analysis=None):
     )
 
     response = client.chat.completions.create(
-        model="gpt-4.1-mini",
+        model="gpt-4o-mini",
         messages=[
             {
                 "role": "system",
