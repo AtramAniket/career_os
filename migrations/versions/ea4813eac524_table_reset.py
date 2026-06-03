@@ -150,7 +150,7 @@ def upgrade():
     sa.Column('weakness', sa.JSON(), nullable=True),
     sa.Column('missing_keywords', sa.JSON(), nullable=True),
     sa.Column('suggestions', sa.JSON(), nullable=True),
-    sa.Column('is_latest', sa.Boolean(), server_default=sa.text('1'), nullable=False),
+    sa.Column('is_latest', sa.Boolean(), server_default=sa.true(), nullable=False),
     sa.Column('analysis_type', sa.String(length=50), server_default='resume_review', nullable=False),
     sa.Column('improved_summary', sa.Text(), nullable=True),
     sa.Column('bullet_improvements', sa.JSON(), nullable=True),
