@@ -1,0 +1,114 @@
+{% extends "layouts/base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mock_interview_history.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="interview-container">
+
+    <a
+        href="{{ url_for('applications.detail', application_id=application.id) }}"
+        class="history-back-link"
+    >
+        ← Back to Application
+    </a>
+
+    <div class="history-page-header">
+        <p class="interview-eyebrow">Mock Interview History</p>
+
+        <h1>{{ application.role_title }}</h1>
+
+        <p class="review-subtitle">
+            {{ application.company_name }}
+        </p>
+    </div>
+
+    {% if session_summaries %}
+
+        <div class="history-list">
+
+            {% for item in session_summaries %}
+                {% set session = item.session %}
+
+                <div class="history-card">
+
+                    <div class="history-card-main">
+                        <h2>{{ session.title }}</h2>
+
+                        <div class="history-meta">
+                            <span>
+                                Started:
+                                {{ session.created_at.strftime("%d %b %Y, %I:%M %p") }}
+                            </span>
+
+                            {% if session.completed_at %}
+                                <span>
+                                    Completed:
+                                    {{ session.completed_at.strftime("%d %b %Y, %I:%M %p") }}
+                                </span>
+                            {% endif %}
+
+                            <span>
+                                Responses: {{ item.response_count }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="history-card-actions">
+
+                        <div class="history-metrics-row">
+                            <span class="history-status-pill {{ session.status }}">
+                                {{ session.status|title }}
+                            </span>
+
+                            {% if item.average_score is not none %}
+                                <span class="history-score-pill">
+                                    {{ item.average_score }}/10
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        {% if session.status == "completed" %}
+                            <a
+                                href="{{ url_for('mock_interviews.review_mock_interview',
+                                    application_id=application.id,
+                                    session_id=session.id) }}"
+                                class="history-action-link"
+                            >
+                                View Review
+                            </a>
+                        {% else %}
+                            <a
+                                href="{{ url_for('mock_interviews.view_mock_interview',
+                                    application_id=application.id,
+                                    session_id=session.id) }}"
+                                class="history-action-link"
+                            >
+                                Continue
+                            </a>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="history-empty-card">
+            <h2>No mock interviews yet</h2>
+            <p>
+                Start a mock interview from the interview prep page.
+            </p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

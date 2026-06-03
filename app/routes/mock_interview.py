@@ -398,21 +398,53 @@ def review_mock_interview(application_id, session_id):
 @mock_interviews_bp.route("/history", methods=["GET"])
 @login_required
 def mock_interview_history(application_id):
-    
     application = JobApplication.query.filter_by(
         id=application_id,
         user_id=current_user.id,
         is_deleted=False,
     ).first_or_404()
 
-    sessions = MockInterviewSession.query.filter_by(
-        id=session_id,
-        user_id=current_user.id,
-        job_application_id=application.id,
-    ).all()
+    sessions = (
+        MockInterviewSession.query
+        .filter_by(
+            user_id=current_user.id,
+            job_application_id=application.id,
+        )
+        .order_by(MockInterviewSession.created_at.desc())
+        .all()
+    )
+
+    session_summaries = []
+
+    for session in sessions:
+        responses = (
+            MockInterviewResponse.query
+            .join(MockInterviewQuestion)
+            .filter(MockInterviewQuestion.session_id == session.id)
+            .all()
+        )
+
+        scored_responses = [
+            response for response in responses
+            if response.ai_score is not None
+        ]
+
+        average_score = None
+
+        if scored_responses:
+            average_score = round(
+                sum(response.ai_score for response in scored_responses) / len(scored_responses),
+                1,
+            )
+
+        session_summaries.append({
+            "session": session,
+            "average_score": average_score,
+            "response_count": len(responses),
+        })
 
     return render_template(
         "mock_interviews/history.html",
         application=application,
-        sessions=sessions
+        session_summaries=session_summaries,
     )
