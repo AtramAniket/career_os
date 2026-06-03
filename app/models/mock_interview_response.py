@@ -29,20 +29,21 @@ class MockInterviewResponse(db.Model):
         nullable=True,
     )
 
-    score: Mapped[Optional[int]] = mapped_column(
+    ai_score: Mapped[Optional[int]] = mapped_column(
         Integer,
-        nullable=True,
-    )
+        nullable=True)
 
-    feedback: Mapped[Optional[str]] = mapped_column(
+    ai_feedback: Mapped[Optional[str]] = mapped_column(
         Text,
-        nullable=True,
-    )
+        nullable=True)
 
-    improved_answer: Mapped[Optional[str]] = mapped_column(
+    ai_improved_answer: Mapped[Optional[str]] = mapped_column(
         Text,
-        nullable=True,
-    )
+        nullable=True)
+
+    evaluated_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
