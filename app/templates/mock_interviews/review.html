@@ -1,0 +1,182 @@
+{% extends "layouts/base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mock_interview.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="interview-container">
+
+    <div class="interview-header">
+        <div>
+            <p class="interview-eyebrow">Interview Review</p>
+            <h1>{{ session.title }}</h1>
+            <p class="review-subtitle">
+                {{ application.company_name }} · {{ application.role_title }}
+            </p>
+        </div>
+
+        <div class="review-header-actions">
+            <a
+                href="{{ url_for('applications.detail', application_id=application.id) }}"
+                class="review-back-link"
+            >
+                Back to Application
+            </a>
+        </div>
+    </div>
+
+    <div class="review-summary-card">
+        <h2>Session Summary</h2>
+
+        {% if average_score is not none %}
+            <p>
+                Your average mock interview score for this session is
+                <strong>{{ average_score }}/10</strong>.
+            </p>
+        {% else %}
+            <p>
+                Feedback is not available yet for this session.
+            </p>
+        {% endif %}
+    </div>
+
+    {% if category_scores %}
+        <div class="category-score-grid">
+            {% for category, data in category_scores.items() %}
+                <button
+                    class="category-score-card"
+                    data-filter="{{ category }}"
+                    type="button"
+                >
+                    <span class="category-label">
+                        {{ category|replace("_", " ")|title }}
+                    </span>
+
+                    <strong>{{ data.average }}/10</strong>
+
+                    <div class="category-score-track">
+                        <div
+                            class="category-score-fill"
+                            style="width: {{ data.average * 10 }}%;"
+                        ></div>
+                    </div>
+
+                    <small>
+                        {{ data.count }} question{{ "s" if data.count != 1 else "" }}
+                    </small>
+                </button>
+            {% endfor %}
+        </div>
+
+        <div class="review-filter-bar">
+            <button
+                type="button"
+                class="review-filter-btn is-active"
+                data-filter="all"
+            >
+                All
+            </button>
+
+            {% for category, data in category_scores.items() %}
+                <button
+                    type="button"
+                    class="review-filter-btn"
+                    data-filter="{{ category }}"
+                >
+                    {{ category|replace("_", " ")|title }}
+                </button>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="review-list">
+
+        {% for response in responses %}
+
+            <div
+                class="review-card"
+                data-category="{{ response.question.category }}"
+            >
+
+                <div class="review-card-header">
+                    <span class="question-category">
+                        {{ response.question.category|replace("_", " ")|title }}
+                    </span>
+
+                    {% if response.ai_score is not none %}
+                        <span class="question-score">
+                            {{ response.ai_score }}/10
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="review-section">
+                    <h3>Question</h3>
+                    <p>{{ response.question.question }}</p>
+                </div>
+
+                <div class="review-section">
+                    <h3>Your Answer</h3>
+                    <p>{{ response.answer }}</p>
+                </div>
+
+                {% if response.ai_feedback %}
+                    <div class="review-section feedback-section">
+                        <h3>AI Feedback</h3>
+                        <p>{{ response.ai_feedback }}</p>
+                    </div>
+                {% endif %}
+
+                {% if response.ai_improved_answer %}
+                    <div class="review-section improved-section">
+                        <h3>Improved Answer</h3>
+                        <p>{{ response.ai_improved_answer }}</p>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const filterButtons = document.querySelectorAll(".review-filter-btn, .category-score-card");
+    const reviewCards = document.querySelectorAll(".review-card");
+
+    filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const selectedCategory = button.dataset.filter;
+
+            document
+                .querySelectorAll(".review-filter-btn")
+                .forEach(function (btn) {
+                    btn.classList.remove("is-active");
+                });
+
+            document
+                .querySelectorAll('.review-filter-btn[data-filter="' + selectedCategory + '"]')
+                .forEach(function (btn) {
+                    btn.classList.add("is-active");
+                });
+
+            reviewCards.forEach(function (card) {
+                const cardCategory = card.dataset.category;
+
+                if (selectedCategory === "all" || cardCategory === selectedCategory) {
+                    card.classList.remove("is-hidden");
+                } else {
+                    card.classList.add("is-hidden");
+                }
+            });
+        });
+    });
+});
+</script>
+
+{% endblock %}

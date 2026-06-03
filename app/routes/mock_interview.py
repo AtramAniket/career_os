@@ -331,3 +331,65 @@ def submit_answer(application_id, session_id, question_id):
             session_id=session.id,
         )
     )
+
+
+@mock_interviews_bp.route("/<int:session_id>/review", methods=["GET"])
+@login_required
+def review_mock_interview(application_id, session_id):
+
+    application = JobApplication.query.filter_by(
+        id=application_id,
+        user_id=current_user.id,
+        is_deleted=False,
+    ).first_or_404()
+
+    session = MockInterviewSession.query.filter_by(
+        id=session_id,
+        user_id=current_user.id,
+        job_application_id=application.id,
+    ).first_or_404()
+
+    responses = MockInterviewResponse.query\
+    .join(MockInterviewQuestion)\
+    .filter(
+        MockInterviewQuestion.session_id == session.id,
+    )\
+    .order_by(MockInterviewQuestion.display_order.asc())\
+    .all()
+
+    scored_responses = [response for response in responses if response.ai_score is not None]
+
+    average_score = None
+
+    if scored_responses:
+        average_score = round(
+            sum(response.ai_score for response in scored_responses) / len(scored_responses),
+            1
+        )
+
+    category_scores = {}
+
+    for response in scored_responses:
+        category = response.question.category or "general"
+
+        if category not in category_scores:
+            category_scores[category] = {
+                "total": 0,
+                "count": 0,
+                "average": 0,
+            }
+
+        category_scores[category]["total"] += response.ai_score
+        category_scores[category]["count"] += 1
+
+    for category, data in category_scores.items():
+        data["average"] = round(data["total"] / data["count"], 1)
+
+    return render_template(
+        "mock_interviews/review.html",
+        session=session,
+        responses=responses,
+        application=application,
+        average_score=average_score,
+        category_scores=category_scores,
+    )

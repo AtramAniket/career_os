@@ -92,12 +92,23 @@
                 You have answered all questions. Nice work — this session is ready for review.
             </p>
 
-            <a
-                href="{{ url_for('applications.detail', application_id=application.id) }}"
-                class="btn btn-primary"
-            >
-                Return to Application
-            </a>
+            <div class="complete-actions">
+                <a
+                    href="{{ url_for('mock_interviews.review_mock_interview',
+                        application_id=application.id,
+                        session_id=session.id) }}"
+                    class="btn btn-primary"
+                >
+                    View Interview Review
+                </a>
+
+                <a
+                    href="{{ url_for('applications.detail', application_id=application.id) }}"
+                    class="btn btn-secondary"
+                >
+                    Return to Application
+                </a>
+            </div>
         </div>
 
     {% endif %}
