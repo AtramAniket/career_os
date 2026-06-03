@@ -393,3 +393,26 @@ def review_mock_interview(application_id, session_id):
         average_score=average_score,
         category_scores=category_scores,
     )
+
+
+@mock_interviews_bp.route("/history", methods=["GET"])
+@login_required
+def mock_interview_history(application_id):
+    
+    application = JobApplication.query.filter_by(
+        id=application_id,
+        user_id=current_user.id,
+        is_deleted=False,
+    ).first_or_404()
+
+    sessions = MockInterviewSession.query.filter_by(
+        id=session_id,
+        user_id=current_user.id,
+        job_application_id=application.id,
+    ).all()
+
+    return render_template(
+        "mock_interviews/history.html",
+        application=application,
+        sessions=sessions
+    )
