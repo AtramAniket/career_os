@@ -46,7 +46,7 @@
                 application_id=application.id,
                 session_id=session.id,
                 question_id=current_question.id) }}"
-            class="answer-form"
+            class="answer-form mock-answer-form"
         >
             {{ form.hidden_tag() }}
 
@@ -71,7 +71,11 @@
                     Back to Application
                 </a>
 
-                <button type="submit" class="btn btn-primary submit-answer-btn">
+                <button
+                    type="submit"
+                    class="btn btn-primary submit-answer-btn"
+                    id="submitAnswerBtn"
+                >
                     Submit Answer
                 </button>
             </div>
@@ -97,7 +101,41 @@
         </div>
 
     {% endif %}
-
 </div>
+
+<div class="mock-loading-overlay" id="mockLoadingOverlay">
+  <div class="mock-loading-card">
+    <div class="mock-loading-spinner"></div>
+    <h3>Evaluating your interview...</h3>
+    <p>Career OS is reviewing your answers and preparing feedback.</p>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.querySelector(".mock-answer-form");
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", function () {
+
+        const submitButton = document.getElementById("submitAnswerBtn");
+        const overlay = document.getElementById("mockLoadingOverlay");
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = "Processing...";
+        }
+
+        if (overlay) {
+            overlay.classList.add("is-visible");
+        }
+    });
+
+});
+</script>
 
 {% endblock %}
