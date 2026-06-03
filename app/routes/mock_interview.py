@@ -4,8 +4,9 @@ from datetime import datetime, timezone, time
 from flask import Blueprint, redirect, url_for, flash, render_template, request
 from flask_login import login_required, current_user
 
-from app.forms.application_forms import DeleteForm
 from app.extensions import db
+from app.services import evaluate_mock_session
+from app.forms.application_forms import DeleteForm
 from app.models import (
     JobApplication,
     InterviewPrep,
@@ -272,6 +273,52 @@ def submit_answer(application_id, session_id, question_id):
     if answered_count >= total_questions:
         session.status = "completed"
         session.completed_at = datetime.now(timezone.utc)
+
+        responses = (
+            MockInterviewResponse.query
+            .join(MockInterviewQuestion)
+            .filter(MockInterviewQuestion.session_id == session.id)
+            .order_by(MockInterviewQuestion.display_order.asc())
+            .all()
+        )
+
+        qa_pairs = []
+
+        for item in responses:
+            qa_pairs.append({
+                "question_id": item.question_id,
+                "question": item.question.question,
+                "category": item.question.category,
+                "answer": item.answer,
+            })
+
+        try:
+            evaluation_result = evaluate_mock_session(
+                role_title=application.role_title,
+                company_name=application.company_name,
+                qa_pairs=qa_pairs,
+            )
+
+            evaluations = evaluation_result.get("evaluations", [])
+
+            evaluations_by_question_id = {
+                evaluation.get("question_id"): evaluation
+                for evaluation in evaluations
+            }
+
+            for item in responses:
+                evaluation = evaluations_by_question_id.get(item.question_id)
+
+                if not evaluation:
+                    continue
+
+                item.ai_score = evaluation.get("ai_score")
+                item.ai_feedback = evaluation.get("ai_feedback")
+                item.ai_improved_answer = evaluation.get("ai_improved_answer")
+                item.evaluated_at = datetime.now(timezone.utc)
+
+        except Exception:
+            flash("Interview completed, but AI feedback could not be generated right now.", "warning")
 
     db.session.commit()
 
