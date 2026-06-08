@@ -13,6 +13,21 @@
 
 .interview-header h1 {
     margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.interview-eyebrow {
+    color: var(--accent-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+}
+
+.review-subtitle {
+    margin: 0.35rem 0 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
 }
 
 .question-counter {
@@ -20,9 +35,9 @@
     padding: 0.4rem 0.8rem;
     border-radius: 999px;
     font-size: 0.85rem;
-    font-weight: 600;
-    background: rgba(59, 130, 246, 0.15);
-    color: #93c5fd;
+    font-weight: 700;
+    background: var(--accent-soft);
+    color: var(--accent-primary);
 }
 
 .progress-wrapper {
@@ -30,41 +45,48 @@
     height: 10px;
     border-radius: 999px;
     overflow: hidden;
-    background: rgba(255,255,255,0.08);
+    background: var(--bg-tertiary);
     margin-bottom: 2rem;
 }
 
 .progress-bar-fill {
     height: 100%;
     border-radius: 999px;
-    background: #3b82f6;
+    background: var(--accent-primary);
     transition: width 0.3s ease;
+}
+
+.interview-question-card,
+.interview-complete-card {
+    border-radius: 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-subtle);
 }
 
 .interview-question-card {
     padding: 1.5rem;
-    border-radius: 16px;
     margin-bottom: 1.5rem;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
 }
 
 .interview-question-card h2 {
     margin-bottom: 1rem;
-    font-size: 1rem;
-    color: #93c5fd;
+    font-size: 1.05rem;
+    color: var(--text-primary);
 }
 
 .interview-question-card p {
     margin-bottom: 0;
     line-height: 1.7;
     font-size: 1.05rem;
+    color: var(--text-secondary);
 }
 
 .answer-label {
     display: block;
     margin-bottom: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
 .answer-textarea {
@@ -72,6 +94,21 @@
     min-height: 220px;
     resize: vertical;
     margin-bottom: 1rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1rem;
+}
+
+.answer-textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.answer-textarea:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.16);
 }
 
 .submit-answer-btn {
@@ -81,76 +118,74 @@
 .interview-complete-card {
     text-align: center;
     padding: 3rem;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
 }
 
 .interview-complete-card h2 {
     margin-bottom: 1rem;
+    color: var(--text-primary);
 }
 
 .interview-complete-card p {
     margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.complete-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
 }
 
 .mock-loading-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(3, 7, 18, 0.72);
-  backdrop-filter: blur(8px);
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(3, 7, 18, 0.72);
+    backdrop-filter: blur(8px);
 }
 
 .mock-loading-overlay.is-visible {
-  display: flex;
+    display: flex;
 }
 
 .mock-loading-card {
-  width: min(420px, calc(100% - 32px));
-  padding: 2rem;
-  border-radius: 24px;
-  background: rgba(15, 23, 42, 0.94);
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
-  text-align: center;
+    width: min(420px, calc(100% - 32px));
+    padding: 2rem;
+    border-radius: 24px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+    text-align: center;
 }
 
 .mock-loading-card h3 {
-  margin: 1rem 0 0.4rem;
-  color: #f8fafc;
-  font-size: 1.25rem;
+    margin: 1rem 0 0.4rem;
+    color: var(--text-primary);
+    font-size: 1.25rem;
 }
 
 .mock-loading-card p {
-  margin: 0;
-  color: #94a3b8;
-  font-size: 0.95rem;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
 }
 
 .mock-loading-spinner {
-  width: 44px;
-  height: 44px;
-  margin: 0 auto;
-  border-radius: 999px;
-  border: 4px solid rgba(148, 163, 184, 0.25);
-  border-top-color: #60a5fa;
-  animation: mockSpin 0.85s linear infinite;
+    width: 44px;
+    height: 44px;
+    margin: 0 auto;
+    border-radius: 999px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--accent-primary);
+    animation: mockSpin 0.85s linear infinite;
 }
 
 @keyframes mockSpin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.review-subtitle {
-    margin: 0.35rem 0 0;
-    color: #94a3b8;
-    font-size: 0.95rem;
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .review-score-pill,
@@ -160,18 +195,18 @@
     justify-content: center;
     border-radius: 999px;
     padding: 0.45rem 0.85rem;
-    background: rgba(37, 99, 235, 0.18);
-    color: #bfdbfe;
-    border: 1px solid rgba(96, 165, 250, 0.35);
-    font-weight: 700;
+    background: var(--accent-soft);
+    color: var(--accent-primary);
+    border: 1px solid var(--border-color);
+    font-weight: 800;
 }
 
 .review-summary-card,
 .review-card {
     border-radius: 24px;
-    background: rgba(15, 23, 42, 0.86);
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-subtle);
 }
 
 .review-summary-card {
@@ -181,13 +216,13 @@
 
 .review-summary-card h2 {
     margin: 0 0 0.5rem;
-    color: #f8fafc;
+    color: var(--text-primary);
     font-size: 1.2rem;
 }
 
 .review-summary-card p {
     margin: 0;
-    color: #cbd5e1;
+    color: var(--text-secondary);
 }
 
 .review-list {
@@ -211,7 +246,7 @@
 .review-section {
     padding-top: 1rem;
     margin-top: 1rem;
-    border-top: 1px solid rgba(148, 163, 184, 0.12);
+    border-top: 1px solid var(--border-color);
 }
 
 .review-section:first-of-type {
@@ -222,31 +257,32 @@
 
 .review-section h3 {
     margin: 0 0 0.45rem;
-    color: #e2e8f0;
-    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-size: 0.82rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
 }
 
 .review-section p {
     margin: 0;
-    color: #cbd5e1;
+    color: var(--text-secondary);
     line-height: 1.7;
     white-space: pre-wrap;
 }
 
 .feedback-section {
-    border-left: 3px solid rgba(96, 165, 250, 0.7);
+    border-left: 3px solid var(--accent-primary);
     padding-left: 1rem;
 }
 
 .improved-section {
-    border-left: 3px solid rgba(34, 197, 94, 0.7);
+    border-left: 3px solid var(--success-text);
     padding-left: 1rem;
 }
 
 .review-actions,
-.complete-actions {
+.complete-actions,
+.answer-actions {
     display: flex;
     gap: 0.8rem;
     flex-wrap: wrap;
@@ -268,35 +304,18 @@
     min-width: 150px;
     padding: 0.55rem 0.9rem;
     border-radius: 12px;
-    background: rgba(148, 163, 184, 0.14);
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    color: #cbd5e1;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
     white-space: nowrap;
 }
 
 .review-back-link:hover {
-    background: rgba(148, 163, 184, 0.2);
-    color: #f8fafc;
-}
-
-@media (max-width: 768px) {
-
-    .interview-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .review-header-actions {
-        align-items: flex-start;
-    }
-
-    .review-back-link {
-        width: fit-content;
-    }
-
+    background: var(--bg-elevated);
+    color: var(--accent-primary);
 }
 
 .category-score-grid {
@@ -310,27 +329,32 @@
     text-align: left;
     padding: 1rem;
     border-radius: 18px;
-    background: rgba(15, 23, 42, 0.86);
-    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     cursor: pointer;
+    box-shadow: var(--shadow-subtle);
 }
 
 .category-score-card strong {
     display: block;
     margin: 0.35rem 0;
-    color: #f8fafc;
+    color: var(--text-primary);
     font-size: 1.4rem;
 }
 
 .category-label {
-    color: #cbd5e1;
+    color: var(--text-secondary);
     font-weight: 700;
+}
+
+.category-score-card small {
+    color: var(--text-muted);
 }
 
 .category-score-track {
     height: 8px;
     border-radius: 999px;
-    background: rgba(148, 163, 184, 0.16);
+    background: var(--bg-tertiary);
     overflow: hidden;
     margin: 0.7rem 0;
 }
@@ -338,7 +362,7 @@
 .category-score-fill {
     height: 100%;
     border-radius: 999px;
-    background: #3b82f6;
+    background: var(--accent-primary);
 }
 
 .review-filter-bar {
@@ -349,20 +373,58 @@
 }
 
 .review-filter-btn {
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    background: rgba(15, 23, 42, 0.8);
-    color: #cbd5e1;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
     border-radius: 999px;
     padding: 0.45rem 0.85rem;
     cursor: pointer;
+    font-weight: 700;
+}
+
+.review-filter-btn:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
 }
 
 .review-filter-btn.is-active {
-    background: rgba(37, 99, 235, 0.25);
-    border-color: rgba(96, 165, 250, 0.45);
-    color: #bfdbfe;
+    background: var(--accent-soft);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.question-category {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 0.32rem 0.65rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-primary);
+    font-size: 0.75rem;
+    font-weight: 800;
 }
 
 .review-card.is-hidden {
     display: none;
+}
+
+@media (max-width: 768px) {
+    .interview-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .review-header-actions {
+        align-items: flex-start;
+    }
+
+    .review-back-link {
+        width: fit-content;
+    }
+
+    .review-card-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 }

@@ -1,351 +1,417 @@
-/* =========================================================
-   Career OS - Dashboard Dark Theme
-   Dashboard hero, stats, recent applications, and activity
-   ========================================================= */
+/* ==========================================================
+   Career OS - Dashboard
+   Clean launchpad dashboard: hero, stats, recent applications
+   ========================================================== */
 
-/* ---------- Page Layout ---------- */
+
+/* ==========================================================
+   1. Dashboard Layout
+   ========================================================== */
+
 .dashboard-page {
-  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
 }
 
-/* ---------- Dashboard Hero ---------- */
+
+/* ==========================================================
+   2. Hero Section
+   ========================================================== */
+
 .dashboard-hero {
   background:
-    radial-gradient(circle at top right, rgba(99, 102, 241, 0.16), transparent 24rem),
-    linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.14), transparent 22rem),
+    var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 24px;
-  padding: 2rem;
-  margin-bottom: 1.5rem;
+  padding: 1.9rem 2rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 1.5rem;
   box-shadow: var(--shadow-soft);
 }
 
+.eyebrow {
+  margin-bottom: 0.35rem;
+  color: var(--accent-primary);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .dashboard-hero h1 {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.55rem;
   color: var(--text-primary);
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 850;
+  letter-spacing: -0.05em;
 }
 
 .hero-text {
+  max-width: 640px;
+  margin: 0;
   color: var(--text-secondary);
-  max-width: 620px;
-  margin-bottom: 0;
+  font-size: 1.02rem;
+  line-height: 1.65;
 }
 
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #818cf8;
-  margin-bottom: 0.35rem;
+.hero-actions {
+  flex-shrink: 0;
 }
 
-/* ---------- Stats Grid ---------- */
+
+/* ==========================================================
+   3. Stats Cards
+   ========================================================== */
+
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
-  margin-bottom: 1.5rem;
 }
 
 .stat-card {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   box-shadow: var(--shadow-subtle);
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  color: var(--accent-primary);
+  font-size: 1.25rem;
+  font-weight: 900;
 }
 
 .stat-card span {
   display: block;
+  margin-bottom: 0.35rem;
   color: var(--text-secondary);
   font-size: 0.9rem;
-  margin-bottom: 0.35rem;
+  font-weight: 700;
 }
 
 .stat-card strong {
-  font-size: 1.9rem;
+  display: block;
   color: var(--text-primary);
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: -0.05em;
 }
 
-/* ---------- Dashboard Content Grid ---------- */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 1.5rem;
-}
 
-.dashboard-card {
+/* ==========================================================
+   4. Recent Applications Panel
+   ========================================================== */
+
+.applications-panel {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 22px;
-  padding: 1.5rem;
-  box-shadow: var(--shadow-subtle);
-  max-height: 430px;
+  border-radius: 24px;
   overflow: hidden;
+  box-shadow: var(--shadow-subtle);
 }
 
-.section-header {
+.applications-panel-header {
+  padding: 1.45rem 1.65rem;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 1.25rem;
+  gap: 1rem;
 }
 
-.section-header h2 {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--text-primary);
+.applications-panel-header h2 {
   margin: 0;
+  color: var(--text-primary);
+  font-size: 1.35rem;
+  font-weight: 850;
+  letter-spacing: -0.035em;
 }
 
-.section-header a {
-  font-size: 0.9rem;
+.view-all-link,
+.applications-footer a {
+  color: var(--accent-primary);
+  font-weight: 850;
   text-decoration: none;
-  font-weight: 600;
+  white-space: nowrap;
 }
 
-/* ---------- Recent Applications ---------- */
-.application-list {
+.view-all-link:hover,
+.applications-footer a:hover {
+  color: var(--accent-primary-hover);
+}
+
+
+/* ==========================================================
+   5. Applications Rows
+   ========================================================== */
+
+.applications-table {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
 }
 
 .application-row {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 2fr)
+    minmax(120px, 0.6fr)
+    minmax(110px, 0.5fr)
+    minmax(110px, 0.5fr)
+    minmax(76px, auto);
+  gap: 1.25rem;
   align-items: center;
-  gap: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 1rem;
-  background: var(--bg-tertiary);
+  padding: 1.05rem 1.65rem;
+  border-bottom: 1px solid var(--border-soft);
 }
 
-.application-row h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 0.2rem;
-  color: var(--text-primary);
+.application-row:last-child {
+  border-bottom: 0;
 }
 
-.application-row p {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-.application-main {
+.application-identity {
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 0.9rem;
 }
 
+.application-identity > div:last-child {
+  min-width: 0;
+}
+
 .company-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  background: rgba(99, 102, 241, 0.16);
-  color: #c7d2fe;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 15px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  flex-shrink: 0;
+  background: var(--accent-soft);
+  color: var(--accent-primary);
+  font-size: 1.05rem;
+  font-weight: 900;
 }
 
-.application-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  margin-top: 0.35rem;
-  color: var(--text-muted);
-  font-size: 0.78rem;
+.application-identity h3,
+.application-identity p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.row-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.application-identity h3 {
+  margin: 0 0 0.2rem;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 850;
+  letter-spacing: -0.02em;
 }
 
-.row-actions a {
-  font-weight: 600;
-  text-decoration: none;
+.application-identity p {
+  margin: 0;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
-/* ---------- Status and Priority Pills ---------- */
-.status-pill,
-.priority-pill {
+.application-date {
+  min-width: 0;
+}
+
+.application-date span {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.application-date strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.application-priority {
+  min-width: 0;
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
-  font-weight: 700;
-}
-
-.status-pill {
-  padding: 0.35rem 0.7rem;
-  font-size: 0.75rem;
-  background: rgba(148, 163, 184, 0.12);
-  color: #cbd5e1;
-}
-
-.status-saved {
-  background: rgba(148, 163, 184, 0.12);
-  color: #cbd5e1;
-}
-
-.status-applied {
-  background: rgba(59, 130, 246, 0.14);
-  color: #93c5fd;
-}
-
-.status-interviewing {
-  background: rgba(251, 191, 36, 0.14);
-  color: #fbbf24;
-}
-
-.status-assessment {
-  background: rgba(168, 85, 247, 0.14);
-  color: #c084fc;
-}
-
-.status-offer {
-  background: var(--success-bg);
-  color: var(--success-text);
-}
-
-.status-rejected,
-.status-ghosted {
-  background: var(--danger-bg);
-  color: var(--danger-text);
-}
-
-.priority-pill {
-  padding: 0.2rem 0.55rem;
-  font-size: 0.72rem;
-}
-
-.priority-low {
-  background: rgba(148, 163, 184, 0.12);
-  color: #cbd5e1;
-}
-
-.priority-medium {
-  background: var(--warning-bg);
-  color: var(--warning-text);
-}
-
-.priority-high {
-  background: var(--danger-bg);
-  color: var(--danger-text);
-}
-
-/* ---------- Activity List ---------- */
-.activity-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.activity-item {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.85rem;
-  align-items: start;
-}
-
-.activity-dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 999px;
-  background: var(--accent-primary);
-  margin-top: 0.35rem;
-}
-
-.activity-item h3 {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 0.15rem;
-}
-
-.activity-item p {
+  gap: 0.45rem;
   color: var(--text-secondary);
-  margin-bottom: 0.15rem;
   font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.activity-item small {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-}
-
-/* ---------- Scrollable Lists ---------- */
-.application-list,
-.activity-list {
-  max-height: 310px;
-  overflow-y: auto;
-  padding-right: 0.35rem;
-}
-
-.application-list::-webkit-scrollbar,
-.activity-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.application-list::-webkit-scrollbar-thumb,
-.activity-list::-webkit-scrollbar-thumb {
-  background: var(--border-color);
+.priority-dot {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
   border-radius: 999px;
+  background: var(--text-muted);
 }
 
-/* ---------- Empty State ---------- */
-.empty-state {
+.priority-dot-low {
+  background: #22c55e;
+}
+
+.priority-dot-medium {
+  background: #f59e0b;
+}
+
+.priority-dot-high {
+  background: #ef4444;
+}
+
+.application-status {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.application-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.application-action a {
+  min-width: 76px;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(124, 58, 237, 0.22);
+  border-radius: 12px;
+  color: var(--accent-primary);
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.application-action a:hover,
+.application-action a:focus {
+  background: var(--accent-soft);
+  color: var(--accent-primary-hover);
+}
+
+.applications-footer {
+  padding: 1.15rem 1.65rem 1.3rem;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+
+/* ==========================================================
+   6. Empty State
+   ========================================================== */
+
+.empty-card {
+  margin: 1.5rem;
   background: var(--bg-tertiary);
   border: 1px dashed var(--border-color);
+  border-radius: 18px;
+  padding: 1.5rem;
   color: var(--text-secondary);
-  padding: 1rem;
-  border-radius: 16px;
-  margin: 0;
 }
 
-/* ---------- Responsive Rules ---------- */
-@media (max-width: 992px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+.empty-card h3 {
+  margin-bottom: 0.4rem;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  font-weight: 850;
+}
+
+.empty-card p {
+  margin-bottom: 1rem;
+}
+
+
+/* ==========================================================
+   7. Responsive Rules
+   ========================================================== */
+
+@media (max-width: 1180px) {
+  .application-row {
+    grid-template-columns:
+      minmax(0, 1.8fr)
+      minmax(115px, 0.7fr)
+      minmax(100px, 0.5fr)
+      minmax(76px, auto);
   }
 
-  .dashboard-grid {
-    grid-template-columns: 1fr;
+  .application-status {
+    display: none;
   }
+}
 
+@media (max-width: 900px) {
   .dashboard-hero {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .applications-panel-header {
+    flex-direction: column;
+  }
+
+  .application-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .application-identity h3,
+  .application-identity p {
+    white-space: normal;
+  }
+
+  .application-action {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 576px) {
+  .dashboard-page {
+    gap: 1rem;
+  }
+
+  .dashboard-hero {
+    padding: 1.25rem;
+    border-radius: 20px;
+  }
+
+  .hero-actions,
+  .hero-actions .btn {
+    width: 100%;
+  }
+
   .stats-grid {
     grid-template-columns: 1fr;
   }
 
-  .application-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .row-actions {
-    width: 100%;
-    justify-content: space-between;
+  .applications-panel-header,
+  .application-row,
+  .applications-footer {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }

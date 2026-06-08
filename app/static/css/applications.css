@@ -1049,3 +1049,411 @@
       transparent 28%),
     var(--bg-secondary);
 }
+/* =========================================================
+   Modern Applications Polish Pass
+   Index and create pages aligned with the new dashboard shell
+   ========================================================= */
+
+/* ---------- Page Shell ---------- */
+.applications-page,
+.application-form-page {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ---------- Shared Hero Header ---------- */
+.applications-hero {
+  background:
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.14), transparent 22rem),
+    var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 1.9rem 2rem;
+  margin-bottom: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.applications-hero h1 {
+  margin: 0 0 0.55rem;
+  color: var(--text-primary);
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 850;
+  letter-spacing: -0.05em;
+}
+
+.applications-hero p:last-child {
+  max-width: 680px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.applications-hero .btn {
+  flex-shrink: 0;
+}
+
+/* ---------- Filter Card ---------- */
+.application-filters {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 22px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(260px, 1.5fr) minmax(220px, 0.75fr) auto;
+  gap: 1rem;
+  align-items: end;
+  box-shadow: var(--shadow-subtle);
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.filter-actions .btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Applications Table Card ---------- */
+.applications-card.applications-list-card {
+  border-radius: 24px;
+  box-shadow: var(--shadow-soft);
+}
+
+.applications-table {
+  table-layout: fixed;
+}
+
+.applications-table thead th {
+  padding: 1.05rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.applications-table tbody td {
+  padding: 1.1rem 1rem;
+  vertical-align: middle;
+  line-height: 1.45;
+}
+
+.applications-table th:nth-child(1),
+.applications-table td:nth-child(1) {
+  width: 19%;
+}
+
+.applications-table th:nth-child(2),
+.applications-table td:nth-child(2) {
+  width: 30%;
+}
+
+.applications-table th:nth-child(3),
+.applications-table td:nth-child(3) {
+  width: 12%;
+}
+
+.applications-table th:nth-child(4),
+.applications-table td:nth-child(4) {
+  width: 18%;
+}
+
+.applications-table th:nth-child(5),
+.applications-table td:nth-child(5) {
+  width: 12%;
+}
+
+.applications-table th:nth-child(6),
+.applications-table td:nth-child(6) {
+  width: 9%;
+}
+
+.role-title {
+  color: var(--text-primary);
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.company-cell,
+.location-cell,
+.date-cell {
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.action-cell .btn {
+  min-width: 68px;
+  border-radius: 10px;
+  font-weight: 750;
+}
+
+/* ---------- Create Page Form ---------- */
+.application-form-page {
+  padding-bottom: 2rem;
+}
+
+.form-hero {
+  margin-bottom: 1.35rem;
+}
+
+.application-form-card {
+  border-radius: 24px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.form-section {
+  padding: 1.65rem 1.85rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.form-section:last-of-type {
+  border-bottom: 0;
+}
+
+.form-section-header {
+  margin-bottom: 1.25rem;
+}
+
+.form-section-header h2 {
+  margin: 0 0 0.3rem;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 850;
+  letter-spacing: -0.025em;
+}
+
+.form-section-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+.application-form-card .form-control,
+.application-form-card .form-select {
+  min-height: 46px;
+}
+
+.application-form-card textarea.form-control {
+  min-height: 120px;
+}
+
+.sticky-form-actions {
+  margin: 0;
+  padding: 1.25rem 1.85rem;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+}
+
+/* ---------- Responsive Polish ---------- */
+@media (max-width: 900px) {
+  .applications-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .applications-hero .btn {
+    width: 100%;
+  }
+
+  .application-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-actions {
+    width: 100%;
+  }
+
+  .filter-actions .btn {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .applications-table,
+  .applications-table tbody,
+  .applications-table tr,
+  .applications-table td {
+    width: 100%;
+  }
+
+  .applications-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .applications-table tbody td::before {
+    flex-shrink: 0;
+  }
+
+  .company-cell,
+  .location-cell,
+  .date-cell,
+  .role-cell {
+    text-align: right;
+  }
+}
+
+@media (max-width: 576px) {
+  .applications-hero,
+  .form-section,
+  .sticky-form-actions {
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+  }
+
+  .applications-hero {
+    border-radius: 20px;
+  }
+
+  .sticky-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+}
+
+/* =========================================================
+   Mobile Applications List Fix
+   Keeps table/card layout readable on small screens
+   ========================================================= */
+@media (max-width: 768px) {
+  .applications-list-card .table-responsive {
+    overflow-x: visible;
+  }
+
+  .applications-table {
+    table-layout: auto;
+  }
+
+  .applications-table,
+  .applications-table tbody,
+  .applications-table tr,
+  .applications-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .applications-table tbody tr {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+  }
+
+  .applications-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .applications-table tbody td {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    align-items: start;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: none;
+    background: transparent;
+    color: var(--text-secondary);
+  }
+
+  .applications-table tbody td::before {
+    flex-shrink: 0;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-align: left;
+  }
+
+  .applications-table tbody td:nth-child(1)::before { content: "Role"; }
+  .applications-table tbody td:nth-child(2)::before { content: "Company"; }
+  .applications-table tbody td:nth-child(3)::before { content: "Status"; }
+  .applications-table tbody td:nth-child(4)::before { content: "Location"; }
+  .applications-table tbody td:nth-child(5)::before { content: "Added"; }
+  .applications-table tbody td:nth-child(6)::before { content: ""; }
+
+  .role-cell,
+  .company-cell,
+  .location-cell,
+  .date-cell {
+    min-width: 0;
+    max-width: 100%;
+    text-align: left;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .role-title {
+    max-width: 100%;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .status-badge {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  .applications-table tbody td.action-cell {
+    display: block;
+    padding-top: 1rem;
+  }
+
+  .applications-table tbody td.action-cell::before {
+    content: "";
+    display: none;
+  }
+
+  .action-cell .btn {
+    width: 100%;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .applications-table th:nth-child(1),
+  .applications-table td:nth-child(1),
+  .applications-table th:nth-child(2),
+  .applications-table td:nth-child(2),
+  .applications-table th:nth-child(3),
+  .applications-table td:nth-child(3),
+  .applications-table th:nth-child(4),
+  .applications-table td:nth-child(4),
+  .applications-table th:nth-child(5),
+  .applications-table td:nth-child(5),
+  .applications-table th:nth-child(6),
+  .applications-table td:nth-child(6) {
+    width: 100% !important;
+  }
+
+  .applications-table tbody td {
+    display: grid !important;
+    grid-template-columns: 84px minmax(0, 1fr);
+  }
+
+  .role-cell,
+  .company-cell,
+  .location-cell,
+  .date-cell {
+    text-align: left !important;
+  }
+}

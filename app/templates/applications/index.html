@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{%block extra_css%}
+{% block extra_css %}
 <link
   rel="stylesheet"
   href="{{ url_for('static', filename='css/applications.css') }}"
@@ -12,12 +12,12 @@
 {% block content %}
 <section class="applications-page">
 
-  <div class="page-header d-flex justify-content-between align-items-start gap-3 mb-4">
+  <div class="applications-hero">
     <div>
       <p class="eyebrow mb-1">Job Tracker</p>
-      <h1 class="page-title mb-1">Applications</h1>
-      <p class="page-subtitle mb-0">
-        Track roles, companies, status changes, and follow-ups in one place.
+      <h1>Applications</h1>
+      <p>
+        Track roles, companies, status changes, and follow-ups in one focused workspace.
       </p>
     </div>
 
@@ -27,42 +27,43 @@
   </div>
 
   <form method="GET" class="application-filters">
-      <div class="filter-group">
-          <label for="q">Search</label>
-          <input
-              type="text"
-              id="q"
-              name="q"
-              value="{{ search_query }}"
-              placeholder="Search company, role, location..."
-              class="form-control"
+    <div class="filter-group filter-search">
+      <label for="q">Search</label>
+      <input
+        type="text"
+        id="q"
+        name="q"
+        value="{{ search_query }}"
+        placeholder="Search company, role, location..."
+        class="form-control"
+      >
+    </div>
+
+    <div class="filter-group">
+      <label for="status">Status</label>
+      <select id="status" name="status" class="form-select">
+        <option value="">All statuses</option>
+        {% for status in JobStatus %}
+          <option
+            value="{{ status.name }}"
+            {% if status_filter == status.name %}selected{% endif %}
           >
-      </div>
+            {{ status.value.replace("_", " ").title() }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
 
-      <div class="filter-group">
-          <label for="status">Status</label>
-          <select id="status" name="status" class="form-select">
-              <option value="">All statuses</option>
-              {% for status in JobStatus %}
-                  <option
-                      value="{{ status.name }}"
-                      {% if status_filter == status.name %}selected{% endif %}
-                  >
-                      {{ status.value.replace("_", " ").title() }}
-                  </option>
-              {% endfor %}
-          </select>
-      </div>
-
-      <div class="filter-actions">
-          <button type="submit" class="btn btn-primary">Apply</button>
-          <a href="{{ url_for('applications.index') }}" class="btn btn-outline-secondary">
-              Reset
-          </a>
-      </div>
+    <div class="filter-actions">
+      <button type="submit" class="btn btn-primary">Apply</button>
+      <a href="{{ url_for('applications.index') }}" class="btn btn-outline-secondary">
+        Reset
+      </a>
+    </div>
   </form>
+
   {% if job_applications %}
-    <div class="applications-card">
+    <div class="applications-card applications-list-card">
       <div class="table-responsive">
         <table class="table align-middle applications-table mb-0">
           <thead>
@@ -79,13 +80,13 @@
           <tbody>
             {% for application in job_applications %}
               <tr>
-                <td>
-                  <div class="fw-semibold">
+                <td class="role-cell">
+                  <div class="role-title">
                     {{ application.role_title }}
                   </div>
                 </td>
 
-                <td>
+                <td class="company-cell">
                   {{ application.company_name }}
                 </td>
 
@@ -95,15 +96,15 @@
                   </span>
                 </td>
 
-                <td>
+                <td class="location-cell">
                   {{ application.location or "—" }}
                 </td>
 
-                <td class="text-muted">
+                <td class="date-cell">
                   {{ application.created_at.strftime("%d %b %Y") if application.created_at else "—" }}
                 </td>
 
-                <td class="text-end">
+                <td class="text-end action-cell">
                   <a
                     href="{{ url_for('applications.detail', application_id=application.id) }}"
                     class="btn btn-sm btn-outline-secondary"

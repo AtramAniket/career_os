@@ -1,167 +1,198 @@
 {% extends "layouts/base.html" %}
 
-{%block extra_css%}
+{% block extra_css %}
 <link
   rel="stylesheet"
   href="{{ url_for('static', filename='css/applications.css') }}"
 >
 {% endblock %}
 
-{% block content %}
+{% block title %}Add Application | Career OS{% endblock %}
 
+{% block content %}
 <section class="application-form-page">
 
-    <div class="page-header mb-4">
-        <p class="eyebrow mb-1">New Application</p>
-        <h1 class="page-title mb-1">Add job application</h1>
-        <p class="page-subtitle mb-0">
-            Save the role, company, source, salary range, and follow-up details.
-        </p>
+  <div class="applications-hero form-hero">
+    <div>
+      <p class="eyebrow mb-1">New Application</p>
+      <h1>Add job application</h1>
+      <p>
+        Save the role, company, source, salary range, and follow-up details.
+      </p>
     </div>
 
-    <div class="application-form-card">
-        <form method="POST" novalidate>
-            {{ form.hidden_tag() }}
+    <a href="{{ url_for('applications.index') }}" class="btn btn-soft">
+      Back to Applications
+    </a>
+  </div>
 
-            <div class="row g-4">
-                <div class="col-md-6">
-                    {{ form.company_name.label(class="form-label") }}
-                    {{ form.company_name(class="form-control", placeholder="e.g. Zoho") }}
-                    {% for error in form.company_name.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+  <div class="application-form-card">
+    <form method="POST" novalidate>
+      {{ form.hidden_tag() }}
 
-                <div class="col-md-6">
-                    {{ form.role_title.label(class="form-label") }}
-                    {{ form.role_title(class="form-control", placeholder="e.g. Python Developer") }}
-                    {% for error in form.role_title.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+      <div class="form-section">
+        <div class="form-section-header">
+          <h2>Role Details</h2>
+          <p>Core information about the job you are tracking.</p>
+        </div>
 
-                <div class="col-12">
-                    {{ form.job_url.label(class="form-label") }}
-                    {{ form.job_url(class="form-control", placeholder="Paste job posting URL") }}
-                    {% for error in form.job_url.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+        <div class="row g-4">
+          <div class="col-md-6">
+            {{ form.company_name.label(class="form-label") }}
+            {{ form.company_name(class="form-control", placeholder="e.g. Zoho") }}
+            {% for error in form.company_name.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-md-6">
-                    {{ form.location.label(class="form-label") }}
-                    {{ form.location(class="form-control", placeholder="e.g. Remote, Pune") }}
-                    {% for error in form.location.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-md-6">
+            {{ form.role_title.label(class="form-label") }}
+            {{ form.role_title(class="form-control", placeholder="e.g. Python Developer") }}
+            {% for error in form.role_title.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-md-3">
-                    {{ form.work_mode.label(class="form-label") }}
-                    {{ form.work_mode(class="form-select") }}
-                    {% for error in form.work_mode.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-12">
+            {{ form.job_url.label(class="form-label") }}
+            {{ form.job_url(class="form-control", placeholder="Paste job posting URL") }}
+            {% for error in form.job_url.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-md-3">
-                    {{ form.employment_type.label(class="form-label") }}
-                    {{ form.employment_type(class="form-select") }}
-                    {% for error in form.employment_type.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-md-6">
+            {{ form.location.label(class="form-label") }}
+            {{ form.location(class="form-control", placeholder="e.g. Remote, Pune") }}
+            {% for error in form.location.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-md-6">
-                    {{ form.salary_min.label(class="form-label") }}
-                    {{ form.salary_min(class="form-control", placeholder="Minimum salary") }}
-                    {% for error in form.salary_min.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-md-3">
+            {{ form.work_mode.label(class="form-label") }}
+            {{ form.work_mode(class="form-select") }}
+            {% for error in form.work_mode.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-md-6">
-                    {{ form.salary_max.label(class="form-label") }}
-                    {{ form.salary_max(class="form-control", placeholder="Maximum salary") }}
-                    {% for error in form.salary_max.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-md-3">
+            {{ form.employment_type.label(class="form-label") }}
+            {{ form.employment_type(class="form-select") }}
+            {% for error in form.employment_type.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
 
-                <div class="col-md-6">
-                    {{ form.status.label(class="form-label") }}
-                    {{ form.status(class="form-select") }}
-                    {% for error in form.status.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+      <div class="form-section">
+        <div class="form-section-header">
+          <h2>Tracking</h2>
+          <p>Status, priority, dates, source, and salary range.</p>
+        </div>
 
-                <div class="col-md-6">
-                    {{ form.priority.label(class="form-label") }}
-                    {{ form.priority(class="form-select") }}
-                    {% for error in form.priority.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+        <div class="row g-4">
+          <div class="col-md-6">
+            {{ form.status.label(class="form-label") }}
+            {{ form.status(class="form-select") }}
+            {% for error in form.status.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-md-6">
-                    {{ form.date_applied.label(class="form-label") }}
-                    {{ form.date_applied(class="form-control") }}
-                    {% for error in form.date_applied.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-md-6">
+            {{ form.priority.label(class="form-label") }}
+            {{ form.priority(class="form-select") }}
+            {% for error in form.priority.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-md-6">
-                    {{ form.deadline.label(class="form-label") }}
-                    {{ form.deadline(class="form-control") }}
-                    {% for error in form.deadline.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-md-6">
+            {{ form.date_applied.label(class="form-label") }}
+            {{ form.date_applied(class="form-control") }}
+            {% for error in form.date_applied.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-12">
-                    {{ form.source.label(class="form-label") }}
-                    {{ form.source(class="form-control", placeholder="e.g. Naukri, LinkedIn, Company website") }}
-                    {% for error in form.source.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-md-6">
+            {{ form.deadline.label(class="form-label") }}
+            {{ form.deadline(class="form-control") }}
+            {% for error in form.deadline.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-12">
-                    {{ form.notes.label(class="form-label") }}
-                    {{ form.notes(class="form-control", rows="5", placeholder="Add notes, job requirements, recruiter info, or next steps") }}
-                    {% for error in form.notes.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-md-6">
+            {{ form.salary_min.label(class="form-label") }}
+            {{ form.salary_min(class="form-control", placeholder="Minimum salary") }}
+            {% for error in form.salary_min.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-12">
-                    {{ form.job_description.label(class="form-label") }}
-                    {{ form.job_description(class="form-control", rows="5", placeholder="Add Job description like mimimum experience, key skills, etc.") }}
-                    {% for error in form.job_description.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+          <div class="col-md-6">
+            {{ form.salary_max.label(class="form-label") }}
+            {{ form.salary_max(class="form-control", placeholder="Maximum salary") }}
+            {% for error in form.salary_max.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
 
-                <div class="col-12">
-                    {{ form.resume_notes.label(class="form-label") }}
-                    {{ form.resume_notes(class="form-control", rows="5", placeholder="Add resume strategy notes, important technologies, missing keywords, project highlights, or interview preparation ideas...") }}
-                    {% for error in form.resume_notes.errors %}
-                        <div class="form-error">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            </div>
+          <div class="col-12">
+            {{ form.source.label(class="form-label") }}
+            {{ form.source(class="form-control", placeholder="e.g. Naukri, LinkedIn, Company website") }}
+            {% for error in form.source.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
 
-            <div class="form-actions">
-                <a href="{{ url_for('applications.index') }}" class="btn btn-outline-secondary">
-                    Cancel
-                </a>
-                {{ form.submit(class="btn btn-primary px-4") }}
-            </div>
-        </form>
-    </div>
+      <div class="form-section">
+        <div class="form-section-header">
+          <h2>Notes & Strategy</h2>
+          <p>Useful context for resume tailoring, interview prep, and follow-ups.</p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-12">
+            {{ form.notes.label(class="form-label") }}
+            {{ form.notes(class="form-control", rows="4", placeholder="Add notes, recruiter info, or next steps") }}
+            {% for error in form.notes.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="col-12">
+            {{ form.job_description.label(class="form-label") }}
+            {{ form.job_description(class="form-control", rows="5", placeholder="Paste key responsibilities, minimum experience, skills, and requirements") }}
+            {% for error in form.job_description.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="col-12">
+            {{ form.resume_notes.label(class="form-label") }}
+            {{ form.resume_notes(class="form-control", rows="4", placeholder="Add resume strategy notes, important technologies, missing keywords, or project highlights") }}
+            {% for error in form.resume_notes.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions sticky-form-actions">
+        <a href="{{ url_for('applications.index') }}" class="btn btn-outline-secondary">
+          Cancel
+        </a>
+        {{ form.submit(class="btn btn-primary px-4") }}
+      </div>
+    </form>
+  </div>
 
 </section>
-
 {% endblock %}

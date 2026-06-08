@@ -7,136 +7,134 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="dashboard-page">
 
-    <section class="dashboard-hero">
-        <div>
-            <p class="eyebrow">Career OS</p>
-            <h1>Your job search command center</h1>
-            <p class="hero-text">
-                Track applications, follow-ups, interviews, and progress from one focused workspace.
-            </p>
-        </div>
-
-        <a href="{{ url_for('applications.create') }}" class="btn btn-primary">
-            + Add Application
-        </a>
-    </section>
-
-    <section class="stats-grid">
-        <div class="stat-card">
-            <span>Total</span>
-            <strong>{{ total_applications }}</strong>
-        </div>
-
-        <div class="stat-card">
-            <span>Active Count</span>
-            <strong>{{ active_count }}</strong>
-        </div>
-
-        <div class="stat-card">
-            <span>Interview</span>
-            <strong>{{ interview_count }}</strong>
-        </div>
-
-        <div class="stat-card">
-            <span>Closed</span>
-            <strong>{{ closed_count }}</strong>
-        </div>
-
-    </section>
-
-    <div class="dashboard-grid">
-
-        <section class="dashboard-card">
-            <div class="section-header">
-                <div>
-                    <p class="eyebrow">Recent</p>
-                    <h2>Applications</h2>
-                </div>
-                <a href="{{ url_for('applications.index') }}">View all</a>
-            </div>
-
-            {% if recent_applications %}
-                <div class="application-list">
-                    {% for app in recent_applications %}
-                    <div class="application-row">
-                        <div class="application-main">
-                            <div class="company-avatar">
-                                {{ app.company_name[:1].upper() if app.company_name else "?" }}
-                            </div>
-
-                            <div>
-                                <h3>{{ app.role_title }}</h3>
-                                <p>{{ app.company_name }}</p>
-
-                                <div class="application-meta">
-                                    {% if app.date_applied %}
-                                        <span>Applied {{ app.date_applied.strftime("%d %b %Y") }}</span>
-                                    {% else %}
-                                        <span>Not applied yet</span>
-                                    {% endif %}
-
-                                    {% if app.priority %}
-                                        <span class="priority-pill priority-{{ app.priority.value|lower }}">
-                                            {{ app.priority.value.replace("_", " ").title() }}
-                                        </span>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row-actions">
-                            <span class="status-pill status-{{ app.status.value|lower }}">
-                                {{ app.status.value.replace("_", " ").title() }}
-                            </span>
-
-                            <a href="{{ url_for('applications.detail', application_id=app.id) }}">
-                                View
-                            </a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="empty-state">
-                    No applications yet. Add your first one to start tracking.
-                </p>
-            {% endif %}
-        </section>
-
-        <section class="dashboard-card">
-            <div class="section-header">
-                <div>
-                    <p class="eyebrow">Timeline</p>
-                    <h2>Recent Activity</h2>
-                </div>
-            </div>
-
-            {% if recent_events %}
-                <div class="activity-list">
-                    {% for event in recent_events %}
-                    <div class="activity-item">
-                        <div class="activity-dot"></div>
-                        <div>
-                            <h3>{{ event.event_type.replace("_", " ").title() }}</h3>
-                            <p>
-                                {{ event.job_application.company_name }} —
-                                {{ event.job_application.role_title }}
-                            </p>
-                            <small>{{ event.created_at.strftime("%d %b %Y") }}</small>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="empty-state">
-                    No activity yet. Events will appear here as your job search progresses.
-                </p>
-            {% endif %}
-        </section>
-
+  <section class="dashboard-hero">
+    <div>
+      <p class="eyebrow">Career OS</p>
+      <h1>Your job search command center</h1>
+      <p class="hero-text">
+        Track applications, follow-ups, interviews, and progress from one focused workspace.
+      </p>
     </div>
 
+    <div class="hero-actions">
+      <a href="{{ url_for('applications.create') }}" class="btn btn-primary">
+        + New Application
+      </a>
+    </div>
+  </section>
+
+  <section class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">□</div>
+      <div>
+        <span>Total Applications</span>
+        <strong>{{ total_applications }}</strong>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">↗</div>
+      <div>
+        <span>Active</span>
+        <strong>{{ active_count }}</strong>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">◎</div>
+      <div>
+        <span>Interviews</span>
+        <strong>{{ interview_count }}</strong>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">✓</div>
+      <div>
+        <span>Closed</span>
+        <strong>{{ closed_count }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="applications-panel">
+    <div class="applications-panel-header">
+      <div>
+        <p class="eyebrow">Recent</p>
+        <h2>Recent Applications</h2>
+      </div>
+    </div>
+
+    {% if recent_applications %}
+      <div class="applications-table">
+        {% for app in recent_applications %}
+          <div class="application-row">
+            <div class="application-identity">
+              <div class="company-avatar">
+                {{ app.company_name[:1].upper() if app.company_name else "?" }}
+              </div>
+
+              <div>
+                <h3>{{ app.role_title }}</h3>
+                <p>{{ app.company_name }}</p>
+              </div>
+            </div>
+
+            <div class="application-date">
+              <span>Applied</span>
+              <strong>
+                {% if app.date_applied %}
+                  {{ app.date_applied.strftime("%d %b %Y") }}
+                {% else %}
+                  Not applied
+                {% endif %}
+              </strong>
+            </div>
+
+            <div class="application-priority">
+              {% if app.priority %}
+                <span class="priority-dot priority-dot-{{ app.priority.value|lower }}"></span>
+                <span>{{ app.priority.value.replace("_", " ").title() }}</span>
+              {% else %}
+                <span class="priority-dot"></span>
+                <span>Unset</span>
+              {% endif %}
+            </div>
+
+            <div class="application-status">
+              <span class="status-pill status-{{ app.status.value|lower }}">
+                {{ app.status.value.replace("_", " ").title() }}
+              </span>
+            </div>
+
+            <div class="application-action">
+              <a href="{{ url_for('applications.detail', application_id=app.id) }}">
+                View
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="applications-footer">
+        <a href="{{ url_for('applications.index') }}">
+          View all applications →
+        </a>
+      </div>
+    {% else %}
+      <div class="empty-card">
+        <h3>No applications yet</h3>
+        <p>Add your first application to start tracking your job search.</p>
+        <a href="{{ url_for('applications.create') }}" class="btn btn-primary">
+          Add Application
+        </a>
+      </div>
+    {% endif %}
+  </section>
+
 </div>
+
 {% endblock %}

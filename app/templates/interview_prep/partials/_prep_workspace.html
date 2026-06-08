@@ -18,6 +18,13 @@
           </button>
         </form>
 
+        <a
+          href="{{ url_for('mock_interviews.mock_interview_history', application_id=application.id) }}"
+          class="btn btn-soft"
+        >
+          Interview History
+        </a>
+
         <form
           method="POST"
           action="{{ url_for('interview_prep.generate', application_id=application.id) }}"
