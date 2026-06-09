@@ -1,0 +1,276 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}AI Insights{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_insights.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="ai-page-hero">
+  <div>
+    <p class="ai-eyebrow">AI WORKSPACE</p>
+    <h1>AI Insights</h1>
+    <p>
+      AI-powered resume analysis, tailoring suggestions, and application-fit intelligence
+      in one focused workspace.
+    </p>
+  </div>
+</section>
+
+{% if not applications %}
+
+<section class="ai-empty-card">
+  <div class="ai-empty-icon">📄</div>
+
+  <h2>No applications yet</h2>
+
+  <p>
+    Add your first application to unlock AI resume analysis,
+    tailoring suggestions, interview prep, and mock interviews.
+  </p>
+
+  <a href="{{ url_for('applications.create') }}" class="btn btn-primary">
+    + Add Application
+  </a>
+</section>
+
+{% else %}
+
+<section class="ai-selector-card">
+  <div>
+    <p class="ai-card-kicker">APPLICATION SELECTOR</p>
+    <h2>Select an application</h2>
+  </div>
+
+  <select
+    class="form-select ai-application-select"
+    onchange="if (this.value) window.location.href = this.value;"
+  >
+    <option value="">Choose application...</option>
+
+    {% for application in applications %}
+      <option
+        value="{{ url_for('ai_insights.detail', application_id=application.id) }}"
+        {% if selected_application and selected_application.id == application.id %}selected{% endif %}
+      >
+        {{ application.role_title }} — {{ application.company_name }}
+      </option>
+    {% endfor %}
+  </select>
+</section>
+
+{% if selected_application %}
+
+<section class="ai-selected-application-card">
+  <div class="ai-app-avatar">
+    {{ selected_application.company_name[:1] }}
+  </div>
+
+  <div>
+    <h2>{{ selected_application.role_title }}</h2>
+    <p>
+      {{ selected_application.company_name }}
+      {% if selected_application.location %}
+        · {{ selected_application.location }}
+      {% endif %}
+    </p>
+  </div>
+
+  <a
+    href="{{ url_for('applications.detail', application_id=selected_application.id) }}"
+    class="btn btn-soft ms-auto"
+  >
+    View Application
+  </a>
+</section>
+
+<section class="ai-metrics-grid">
+
+  <div class="ai-metric-card">
+    <h4>Overall Match Score</h4>
+
+    <div
+      class="ai-score-ring"
+      style="--score: {{ latest_analysis.ats_score or 0 }};"
+    >
+      <span>
+        {% if latest_analysis and latest_analysis.ats_score is not none %}
+          {{ latest_analysis.ats_score }}%
+        {% else %}
+          --
+        {% endif %}
+      </span>
+    </div>
+
+    <strong>
+      {% if latest_analysis %}
+        Resume Fit
+      {% else %}
+        Awaiting Analysis
+      {% endif %}
+    </strong>
+
+    <p>Based on resume analysis</p>
+  </div>
+
+  <div class="ai-metric-card">
+    <h4>Keyword Match</h4>
+    
+    <div class="metric-value">
+      {% if latest_analysis and latest_analysis.keyword_match_score is not none %}
+        {{ latest_analysis.keyword_match_score }}%
+      {% else %}
+        --
+      {% endif %}
+    </div>
+
+    <div class="ai-bar-metric">
+      <div class="ai-bar-fill" style="width: {{ latest_analysis.keyword_match_score or 0 }}%;"></div>
+    </div>
+
+    <p>Resume vs job description</p>
+  </div>
+
+  <div class="ai-metric-card">
+    <h4>Missing Keywords</h4>
+
+    <div class="metric-value">
+      {% if latest_analysis and latest_analysis.missing_keywords %}
+        {{ latest_analysis.missing_keywords|length }}
+      {% else %}
+        --
+      {% endif %}
+    </div>
+
+    <div class="ai-mini-bar warning">
+      <span></span>
+    </div>
+
+
+    <p>Skills or terms to improve</p>
+  </div>
+
+  <div class="ai-metric-card">
+    <h4>Resume Readiness</h4>
+
+    <div
+      class="ai-score-ring success"
+      style="--score: {% if latest_analysis %}85{% else %}0{% endif %};"
+    >
+      <span>
+        {% if latest_analysis %}
+          85%
+        {% else %}
+          --
+        {% endif %}
+      </span>
+    </div>
+
+    <strong>
+      {% if latest_analysis %}
+        Ready
+      {% else %}
+        Pending
+      {% endif %}
+    </strong>
+
+    <p>Analysis status</p>
+  </div>
+
+  <div class="ai-metric-card">
+    <h4>Tailoring</h4>
+
+    <div
+      class="ai-score-ring blue"
+      style="--score: {% if latest_tailoring_analysis %}100{% elif latest_analysis %}45{% else %}0{% endif %};"
+    >
+      <span>
+        {% if latest_tailoring_analysis %}
+          Done
+        {% elif latest_analysis %}
+          Next
+        {% else %}
+          --
+        {% endif %}
+      </span>
+    </div>
+
+    <strong>
+      {% if latest_tailoring_analysis %}
+        Generated
+      {% elif latest_analysis %}
+        Unlocked
+      {% else %}
+        Locked
+      {% endif %}
+    </strong>
+
+    <p>
+      {% if latest_tailoring_analysis %}
+        Suggestions generated
+      {% else %}
+        Awaiting tailoring
+      {% endif %}
+    </p>
+  </div>
+
+</section>
+
+{% if not primary_resume %}
+
+<section class="ai-actions-card">
+  <div class="ai-actions-header">
+    <h3>No Primary Resume Selected</h3>
+    <p>
+      Upload and select a primary resume before generating AI insights.
+    </p>
+  </div>
+
+  <a
+    href="{{ url_for('applications.detail', application_id=selected_application.id) }}"
+    class="btn btn-primary"
+  >
+    Manage Documents
+  </a>
+</section>
+
+{% elif not latest_analysis %}
+
+<section class="ai-actions-card">
+  <div class="ai-actions-header">
+    <h3>Resume Analysis Required</h3>
+    <p>
+      Generate a resume analysis to unlock tailoring suggestions.
+    </p>
+  </div>
+
+  <form
+    method="POST"
+    action="{{ url_for('resume_analysis.analyze', application_id=selected_application.id) }}"
+  >
+    <button type="submit" class="btn btn-primary">
+      Generate Resume Analysis
+    </button>
+  </form>
+</section>
+
+{% else %}
+
+<section class="ai-actions-card">
+  <div class="ai-actions-header">
+    <h3>Resume Analysis Complete</h3>
+    <p>
+      Your resume analysis is ready. Review the insights below and generate tailoring suggestions if needed.
+    </p>
+  </div>
+</section>
+
+{% endif %}
+
+{% endif %}
+
+{% endif %}
+
+{% endblock %}
