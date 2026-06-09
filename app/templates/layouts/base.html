@@ -45,6 +45,22 @@
         <span>□</span>
         Applications
       </a>
+
+      <a
+        href="{{ url_for('ai_insights.index') }}"
+        class="sidebar-link {% if request.endpoint and request.endpoint.startswith('ai_insights.') %}active{% endif %}"
+      >
+        <span>✦</span>
+        AI Insights
+      </a>
+
+      <a
+        href="#"
+        class="sidebar-link"
+      >
+        <span>◷</span>
+        Interview History
+      </a>
     </nav>
 
     <div class="sidebar-footer">
