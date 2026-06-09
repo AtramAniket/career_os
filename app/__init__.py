@@ -18,6 +18,7 @@ def create_app(config_class=Config):
     from app.routes import main_bp
     from app.routes import auth_bp
     from app.routes import dashboard_bp
+    from app.routes import ai_insights_bp
     from app.routes import applications_bp
     from app.routes import interview_prep_bp
     from app.routes import mock_interviews_bp
@@ -27,6 +28,7 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
+    app.register_blueprint(ai_insights_bp)
     app.register_blueprint(applications_bp)
     app.register_blueprint(interview_prep_bp)
     app.register_blueprint(mock_interviews_bp)

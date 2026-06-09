@@ -1,6 +1,7 @@
 from .main import main_bp
 from .auth import auth_bp  
 from .dashboard import dashboard_bp
+from .ai_insights import ai_insights_bp
 from .applications import applications_bp
 from .interview_prep import interview_prep_bp
 from .mock_interview import mock_interviews_bp
@@ -10,6 +11,7 @@ __all__ = [
 "main_bp",
 "auth_bp",
 "dashboard_bp",
+"ai_insights_bp",
 "applications_bp",
 "interview_prep_bp",
 "resume_analysis_bp",
